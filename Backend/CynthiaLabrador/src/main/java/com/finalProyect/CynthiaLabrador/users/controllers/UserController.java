@@ -11,7 +11,6 @@ import com.finalProyect.CynthiaLabrador.users.dto.CreateUserDtoEdit;
 import com.finalProyect.CynthiaLabrador.users.dto.GetUserDto;
 import com.finalProyect.CynthiaLabrador.users.dto.UserDtoConverter;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
-import com.finalProyect.CynthiaLabrador.users.repository.UserEntityRepository;
 import com.finalProyect.CynthiaLabrador.users.services.UserEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,9 +19,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,26 +33,12 @@ public class UserController {
     private final UserDtoConverter userDtoConverter;
     private final PeticionService peticionService;
     private final PeticionDtoConverter peticionDtoConverter;
-    private final UserEntityRepository userEntityRepository;
 
     @PostMapping("auth/register")
-    public ResponseEntity<GetUserDto> nuevoUser(@Valid @RequestParam("nombre") String nombre, @Valid @RequestParam("apellidos") String apellidos, @Valid @RequestParam("nick") String nick, @RequestParam String fechaNacimiento, @Valid @RequestParam("rol") boolean rol, @Valid @RequestParam("password") String password, @Valid @RequestParam("password2") String password2, @Valid @RequestParam("email") String email, @RequestPart("file")MultipartFile file) throws Exception {
+    public ResponseEntity<GetUserDto> nuevoUser( @RequestPart("body") CreateUserDto createUserDto, @RequestPart("file")MultipartFile file) throws Exception {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
-
-        CreateUserDto createUserDto = CreateUserDto.builder()
-                .nombre(nombre)
-                .apellidos(apellidos)
-                .nick(nick)
-                .email(email)
-                .fechaNacimiento(LocalDate.parse(fechaNacimiento, formatter))
-                .rol(rol)
-                .password(password)
-                .password2(password2)
-                .build();
-
+       // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
         UserEntity usuario = userEntityService.saveUser(createUserDto, file);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.UserEntityToGetUserDto(usuario));
     }
 
