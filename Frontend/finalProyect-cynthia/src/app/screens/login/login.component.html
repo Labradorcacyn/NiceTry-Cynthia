@@ -1,0 +1,16 @@
+<div class="login">
+  <h1>LOGIN</h1>
+
+<form class="example-form">
+  <table>
+    <tr>
+      <th>
+        <input matInput placeholder="Write your email" [(ngModel)]="loginDto.email" name="email" required="required">
+      </th>
+      <th >
+        <input matInput placeholder="Write your password" type="password" [(ngModel)]="loginDto.password" name="password" required="required">
+      </th>
+    </tr>
+      </table>
+      <button mat-raised-button  class="btn btn-primary btn-block btn-large" color="primary" (click)="doLogin()" [routerLink]="['/home']">Login</button>
+  </form>
