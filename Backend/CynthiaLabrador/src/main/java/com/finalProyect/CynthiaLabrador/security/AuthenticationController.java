@@ -3,6 +3,7 @@ package com.finalProyect.CynthiaLabrador.security;
 import com.finalProyect.CynthiaLabrador.security.dto.JwtUsuarioResponse;
 import com.finalProyect.CynthiaLabrador.security.dto.LoginDto;
 import com.finalProyect.CynthiaLabrador.security.jwt.JwtProvider;
+import com.finalProyect.CynthiaLabrador.users.dto.CreateUserDto;
 import com.finalProyect.CynthiaLabrador.users.dto.GetUserDto;
 import com.finalProyect.CynthiaLabrador.users.dto.UserDtoConverter;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
@@ -13,9 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,19 +40,31 @@ public class AuthenticationController {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String jwt = jwtProvider.generateToken(authentication);
-
         UserEntity userEntity = (UserEntity) authentication.getPrincipal();
-
         return ResponseEntity.status(HttpStatus.CREATED).body(convertUserToJwtUsuarioResponse(userEntity, jwt));
+    }
+
+    @PostMapping("auth/register")
+    public ResponseEntity<GetUserDto> registerUser(@RequestPart("body") CreateUserDto createUserDto, @RequestPart("file") MultipartFile file) throws Exception {
+
+        UserEntity user = userDtoConverter.UserEntityDtoToGetUser(createUserDto);
+
+        if(userEntityService.existByNick(user.getNick()))
+            return ResponseEntity.badRequest().build();
+
+        UserEntity usuario = userEntityService.saveUser(createUserDto, file);
+        if (usuario == null)
+            return ResponseEntity.badRequest().build();
+        else
+            return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.UserEntityToGetUserDto(usuario));
     }
 
     private JwtUsuarioResponse convertUserToJwtUsuarioResponse(UserEntity user, String jwt) {
         return JwtUsuarioResponse.builder()
                 .id(user.getId().toString())
                 .nick(user.getNick())
-                .nombre(user.getNombre())
+                .nombre(user.getName())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
                 .role(user.getUserRoles().name())
@@ -59,19 +74,13 @@ public class AuthenticationController {
     private GetUserDto convertUserToGetUserDto(UserEntity user, String jwt) {
         return GetUserDto.builder()
                 .id(user.getId())
-                .apellidos(user.getApellidos())
-                .fechaNacimiento(user.getFechaNacimiento())
+                .lastName(user.getLastName())
                 .nick(user.getNick())
-                .nombre(user.getNombre())
+                .name(user.getName())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
                 .userRoles(user.getUserRoles().name())
                 .build();
-    }
-
-    @GetMapping("/me")
-    public ResponseEntity<?> perfil(@AuthenticationPrincipal UserEntity user) {
-        return ResponseEntity.ok(userEntityService.verPerfilDeUsuario(user.getId()));
     }
 }
 

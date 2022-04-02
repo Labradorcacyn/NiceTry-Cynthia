@@ -3,11 +3,6 @@ package com.finalProyect.CynthiaLabrador.users.services;
 import com.finalProyect.CynthiaLabrador.errors.excepciones.*;
 import com.finalProyect.CynthiaLabrador.file.services.StorageService;
 import com.finalProyect.CynthiaLabrador.file.services.base.BaseService;
-import com.finalProyect.CynthiaLabrador.follow.dto.CreatePeticionDto;
-import com.finalProyect.CynthiaLabrador.follow.dto.PeticionDtoConverter;
-import com.finalProyect.CynthiaLabrador.follow.model.PeticionSeguimiento;
-import com.finalProyect.CynthiaLabrador.follow.repository.PeticionSeguimientoRepository;
-import com.finalProyect.CynthiaLabrador.follow.services.PeticionService;
 import com.finalProyect.CynthiaLabrador.users.dto.*;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
 import com.finalProyect.CynthiaLabrador.users.model.UserRoles;
@@ -33,14 +28,16 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
 
     private final PasswordEncoder passwordEncoder;
     private final StorageService storageService;
-    private final PeticionService peticionService;
     private final UserEntityRepository userEntityRepository;
     private final UserDtoConverter userDtoConverter;
-    private final PeticionSeguimientoRepository peticionSeguimientoRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return this.repository.findFirstByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email + " no encontrado"));
+    }
+
+    public boolean existByNick(String nick) {
+        return this.repository.existsByNick(nick);
     }
 
     public List<UserEntity> loadUserByRole(UserRoles userRoles) throws UsernameNotFoundException {
@@ -72,13 +69,13 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
             if (userDto.getPassword().equalsIgnoreCase(userDto.getPassword2())) {
                 UserEntity userEntity = UserEntity.builder()
                         .nick(userDto.getNick())
-                        .nombre(userDto.getNombre())
-                        .apellidos(userDto.getApellidos())
+                        .name(userDto.getName())
+                        .lastName(userDto.getLastName())
                         .email(userDto.getEmail())
-                        .fechaNacimiento(userDto.getFechaNacimiento())
                         .avatar(uri)
                         .password(passwordEncoder.encode(userDto.getPassword()))
                         .userRoles(userDto.isRol() ? UserRoles.USER : UserRoles.ADMIN)
+                        .city(userDto.getCity())
                         .build();
                 return save(userEntity);
             } else {
@@ -90,17 +87,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
         }
     }
 
-    public List<PeticionSeguimiento> findAllPeticiones() {
-
-        List<PeticionSeguimiento> data = peticionSeguimientoRepository.findAll();
-        if (data.isEmpty()) {
-            throw new ListEntityNotFoundException(PeticionSeguimiento.class);
-        }
-
-        return peticionService.findAll();
-    }
-
-    public Optional<GetUserDto> actualizarPerfil(UserEntity user, CreateUserDtoEdit u, MultipartFile file) throws Exception {
+    public Optional<GetUserDto> actualizarPerfil(UserEntity user, CreateUserDto u, MultipartFile file) throws Exception {
 
         List<String> extensiones = Arrays.asList("png", "gif", "jpg", "svg");
 
@@ -117,8 +104,8 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
             }
 
             return data.map(m -> {
-                m.setNombre(u.getNombre());
-                m.setApellidos(user.getApellidos());
+                m.setName(u.getName());
+                m.setLastName(user.getLastName());
                 m.setUserRoles(u.isRol() ? UserRoles.USER : UserRoles.ADMIN);
                 m.setNick(u.getNick());
                 m.setAvatar(m.getAvatar());
@@ -156,8 +143,8 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
                     .toUriString();
 
             return data.map(m -> {
-                m.setNombre(u.getNombre());
-                m.setApellidos(user.getApellidos());
+                m.setName(u.getName());
+                m.setLastName(user.getLastName());
                 m.setUserRoles(u.isRol() ? UserRoles.USER : UserRoles.ADMIN);
                 m.setNick(u.getNick());
                 m.setAvatar(uri);
@@ -168,67 +155,6 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
 
         }else {
             throw new UnsupportedMediaTypeException(extensiones, MultipartFile.class);
-        }
-    }
-
-    public PeticionSeguimiento solicitud(UserEntity userLogeado, CreatePeticionDto createPeticionDto, String nick) {
-
-        UserEntity userBuscado = userEntityRepository.findByNick(nick);
-
-        if (userBuscado != null && !userBuscado.getNick().equals(userLogeado.getNick())) {
-
-            PeticionSeguimiento peticion = PeticionSeguimiento.builder()
-                    .texto(createPeticionDto.getTexto() + userLogeado.getNick())
-                    .destinatario(userBuscado)
-                    .remitente(userLogeado)
-                    .build();
-
-            userBuscado.addPeticion(peticion);
-            userEntityRepository.save(userBuscado);
-            peticionSeguimientoRepository.save(peticion);
-
-            return peticion;
-        } else {
-            throw new UserEntityException("No puedes enviar una petición de seguimiento a tu propio perfil");
-        }
-    }
-
-    public void aceptarSolicitud(UserEntity userLogeado, Long id) {
-        Optional<PeticionSeguimiento> peticion = peticionSeguimientoRepository.findById(id);
-
-        if (peticion.isEmpty()) {
-            throw new SingleEntityNotFoundException(id.toString(), PeticionSeguimiento.class);
-        }
-        userLogeado.addFollower(peticion.get().getRemitente());
-        userEntityRepository.save(userLogeado);
-
-        peticion.get().nullearDestinatarios();
-        peticionSeguimientoRepository.save(peticion.get());
-        peticionSeguimientoRepository.deleteById(id);
-
-    }
-
-    public void rechazarPeticion(Long id) {
-        Optional<PeticionSeguimiento> peticionSeguimiento = peticionSeguimientoRepository.findById(id);
-
-        if (peticionSeguimiento.isEmpty()) {
-            throw new SingleEntityNotFoundException(id.toString(), PeticionSeguimiento.class);
-        }
-
-        peticionSeguimiento.get().nullearDestinatarios();
-
-        peticionSeguimientoRepository.save(peticionSeguimiento.get());
-        peticionSeguimientoRepository.deleteById(id);
-    }
-
-    public GetUserDtoWithList verPerfilDeUsuario(UUID id) {
-
-        Optional<UserEntity> userEntity = userEntityRepository.findById(id);
-
-        if (!userEntity.isPresent()) {
-            throw new SingleEntityNotFoundExceptionUUID(id, UserEntity.class);
-        } else {
-            return userDtoConverter.UserEntityToGetUserDtoWithLists(userEntity);
         }
     }
 }
