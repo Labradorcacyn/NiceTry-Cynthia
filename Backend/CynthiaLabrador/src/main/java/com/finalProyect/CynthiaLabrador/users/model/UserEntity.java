@@ -1,6 +1,5 @@
 package com.finalProyect.CynthiaLabrador.users.model;
 
-import com.finalProyect.CynthiaLabrador.follow.model.PeticionSeguimiento;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,11 +12,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.*;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
@@ -38,9 +36,9 @@ public class UserEntity implements UserDetails {
     )
     private UUID id;
 
-    private String nombre;
+    private String name;
 
-    private String apellidos;
+    private String lastName;
 
     private String nick;
 
@@ -48,16 +46,17 @@ public class UserEntity implements UserDetails {
     @Column(unique = true,updatable = false)
     private String email;
 
-
-    private LocalDate fechaNacimiento;
-
     private String avatar;
 
     private String password;
 
+    private String password2;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "rol")
     private UserRoles userRoles;
+
+    private String city;
 
     /*@OneToMany
     private List<Champ> listaChamps= new ArrayList<>();*/
@@ -65,32 +64,7 @@ public class UserEntity implements UserDetails {
     /*@OneToMany
     private List<Champ> listaChampsFav= new ArrayList<>();*/
 
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<UserEntity> followers= new ArrayList<>();
-
-    @OneToMany(mappedBy = "destinatario")
-    @Builder.Default
-    private List<PeticionSeguimiento> peticionSeguimientoList = new ArrayList<>();
-
     //HELPERS
-
-    public void addPeticion(PeticionSeguimiento p){
-        if (this.getPeticionSeguimientoList() == null){
-            this.setPeticionSeguimientoList(new ArrayList<>());
-        }
-        this.getPeticionSeguimientoList().add(p);
-    }
-
-    public void addFollower(UserEntity u) {
-        this.followers = List.of(u);
-        u.getFollowers().add(this);
-    }
-
-    public void removeFollower(UserEntity u) {
-        u.getFollowers().remove(this);
-        this.followers = null;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -99,7 +73,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return nombre;
+        return name;
     }
 
     @Override

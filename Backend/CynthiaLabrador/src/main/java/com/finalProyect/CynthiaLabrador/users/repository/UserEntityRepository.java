@@ -18,7 +18,5 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, UUID> {
 
     UserEntity findByNick(String nick);
 
-    UserEntity findByFollowersContains(UserEntity user);
-
     boolean existsByNick(String nick);
 }
