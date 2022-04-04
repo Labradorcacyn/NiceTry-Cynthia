@@ -1,0 +1,11 @@
+{
+    "name": "Carlos",
+    "lastName": "Alcantara",
+    "nick": "snoodyboo",
+    "email": "snoodyboo@gmail.com",
+    "avatar":"",
+    "rol": true,
+    "password": "1234",
+    "password2": "1234",
+    "city": "Sevilla"
+}

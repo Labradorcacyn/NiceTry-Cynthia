@@ -64,7 +64,7 @@ public class AuthenticationController {
         return JwtUsuarioResponse.builder()
                 .id(user.getId().toString())
                 .nick(user.getNick())
-                .nombre(user.getName())
+                .name(user.getName())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
                 .role(user.getUserRoles().name())
