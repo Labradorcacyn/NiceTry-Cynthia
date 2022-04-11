@@ -27,9 +27,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   PlatformFile? file;
   final _imagePicker = ImagePicker();
 
-  String date = "";
-  DateTime selectedDate = DateTime.now();
-
   late AuthRepository authRepository;
   final _formKey = GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
@@ -41,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController password2 = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late Future<SharedPreferences> _prefs;
-  final String uploadUrl = 'http://10.0.2.2:8080/auth/register';
+  final String uploadUrl = 'https://nicetry-api.herokuapp.com/auth/register';
   String path = "";
   bool _passwordVisible = false;
   bool _password2Visible = false;
@@ -53,7 +50,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _prefs = SharedPreferences.getInstance();
     _passwordVisible = false;
     _password2Visible = false;
-    // TODO: implement initState
     super.initState();
   }
 
@@ -88,11 +84,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             padding: const EdgeInsets.all(20),
             child: BlocConsumer<RegisterBloc, RegisterState>(
                 listenWhen: (context, state) {
-              return state is RegisterSuccessState || state is LoginErrorState;
+              return state is RegisterSuccessState ||
+                  state is RegisterErrorState;
             }, listener: (context, state) async {
               if (state is RegisterSuccessState) {
-                _registerSuccess(context, state.loginResponse);
-              } else if (state is LoginErrorState) {
+                _registerSuccess(context, state.registerResponse);
+              } else if (state is RegisterErrorState) {
                 _showSnackbar(context, state.message);
               }
             }, buildWhen: (context, state) {
@@ -232,7 +229,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       index == 0
                                           ? isPublic = true
                                           : isPublic = false;
-                                      print('switched to: $isPublic');
                                     },
                                   ),
                                 )
@@ -292,7 +288,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               hintText: 'Password',
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  // Based on passwordVisible state choose the icon
                                   _passwordVisible
                                       ? Icons.visibility
                                       : Icons.visibility_off,
@@ -327,7 +322,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    // Based on passwordVisible state choose the icon
                                     _password2Visible
                                         ? Icons.visibility
                                         : Icons.visibility_off,
@@ -358,7 +352,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         builder: (context, state) {
                           if (state is ImageSelectedSuccessState) {
                             path = state.pickedFile.path;
-                            print('PATH ${state.pickedFile.path}');
                             return Column(children: [
                               Image.file(
                                 File(state.pickedFile.path),
@@ -405,7 +398,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fixedSize: const Size(240, 50), primary: Colors.blue),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      final loginDto = RegisterDto(
+                      final registerDto = RegisterDto(
                           name: name.text,
                           lastName: lastName.text,
                           nick: nick.text,
@@ -416,7 +409,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           password: passwordController.text);
 
                       BlocProvider.of<RegisterBloc>(context)
-                          .add(DoRegisterEvent(loginDto, path));
+                          .add(DoRegisterEvent(registerDto, path));
                     }
                   },
                   child: const Text('Register'),
