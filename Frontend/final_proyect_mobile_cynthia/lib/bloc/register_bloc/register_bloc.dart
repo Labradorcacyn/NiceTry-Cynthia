@@ -17,12 +17,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void _doRegisterEvent(
       DoRegisterEvent event, Emitter<RegisterState> emit) async {
     try {
-      final loginResponse =
+      final registerResponse =
           await authRepository.register(event.registerDto, event.imagePath);
-      emit(RegisterSuccessState(loginResponse));
+      emit(RegisterSuccessState(registerResponse));
       return;
     } on Exception catch (e) {
-      emit(LoginErrorState(e.toString()));
+      emit(RegisterErrorState(e.toString()));
     }
   }
 }
