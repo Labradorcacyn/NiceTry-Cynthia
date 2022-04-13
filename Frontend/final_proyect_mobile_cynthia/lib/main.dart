@@ -14,11 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'MiarmApp',
+      title: 'NiceTry',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/register',
+      initialRoute: '/login',
       routes: {
         '/menu': (context) => const MenuScreen(),
         '/login': (context) => const LoginScreen(),
