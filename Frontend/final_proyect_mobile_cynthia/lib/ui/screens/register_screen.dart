@@ -4,6 +4,7 @@ import 'package:final_proyect_mobile_cynthia/models/register_dto.dart';
 import 'package:final_proyect_mobile_cynthia/models/register_response.dart';
 import 'package:final_proyect_mobile_cynthia/repository/auth_repository/auth_repository.dart';
 import 'package:final_proyect_mobile_cynthia/repository/auth_repository/auth_repository_impl.dart';
+import 'package:final_proyect_mobile_cynthia/styles/styles.dart';
 import 'package:final_proyect_mobile_cynthia/ui/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,6 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -80,7 +80,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       body: Center(
         child: Container(
-            color: Colors.white,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                bgPurple,
+                bgPurplelight,
+              ],
+            )),
             padding: const EdgeInsets.all(20),
             child: BlocConsumer<RegisterBloc, RegisterState>(
                 listenWhen: (context, state) {
@@ -136,210 +146,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Register your account',
-                  ),
-                ],
+              Image(
+                image: Image.asset('assets/images/logo-horizontal.png').image,
+                width: 400,
               ),
-              SizedBox(
-                height: 24,
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: Text(
+                  'Register',
+                  style: textWhite18,
+                ),
               ),
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14.0),
-                      ),
-                      child: TextFormField(
-                        controller: name,
-                        decoration: InputDecoration(
-                          hintText: 'Nombre',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14.0),
-                      ),
-                      child: TextFormField(
-                        controller: lastName,
-                        decoration: InputDecoration(
-                          hintText: 'Primer Apellido',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 140,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14.0),
-                              ),
-                              child: TextFormField(
-                                controller: nick,
-                                decoration: InputDecoration(
-                                  hintText: 'Nick',
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 18,
-                            ),
-                            Column(
-                              children: [
-                                Text('Privacidad Perfil'),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: ToggleSwitch(
-                                    cornerRadius: 20.0,
-                                    activeBgColors: [
-                                      [Colors.green[600]!],
-                                      [Colors.red[600]!]
-                                    ],
-                                    activeFgColor: Colors.white,
-                                    inactiveBgColor: Colors.grey,
-                                    inactiveFgColor: Colors.white,
-                                    initialLabelIndex: 0,
-                                    totalSwitches: 2,
-                                    labels: ['USER', 'ADMIN'],
-                                    radiusStyle: true,
-                                    onToggle: (index) {
-                                      index == 0
-                                          ? isPublic = true
-                                          : isPublic = false;
-                                    },
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14.0),
-                          ),
-                          child: TextFormField(
-                            controller: city,
-                            decoration: InputDecoration(
-                              hintText: 'Ciudad',
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14.0),
-                      ),
-                      child: TextFormField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          hintText: 'Email',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14.0),
-                          ),
-                          child: TextFormField(
-                            obscureText: !_passwordVisible,
-                            controller: passwordController,
-                            decoration: InputDecoration(
-                              hintText: 'Password',
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Theme.of(context).primaryColorDark,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _passwordVisible = !_passwordVisible;
-                                  });
-                                },
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14.0),
-                          ),
-                          child: TextFormField(
-                            obscureText: !_password2Visible,
-                            controller: password2,
-                            decoration: InputDecoration(
-                                hintText: 'Confirm Password',
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                ),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _password2Visible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Theme.of(context).primaryColorDark,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _password2Visible = !_password2Visible;
-                                    });
-                                  },
-                                )),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
                     BlocConsumer<ImagePickBlocBloc, ImagePickBlocState>(
                         listenWhen: (context, state) {
                           return state is ImageSelectedSuccessState;
@@ -352,77 +173,280 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         builder: (context, state) {
                           if (state is ImageSelectedSuccessState) {
                             path = state.pickedFile.path;
+
                             return Column(children: [
-                              Image.file(
-                                File(state.pickedFile.path),
-                                height: 100,
-                              ),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.red,
+                              Container(
+                                width: 200,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: FileImage(File(path)),
                                   ),
-                                  onPressed: () async {
-                                    SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
-                                    prefs.setString('file', path);
-                                  },
-                                  child: const Text('Cargar Imagen'))
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(bottom: 20),
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(pink),
+                                      overlayColor:
+                                          MaterialStateProperty.all(bgPurple),
+                                      textStyle: MaterialStateProperty.all(
+                                          textWhite18),
+                                    ),
+                                    onPressed: () async {
+                                      BlocProvider.of<ImagePickBlocBloc>(
+                                              context)
+                                          .add(const SelectImageEvent(
+                                              ImageSource.gallery));
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      prefs.setString('file', path);
+                                    },
+                                    child: Icon(Icons.add_a_photo)),
+                              ),
                             ]);
                           }
                           return Center(
                               child: ElevatedButton(
-                                  onPressed: () {
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(pink),
+                                    overlayColor:
+                                        MaterialStateProperty.all(bgPurple),
+                                    textStyle:
+                                        MaterialStateProperty.all(textWhite18),
+                                  ),
+                                  onPressed: () async {
                                     BlocProvider.of<ImagePickBlocBloc>(context)
                                         .add(const SelectImageEvent(
                                             ImageSource.gallery));
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    prefs.setString('file', path);
                                   },
-                                  child: const Text('Seleccionar Imagen')));
-                        })
+                                  child: Icon(Icons.add_a_photo)));
+                        }),
+                    Container(
+                      child: TextFormField(
+                        controller: name,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
+                          ),
+                          labelText: 'Name',
+                          labelStyle: textWhite18,
+                          hintText: 'Introduce your name',
+                          hintStyle: textWhite16,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 30),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14.0),
+                      ),
+                      child: TextFormField(
+                        controller: lastName,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
+                          ),
+                          labelText: 'Last Name',
+                          labelStyle: textWhite18,
+                          hintText: 'Introduce your Last Name',
+                          hintStyle: textWhite16,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 30),
+                      child: TextFormField(
+                        controller: nick,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
+                          ),
+                          labelText: 'Username',
+                          labelStyle: textWhite18,
+                          hintText: 'Introduce your username',
+                          hintStyle: textWhite16,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 30),
+                      child: TextFormField(
+                        controller: city,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
+                          ),
+                          labelText: 'City',
+                          labelStyle: textWhite18,
+                          hintText: 'Introduce your city',
+                          hintStyle: textWhite16,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 30),
+                      child: TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
+                          ),
+                          labelText: 'Email',
+                          labelStyle: textWhite18,
+                          hintText: 'Introduce your email',
+                          hintStyle: textWhite16,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 30),
+                          child: TextFormField(
+                            obscureText: !_passwordVisible,
+                            controller: passwordController,
+                            decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                                borderSide: BorderSide(color: pink, width: 1.0),
+                              ),
+                              labelText: 'Password',
+                              labelStyle: textWhite18,
+                              hintStyle: textWhite16,
+                              hintText: 'Introduce your password',
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                                borderSide: BorderSide(color: pink, width: 1.0),
+                              ),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Theme.of(context).primaryColorLight,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _passwordVisible = !_passwordVisible;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 30),
+                          child: TextFormField(
+                            obscureText: !_password2Visible,
+                            controller: password2,
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  borderSide:
+                                      BorderSide(color: pink, width: 1.0),
+                                ),
+                                hintStyle: textWhite16,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  borderSide:
+                                      BorderSide(color: pink, width: 1.0),
+                                ),
+                                labelText: 'Confirm Password',
+                                labelStyle: textWhite18,
+                                hintText: 'Confirm your password',
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _password2Visible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Theme.of(context).primaryColorLight,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _password2Visible = !_password2Visible;
+                                    });
+                                  },
+                                )),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 32,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 12,
-                  ),
-                ],
-              ),
-              Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(240, 50), primary: Colors.blue),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      final registerDto = RegisterDto(
-                          name: name.text,
-                          lastName: lastName.text,
-                          nick: nick.text,
-                          city: city.text,
-                          rol: isPublic,
-                          email: emailController.text,
-                          password2: password2.text,
-                          password: passwordController.text);
+              Container(
+                margin: EdgeInsets.only(top: 30, bottom: 20),
+                child: Center(
+                  child: SizedBox(
+                    width: 200,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(pink),
+                        overlayColor: MaterialStateProperty.all(bgPurple),
+                        textStyle: MaterialStateProperty.all(textWhite18),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          final registerDto = RegisterDto(
+                              name: name.text,
+                              lastName: lastName.text,
+                              nick: nick.text,
+                              city: city.text,
+                              rol: isPublic,
+                              email: emailController.text,
+                              password2: password2.text,
+                              password: passwordController.text);
 
-                      BlocProvider.of<RegisterBloc>(context)
-                          .add(DoRegisterEvent(registerDto, path));
-                    }
-                  },
-                  child: const Text('Register'),
+                          BlocProvider.of<RegisterBloc>(context)
+                              .add(DoRegisterEvent(registerDto, path));
+                        }
+                      },
+                      child: const Text('Sign up'),
+                    ),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 24,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Already have an account? ",
+                    style: textWhite16,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -430,6 +454,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     child: Text(
                       'Login',
+                      style: textPink16,
                     ),
                   ),
                 ],

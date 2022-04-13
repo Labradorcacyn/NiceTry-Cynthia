@@ -3,8 +3,10 @@ import 'package:final_proyect_mobile_cynthia/models/login_dto.dart';
 import 'package:final_proyect_mobile_cynthia/models/login_response.dart';
 import 'package:final_proyect_mobile_cynthia/repository/auth_repository/auth_repository.dart';
 import 'package:final_proyect_mobile_cynthia/repository/auth_repository/auth_repository_impl.dart';
+import 'package:final_proyect_mobile_cynthia/styles/styles.dart';
 import 'package:final_proyect_mobile_cynthia/ui/screens/menu_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,12 +25,16 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late Future<SharedPreferences> _prefs;
+  bool _passwordVisible = false;
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     authRepository = AuthRepositoryImpl();
     _prefs = SharedPreferences.getInstance();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -44,11 +50,33 @@ class _LoginScreenState extends State<LoginScreen> {
   _createBody(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(20),
-            child: BlocConsumer<LoginBloc, LoginState>(
-                listenWhen: (context, state) {
+          child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            bgPurple,
+            bgPurplelight,
+          ],
+        )),
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+                top: 0,
+                child: Image(
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
+                    image: Image.asset('assets/images/vector-up.png').image)),
+            Positioned(
+                bottom: 0,
+                child: Image(
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width,
+                    image: Image.asset('assets/images/vector-down.png').image)),
+            BlocConsumer<LoginBloc, LoginState>(listenWhen: (context, state) {
               return state is LoginSuccessState || state is LoginErrorState;
             }, listener: (context, state) async {
               if (state is LoginSuccessState) {
@@ -66,8 +94,10 @@ class _LoginScreenState extends State<LoginScreen> {
               } else {
                 return _login(ctx);
               }
-            })),
-      ),
+            }),
+          ],
+        ),
+      )),
     );
   }
 
@@ -95,23 +125,18 @@ class _LoginScreenState extends State<LoginScreen> {
     return SingleChildScrollView(
       child: SafeArea(
           child: Padding(
-        padding: EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 0),
+        padding: const EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Login to your\naccount',
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 48,
+            Image(
+                image: Image.asset('assets/images/logo-horizontal.png').image),
+            Container(
+              margin: EdgeInsets.only(top: 50, bottom: 20),
+              child: Text(
+                'LOGIN',
+                style: textWhite16,
+              ),
             ),
             Form(
               key: _formKey,
@@ -127,33 +152,57 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? 'Do not use the @ char.'
                             : null;
                       },
-                      onSaved: (String? value) {
-                        // This optional block of code can be used to run
-                        // code when the user saves the form.
-                      },
+                      onSaved: (String? value) {},
                       controller: emailController,
                       decoration: InputDecoration(
-                        hintText: 'Email',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide(color: pink, width: 1.0),
+                        ),
+                        labelText: 'Email',
+                        labelStyle: textWhite18,
+                        hintText: 'Introduce your email',
+                        hintStyle: textWhite16,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide(color: pink, width: 1.0),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 32,
-                  ),
                   Container(
+                    margin: const EdgeInsets.only(top: 40, bottom: 80),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(14.0),
                     ),
                     child: TextFormField(
                         controller: passwordController,
-                        obscureText: true,
+                        obscureText: !_passwordVisible,
                         decoration: InputDecoration(
-                          hintText: 'Password',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
+                          ),
+                          labelText: 'Password',
+                          labelStyle: textWhite18,
+                          hintText: 'Introduce your password',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Theme.of(context).primaryColorLight,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            },
+                          ),
+                          hintStyle: textWhite16,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide(color: pink, width: 1.0),
                           ),
                         ),
                         onSaved: (String? value) {
@@ -169,60 +218,46 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 32,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 12,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 32,
-            ),
             Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(240, 50), primary: Colors.blue),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    final loginDto = LoginDto(
-                        email: emailController.text,
-                        password: passwordController.text);
-                    BlocProvider.of<LoginBloc>(context)
-                        .add(DoLoginEvent(loginDto));
-                  }
-                },
-                child: const Text('Login'),
+              child: SizedBox(
+                width: 200,
+                height: 50,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(pink),
+                    overlayColor: MaterialStateProperty.all(bgPurple),
+                    textStyle: MaterialStateProperty.all(textWhite18),
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      final loginDto = LoginDto(
+                          email: emailController.text,
+                          password: passwordController.text);
+                      BlocProvider.of<LoginBloc>(context)
+                          .add(DoLoginEvent(loginDto));
+                    }
+                  },
+                  child: const Text('Login'),
+                ),
               ),
             ),
-            SizedBox(
-              height: 24,
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Don't have an account? ",
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/register');
-                  },
-                  child: Text(
-                    'Register',
+            Container(
+              margin: const EdgeInsets.only(top: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account? ",
+                    style: textWhite16,
                   ),
-                ),
-              ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                    child: Text('Create account', style: textPink16),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
