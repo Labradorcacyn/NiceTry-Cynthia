@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthLoginDto } from 'src/app/models/dto/auth.dto';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -10,7 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
   loginDto = new AuthLoginDto();
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router, private toastSvc: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -20,7 +22,18 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('token', res.token);
       localStorage.setItem('nombreUser', res.nick);
       localStorage.setItem('avatar', res.avatar);
+
+      if(AuthenticatorAssertionResponse){
+        if(res.role == "ADMIN"){
+          this.toastSvc.success('Bienvenido ' + res.nick, 'Login');
+          this.router.navigate(["/home"]);
+        }else
+          this.toastSvc.error('No tiene permisos para acceder a esta sección', 'Login');
+      }else{
+        this.toastSvc.error('No tiene permisos para acceder a esta sección', 'Login');
+      }
+    }, err=>{
+      this.toastSvc.error('Usuario o contraseña incorrectos', 'Login');
     });
   }
-
 }
