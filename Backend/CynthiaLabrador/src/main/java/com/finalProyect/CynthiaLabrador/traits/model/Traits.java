@@ -1,4 +1,4 @@
-package com.finalProyect.CynthiaLabrador.champ.model;
+package com.finalProyect.CynthiaLabrador.traits.model;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -6,16 +6,16 @@ import org.hibernate.annotations.NaturalId;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "champs")
+@Table(name = "traits")
 @EntityListeners(AuditingEntityListener.class)
 @Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class champ {
+public class Traits {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -35,9 +35,7 @@ public class champ {
     @Column(unique = true,updatable = false)
     private String name;
 
-    private String championId;
+    private String description;
 
-    private int cost;
-
+    private String avatar;
 }
-
