@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
   loginDto = new AuthLoginDto();
-
+  hide = true;
   constructor(private authService: AuthService, private router: Router, private toastSvc: ToastrService) { }
 
   ngOnInit(): void {

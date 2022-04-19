@@ -1,17 +1,25 @@
-<div class="login">
-  <h1>LOGIN</h1>
+<div layout="row" layout-align="center end">
+  <div>
+    <img src="" alt="">
+  </div>
 
-<form class="example-form">
-  <table>
-    <tr>
-      <th>
-        <input matInput placeholder="Write your email" [(ngModel)]="loginDto.email" name="email" required="required">
-      </th>
-      <th >
-        <input matInput placeholder="Write your password" type="password" [(ngModel)]="loginDto.password" name="password" required="required">
-      </th>
-    </tr>
-      </table>
-      <button mat-raised-button  class="btn btn-primary btn-block btn-large" color="primary" (click)="doLogin()">Login</button>
-  </form>
+  <div class="login">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Enter your email" [(ngModel)]="loginDto.email" name="email" required="required">
+      <mat-icon matSuffix>mail</mat-icon>
+    </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [(ngModel)]="loginDto.password" name="password" required="required" [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+  </div>
 </div>
+
+
+
