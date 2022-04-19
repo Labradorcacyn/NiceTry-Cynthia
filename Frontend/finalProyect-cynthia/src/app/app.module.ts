@@ -10,10 +10,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './screens/login/login.component';
 import { HomeComponent } from './screens/home/home.component';
 import { RouterModule } from '@angular/router';
+import { ToastrModule } from 'ngx-toastr';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { RegisterComponent } from './screens/register/register.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    RegisterComponent,
     HomeComponent
   ],
   imports: [
@@ -24,7 +28,9 @@ import { RouterModule } from '@angular/router';
     MaterialImportsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule
+    MatFormFieldModule,
+    RouterModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
