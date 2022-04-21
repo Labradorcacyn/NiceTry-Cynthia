@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'http://localhost:8080'
+  apiBaseUrl: 'https://nicetry-api.herokuapp.com'
 };
