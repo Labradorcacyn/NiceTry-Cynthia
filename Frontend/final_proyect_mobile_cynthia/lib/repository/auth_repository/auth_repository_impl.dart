@@ -37,12 +37,6 @@ class AuthRepositoryImpl extends AuthRepository {
       RegisterDto registerDto, String imagePath) async {
     Map<String, String> headers = {'Content-Type': 'multipart/form-data'};
 
-    Map<String, String> headers2 = {
-      'Content-Type': 'application/json',
-    };
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     var uri = Uri.parse('https://nicetry-api.herokuapp.com/auth/register');
     var body = jsonEncode({
       'nick': registerDto.nick,
@@ -67,7 +61,6 @@ class AuthRepositoryImpl extends AuthRepository {
       return RegisterResponse.fromJson(
           jsonDecode(await response.stream.bytesToString()));
     } else {
-      print(response.statusCode);
       throw Exception('Ha ocurrido un error');
     }
   }
