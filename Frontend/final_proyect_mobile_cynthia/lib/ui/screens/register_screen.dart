@@ -25,7 +25,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String imageSelect = "Imagen no selecionada";
   FilePickerResult? result;
   PlatformFile? file;
-  final _imagePicker = ImagePicker();
 
   late AuthRepository authRepository;
   final _formKey = GlobalKey<FormState>();
@@ -142,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return SingleChildScrollView(
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 0),
+          padding: const EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -151,7 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 width: 400,
               ),
               Container(
-                margin: EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.only(top: 20),
                 child: Text(
                   'Register',
                   style: textWhite18,
@@ -187,7 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(bottom: 20),
+                                margin: const EdgeInsets.only(bottom: 20),
                                 child: ElevatedButton(
                                     style: ButtonStyle(
                                       backgroundColor:
@@ -206,7 +205,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           await SharedPreferences.getInstance();
                                       prefs.setString('file', path);
                                     },
-                                    child: Icon(Icons.add_a_photo)),
+                                    child: const Icon(Icons.add_a_photo)),
                               ),
                             ]);
                           }
@@ -228,29 +227,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         await SharedPreferences.getInstance();
                                     prefs.setString('file', path);
                                   },
-                                  child: Icon(Icons.add_a_photo)));
+                                  child: const Icon(Icons.add_a_photo)));
                         }),
-                    Container(
-                      child: TextFormField(
-                        controller: name,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide(color: pink, width: 1.0),
-                          ),
-                          labelText: 'Name',
-                          labelStyle: textWhite18,
-                          hintText: 'Introduce your name',
-                          hintStyle: textWhite16,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide(color: pink, width: 1.0),
-                          ),
+                    TextFormField(
+                      controller: name,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide(color: pink, width: 1.0),
+                        ),
+                        labelText: 'Name',
+                        labelStyle: textWhite18,
+                        hintText: 'Introduce your name',
+                        hintStyle: textWhite16,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide(color: pink, width: 1.0),
                         ),
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 30),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(14.0),
                       ),
@@ -273,7 +270,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 30),
                       child: TextFormField(
                         controller: nick,
                         decoration: InputDecoration(
@@ -293,7 +290,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 30),
                       child: TextFormField(
                         controller: city,
                         decoration: InputDecoration(
@@ -313,7 +310,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 30),
                       child: TextFormField(
                         controller: emailController,
                         decoration: InputDecoration(
@@ -335,7 +332,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 30),
+                          margin: const EdgeInsets.only(top: 30),
                           child: TextFormField(
                             obscureText: !_passwordVisible,
                             controller: passwordController,
@@ -369,7 +366,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 30),
+                          margin: const EdgeInsets.only(top: 30),
                           child: TextFormField(
                             obscureText: !_password2Visible,
                             controller: password2,
@@ -409,7 +406,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 30, bottom: 20),
+                margin: const EdgeInsets.only(top: 30, bottom: 20),
                 child: Center(
                   child: SizedBox(
                     width: 200,
