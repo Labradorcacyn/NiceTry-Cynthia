@@ -122,12 +122,12 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
                 throw new SingleEntityNotFoundException(user.getId().toString(), UserEntity.class);
             }
 
-            String name = StringUtils.cleanPath(String.valueOf(data.get().getAvatar())).replace("https://nicetry-api.herokuapp.com/download/", "")
+            String name = StringUtils.cleanPath(String.valueOf(data.get().getAvatar())).replace("https://http://localhost:8080/download/", "")
                     .replace("%20", " ");
 
             Path pa = storageService.load(name);
 
-            String filename = StringUtils.cleanPath(String.valueOf(pa)).replace("https://nicetry-api.herokuapp.com/download/", "")
+            String filename = StringUtils.cleanPath(String.valueOf(pa)).replace("https://http://localhost:8080/download/", "")
                     .replace("%20", " ");
 
             Path path = Paths.get(filename);

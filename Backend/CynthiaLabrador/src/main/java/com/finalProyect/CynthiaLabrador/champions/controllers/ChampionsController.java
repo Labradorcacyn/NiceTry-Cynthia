@@ -5,8 +5,6 @@ import com.finalProyect.CynthiaLabrador.champions.dto.CreateChampionDto;
 import com.finalProyect.CynthiaLabrador.champions.dto.GetChampionDto;
 import com.finalProyect.CynthiaLabrador.champions.model.Champion;
 import com.finalProyect.CynthiaLabrador.champions.services.ChampionsService;
-import com.finalProyect.CynthiaLabrador.security.dto.JwtUsuarioResponse;
-import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +13,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/champion/")
+@RequestMapping("/")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ChampionsController {
 
     private ChampionsService championsService;
     private ChampionDtoConverter championDtoConverter;
 
-    @PostMapping("create")
+    @PostMapping("champion/create")
     public ResponseEntity<GetChampionDto> registerChampion (@RequestPart("body") CreateChampionDto createChampionDto, @RequestPart("file") MultipartFile file) throws Exception {
 
         Champion champion = championDtoConverter.ChampionDtoToGetChampion(createChampionDto);
@@ -34,6 +32,6 @@ public class ChampionsController {
         if (saveChampion == null)
             return ResponseEntity.badRequest().build();
         else
-            return ResponseEntity.status(HttpStatus.CREATED).body(championDtoConverter.ChampionToGetChampionDto(champion));
+            return ResponseEntity.status(HttpStatus.CREATED).body(championDtoConverter.ChampionToGetChampionDto(saveChampion));
     }
 }

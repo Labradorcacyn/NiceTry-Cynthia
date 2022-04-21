@@ -16,7 +16,5 @@ public class CreateChampionDto {
     @NotNull
     private int cost;
 
-    private String password;
-
     private String avatar;
 }

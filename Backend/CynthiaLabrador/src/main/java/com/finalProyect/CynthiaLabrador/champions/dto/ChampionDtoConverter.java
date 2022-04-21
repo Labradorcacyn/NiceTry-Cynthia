@@ -18,6 +18,7 @@ public class ChampionDtoConverter {
     public Champion ChampionDtoToGetChampion(CreateChampionDto createChampionDto){
         return Champion.builder()
                 .name(createChampionDto.getName())
+                .cost(createChampionDto.getCost())
                 .build();
     }
 }
