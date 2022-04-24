@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = UserUniqueNickValidator.class)
 @Documented
 public @interface ChampionUniqueName {
-    String message() default "El nommbre del campeón ya existe";
+    String message() default "This champion already exists";
 
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

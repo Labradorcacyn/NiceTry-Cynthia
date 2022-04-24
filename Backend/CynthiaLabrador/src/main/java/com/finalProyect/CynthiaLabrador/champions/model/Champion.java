@@ -38,9 +38,12 @@ public class Champion {
 
     private int cost;
 
-    //@OneToMany
-   // private List<Traits> traits;
+    //@OneToMany(mappedBy = "champion")
+    //private List<Traits> traits;
 
     private String avatar;
+
+    public Champion(String name, String fileDownloadUri) {
+    }
 }
 

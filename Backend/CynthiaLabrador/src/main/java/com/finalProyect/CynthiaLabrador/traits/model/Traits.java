@@ -35,6 +35,7 @@ public class Traits {
     @Column(unique = true,updatable = false)
     private String name;
 
+    @Lob
     private String description;
 
     private String avatar;

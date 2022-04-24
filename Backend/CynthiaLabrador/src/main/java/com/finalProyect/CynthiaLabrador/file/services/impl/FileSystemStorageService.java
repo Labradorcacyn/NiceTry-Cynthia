@@ -5,12 +5,6 @@ import com.finalProyect.CynthiaLabrador.errors.excepciones.StorageException;
 import com.finalProyect.CynthiaLabrador.file.services.StorageService;
 import com.finalProyect.CynthiaLabrador.utils.MediaTypeUrlResource;
 import com.finalProyect.CynthiaLabrador.errors.excepciones.FileNotFoundException;
-import io.github.techgnious.IVCompressor;
-import io.github.techgnious.dto.IVAudioAttributes;
-import io.github.techgnious.dto.IVSize;
-import io.github.techgnious.dto.IVVideoAttributes;
-import io.github.techgnious.dto.VideoFormats;
-import io.github.techgnious.exception.VideoException;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -87,50 +81,6 @@ public class FileSystemStorageService implements StorageService {
                         StandardCopyOption.REPLACE_EXISTING);
             }
 
-        } catch (IOException ex) {
-            throw new StorageException("Error en el almacenamiento del fichero: " + filename, ex);
-        }
-        return filename;
-    }
-
-    @Override
-    public String escaleVideo(MultipartFile file) throws IOException, VideoException {
-
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
-        String extension = StringUtils.getFilenameExtension(filename);
-        String name = filename.replace("."+ extension, "");
-
-        IVCompressor compressor = new IVCompressor();
-        IVSize customRes = new IVSize();
-        customRes.setWidth(400);
-        customRes.setHeight(300);
-        IVAudioAttributes audioAttribute = new IVAudioAttributes();
-        audioAttribute.setBitRate(64000);
-        audioAttribute.setChannels(2);
-        audioAttribute.setSamplingRate(44100);
-        IVVideoAttributes videoAttribute = new IVVideoAttributes();
-
-        videoAttribute.setBitRate(160000);
-
-        videoAttribute.setFrameRate(15);
-        videoAttribute.setSize(customRes);
-        byte[] video = compressor.encodeVideoWithAttributes(file.getBytes(), VideoFormats.MP4,audioAttribute, videoAttribute);
-
-        InputStream inputStream1 = new ByteArrayInputStream(video);
-        try {
-            if (file.isEmpty())
-                throw new StorageException("El fichero subido está vacío");
-
-            while(Files.exists(rootLocation.resolve(filename))) {
-                String suffix = Long.toString(System.currentTimeMillis());
-                suffix = suffix.substring(suffix.length()-6);
-
-                filename = name + "_" + suffix + "." + extension;
-            }
-            try (InputStream inputStream = inputStream1) {
-                Files.copy(inputStream, rootLocation.resolve(filename),
-                        StandardCopyOption.REPLACE_EXISTING);
-            }
         } catch (IOException ex) {
             throw new StorageException("Error en el almacenamiento del fichero: " + filename, ex);
         }
@@ -220,7 +170,7 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void deleteAll() {
-        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    public void delete(String filename) throws IOException {
+        deleteFile(load(filename));
     }
 }

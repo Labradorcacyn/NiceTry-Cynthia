@@ -1,4 +1,4 @@
-package com.finalProyect.CynthiaLabrador.champions.dto;
+package com.finalProyect.CynthiaLabrador.traits.dto;
 
 import lombok.*;
 
@@ -7,11 +7,10 @@ import java.util.UUID;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Builder
-public class GetChampionDto {
-
+public class GetTraitsDto {
     private UUID id;
     private String name;
-    private int cost;
-    //private List<>traits;
+    private String description;
     private String avatar;
+
 }

@@ -63,6 +63,7 @@ public class AuthenticationController {
                 .id(user.getId().toString())
                 .nick(user.getNick())
                 .name(user.getName())
+                .city(user.getCity())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
                 .role(user.getUserRoles().name())
