@@ -17,11 +17,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class TraitsService extends BaseService<Traits, UUID, TraitsRepository> {
+public class TraitsService extends BaseService<Traits, Long, TraitsRepository> {
     private final StorageService storageService;
     private final TraitsRepository traitsRepository;
 

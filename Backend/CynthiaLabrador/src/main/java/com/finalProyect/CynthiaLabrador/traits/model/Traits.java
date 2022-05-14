@@ -1,11 +1,14 @@
 package com.finalProyect.CynthiaLabrador.traits.model;
 
+import com.finalProyect.CynthiaLabrador.champions.model.Champion;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,20 +21,9 @@ import java.util.UUID;
 public class Traits {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator",
-            parameters = {
-                    @org.hibernate.annotations.Parameter(
-                            name = "uuid_gen_strategy_class",
-                            value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
-                    )
-            }
-    )
-    private UUID id;
+    @GeneratedValue
+    private Long id;
 
-    @NaturalId
     @Column(unique = true,updatable = false)
     private String name;
 
@@ -39,4 +31,7 @@ public class Traits {
     private String description;
 
     private String avatar;
+
+    @ManyToMany(mappedBy = "traits")
+    private List<Champion> champions = new ArrayList<>();
 }

@@ -8,6 +8,8 @@ import com.finalProyect.CynthiaLabrador.errors.excepciones.UnsupportedMediaTypeE
 import com.finalProyect.CynthiaLabrador.errors.excepciones.UserEntityException;
 import com.finalProyect.CynthiaLabrador.file.services.StorageService;
 import com.finalProyect.CynthiaLabrador.file.services.base.BaseService;
+import com.finalProyect.CynthiaLabrador.traits.model.Traits;
+import com.finalProyect.CynthiaLabrador.traits.services.TraitsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,15 +18,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepository> {
 
     private final StorageService storageService;
+    private final TraitsService traitsService;
     private final ChampionsRepository championsRepository;
 
     public Champion getChampionById(UUID id) {
@@ -61,8 +66,18 @@ public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepos
                         .name(createChampionDto.getName())
                         .avatar(uri)
                         .cost(createChampionDto.getCost())
-                        //.traits(createChampionDto.getTraits())
                         .build();
+
+                List<Traits> traits = new ArrayList<>();
+
+                createChampionDto.getTraitsName().forEach(trait -> {
+                try {
+                    traits.add(traitsService.findFirstByName(trait));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+                champion.setTraits(traits);
                 return save(champion);
         } else {
             throw new UnsupportedMediaTypeException(extensiones, MultipartFile.class);
@@ -94,7 +109,16 @@ public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepos
             }
             champion.setName(updateChampionDto.getName());
             champion.setCost(updateChampionDto.getCost());
-            //champion.setTraits(updateChampionDto.getTraits());
+            List<Traits> traits = new ArrayList<>();
+            updateChampionDto.getTraitsName().forEach(trait -> {
+                try {
+                    traits.add(traitsService.findFirstByName(trait));
+                }  catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            champion.setTraits(traits);
             return save(champion);
         } else {
             throw new UnsupportedMediaTypeException(extensiones, MultipartFile.class);
