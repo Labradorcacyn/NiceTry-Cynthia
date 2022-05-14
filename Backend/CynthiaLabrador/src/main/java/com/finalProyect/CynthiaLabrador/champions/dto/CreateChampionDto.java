@@ -1,10 +1,12 @@
 package com.finalProyect.CynthiaLabrador.champions.dto;
 
 
+import com.finalProyect.CynthiaLabrador.traits.model.Traits;
 import com.finalProyect.CynthiaLabrador.validation.anotaciones.ChampionUniqueName;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 @Getter @Setter
@@ -21,4 +23,7 @@ public class CreateChampionDto {
 
     @NotNull(message="Image is mandatory")
     private String avatar;
+
+    @NotNull(message="Need to introduce the name of the champion")
+    private List<String> traitsName;
 }

@@ -25,9 +25,23 @@ public class TraitsDtoConverter {
                 .build();
     }
 
+    public Traits TraitDtoToTrait(GetTraitsDto traitsDto){
+        return Traits.builder()
+                .name(traitsDto.getName())
+                .avatar(traitsDto.getAvatar())
+                .description(traitsDto.getDescription())
+                .build();
+    }
+
     public List<GetTraitsDto> TraitsToGetTraitsDto(List<Traits> traits){
         return traits.stream()
                 .map(trait -> TraitToGetTraitDto(trait))
+                .collect(Collectors.toList());
+    }
+
+    public List<Traits> TraitsDtoToGetTraits(List<GetTraitsDto> traitsDto){
+        return traitsDto.stream()
+                .map(traitDto -> TraitDtoToTrait(traitDto))
                 .collect(Collectors.toList());
     }
 }

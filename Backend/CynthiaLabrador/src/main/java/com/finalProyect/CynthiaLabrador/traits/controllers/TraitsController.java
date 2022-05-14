@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,6 +41,18 @@ public class TraitsController {
             return ResponseEntity.badRequest().build();
         else
             return ResponseEntity.status(HttpStatus.CREATED).body(traitsDtoConverter.TraitToGetTraitDto(saveTrait));
+    }
+
+    @GetMapping("trait/id/{id}")
+    public ResponseEntity<GetTraitsDto> getTraitById(@PathVariable Long id) throws IOException {
+//Optional<Traits> traits = traitsService.findById(UUID.fromString(id));
+
+        Optional<Traits> traits = traitsService.findById(id);
+        if (traits.isPresent()) {
+            return ResponseEntity.ok(traitsDtoConverter.TraitToGetTraitDto(traits.get()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("trait/name/{name}")

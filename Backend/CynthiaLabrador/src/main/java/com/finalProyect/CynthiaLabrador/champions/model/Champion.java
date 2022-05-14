@@ -7,6 +7,7 @@ import org.hibernate.annotations.NaturalId;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,12 +39,23 @@ public class Champion {
 
     private int cost;
 
-    //@OneToMany(mappedBy = "champion")
-    //private List<Traits> traits;
-
     private String avatar;
 
-    public Champion(String name, String fileDownloadUri) {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "champion_traits",
+            joinColumns = @JoinColumn(name = "champion_id"),
+            inverseJoinColumns = @JoinColumn(name = "trait_id"))
+    private List<Traits> traits = new ArrayList<>();
+
+    public void addTrait(List<Traits> trait) {
+        traits = trait;
+        trait.forEach(t -> {
+            t.getChampions().add(this);
+        });
+    }
+
+    public void removeTraits(List<Traits> trait) {
+        this.traits.removeAll(trait);
+        trait.forEach(traits -> traits.getChampions().remove(this));
     }
 }
-

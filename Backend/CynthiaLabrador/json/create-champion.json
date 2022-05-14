@@ -1,4 +1,5 @@
 {
     "name": "Corki",
-    "cost": 4
+    "cost": 4,
+    "traitsName": ["Abomination"]
 }

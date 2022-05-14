@@ -15,6 +15,7 @@ public class ChampionDtoConverter {
                 .name(champion.getName())
                 .avatar(champion.getAvatar())
                 .cost(champion.getCost())
+                .traits(champion.getTraits() != null ? champion.getTraits().stream().map(trait -> trait.getName()).collect(Collectors.toList()) : null)
                 .build();
     }
 
