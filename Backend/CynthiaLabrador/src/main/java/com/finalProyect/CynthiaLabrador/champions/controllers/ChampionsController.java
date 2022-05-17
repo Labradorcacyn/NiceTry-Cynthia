@@ -77,6 +77,10 @@ public class ChampionsController {
     @DeleteMapping("champion/delete/{name}")
     public ResponseEntity<String> deleteChampion(@PathVariable String name) throws ChampionNotFoundException, IOException {
         championsService.deleteChampion(name);
-        return ResponseEntity.ok("Champion deleted");
+        if (championsService.existByName(name)){
+            return ResponseEntity.badRequest().build();
+        }else {
+            return ResponseEntity.ok("Champion deleted");
+        }
     }
 }

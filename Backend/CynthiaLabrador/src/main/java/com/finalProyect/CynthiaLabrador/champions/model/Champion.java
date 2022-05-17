@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "champions")
@@ -25,12 +26,13 @@ public class Champion {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(
+                    @Parameter(
                             name = "uuid_gen_strategy_class",
                             value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
                     )
             }
     )
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @NaturalId
@@ -47,6 +49,8 @@ public class Champion {
             inverseJoinColumns = @JoinColumn(name = "trait_id"))
     private List<Traits> traits = new ArrayList<>();
 
+
+    //helpers
     public void addTrait(List<Traits> trait) {
         traits = trait;
         trait.forEach(t -> {
