@@ -1,13 +1,10 @@
 package com.finalProyect.CynthiaLabrador.champions.dto;
 
-
-import com.finalProyect.CynthiaLabrador.traits.model.Traits;
 import com.finalProyect.CynthiaLabrador.validation.anotaciones.ChampionUniqueName;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor

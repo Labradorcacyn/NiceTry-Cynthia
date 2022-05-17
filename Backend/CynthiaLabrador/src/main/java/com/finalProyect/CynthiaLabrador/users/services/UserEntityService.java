@@ -157,4 +157,8 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
             throw new UnsupportedMediaTypeException(extensiones, MultipartFile.class);
         }
     }
+
+   public UserEntity findByNick(String nick) {
+        return userEntityRepository.findFirstByNick(nick).orElseThrow(() -> new SingleEntityNotFoundException(nick, UserEntity.class));
+    }
 }

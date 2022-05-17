@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +29,6 @@ public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepos
 
     private final StorageService storageService;
     private final TraitsService traitsService;
-    private final ChampionsRepository championsRepository;
 
     public Champion getChampionById(UUID id) {
         return this.repository.findById(id).orElseThrow(() -> new UserEntityException("Champion no encontrado"));
