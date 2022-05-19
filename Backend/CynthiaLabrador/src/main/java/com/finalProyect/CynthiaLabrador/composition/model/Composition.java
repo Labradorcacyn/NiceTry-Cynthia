@@ -10,6 +10,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -67,5 +68,7 @@ public class Composition {
     )
     private List<Comment> comments;*/
 
-    //private List<Integer> votes;
+    @Column(name = "votes")
+    @ElementCollection(targetClass=String.class)
+    private List<String> votes = new ArrayList<String>();
 }

@@ -59,7 +59,7 @@ public class CompositionService extends BaseService<Composition, UUID, Compositi
             compositionToUpdate.setChampions(composition.getChampions());
             return compositionRepository.save(compositionToUpdate);
         } else {
-            throw new RuntimeException("This composition doesn't belong to you");
+            return null;
         }
     }
 
@@ -67,8 +67,23 @@ public class CompositionService extends BaseService<Composition, UUID, Compositi
         Composition compositionToDelete = getCompositionById(id);
         if(compositionToDelete.getAuthor().getNick().equals(user.getNick())) {
             compositionRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("This composition doesn't belong to you");
+        }
+    }
+
+    public void addVote(UUID id, UserEntity user) {
+        Composition compositionToUpdate = getCompositionById(id);
+
+        if(!compositionToUpdate.getVotes().contains(user.getNick())) {
+            compositionToUpdate.getVotes().add(user.getNick());
+            compositionRepository.save(compositionToUpdate);
+        }
+    }
+
+    public void removeVote(UUID id, UserEntity user) {
+        Composition compositionToUpdate = getCompositionById(id);
+        if(compositionToUpdate.getVotes().contains(user.getNick())) {
+            compositionToUpdate.getVotes().remove(user.getNick());
+            compositionRepository.save(compositionToUpdate);
         }
     }
 }
