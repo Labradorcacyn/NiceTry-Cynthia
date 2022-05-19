@@ -21,6 +21,7 @@ public class CompositionDtoConverter {
                 .description(composition.getDescription())
                 .authorName(composition.getAuthor().getName())
                 .date(composition.getCreateTime().toString())
+                .votes(composition.getVotes())
                 .champions(championDtoConverter.ChampionsToGetChampionDto(composition.getChampions()))
                 .build();
     }

@@ -16,5 +16,6 @@ public class GetCompositionDto {
     private String authorName;
     private String date;
     private List<GetChampionDto> champions;
+    private List<String> votes;
 }
 

@@ -23,4 +23,6 @@ public class CreateCompositionDto {
     private List<String> champions;
 
     private String date;
+
+    private List<String> votes = null;
 }

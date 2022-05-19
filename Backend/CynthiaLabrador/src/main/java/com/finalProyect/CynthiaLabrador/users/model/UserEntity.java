@@ -71,8 +71,8 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "author")
     private List<Composition> compositions = new ArrayList<>();
 
-   /* @OneToMany
-    private List<Composition> compositionsFav = new ArrayList<>();*/
+   @OneToMany
+    private List<Composition> compositionsFav = new ArrayList<>();
 
     //HELPERS
 

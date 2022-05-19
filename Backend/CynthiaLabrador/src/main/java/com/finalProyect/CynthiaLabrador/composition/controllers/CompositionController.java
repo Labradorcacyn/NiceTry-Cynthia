@@ -79,9 +79,10 @@ public class CompositionController {
         });
         c.setChampions(champions);
         Composition composition = compositionService.updateComposition(c, id, userEntity);
+
         if (composition == null) {
-            return ResponseEntity.notFound().build();
-        }
+            return ResponseEntity.badRequest().build();
+        }else
         return ResponseEntity.ok(compositionDtoConverter.CompositionToGetCompositionDto(composition));
     }
 
@@ -97,5 +98,35 @@ public class CompositionController {
             compositionService.deleteComposition(id, userEntity);
             return ResponseEntity.ok("Composition deleted");
         }
+    }
+
+    @PutMapping("/composition/{id}/vote")
+    public ResponseEntity<?> addVote(@PathVariable UUID id, @AuthenticationPrincipal UserEntity userEntity) {
+        Composition composition = compositionService.getCompositionById(id);
+
+        if(composition.getVotes().contains(userEntity.getName())){
+            return ResponseEntity.badRequest().body("You already voted");
+        }
+
+        if (composition == null) {
+            return ResponseEntity.notFound().build();
+        }
+        compositionService.addVote(id, userEntity);
+        return ResponseEntity.ok("Vote added");
+    }
+
+    @DeleteMapping("/composition/{id}/vote")
+    public ResponseEntity<?> removeVote(@PathVariable UUID id, @AuthenticationPrincipal UserEntity userEntity) {
+        Composition composition = compositionService.getCompositionById(id);
+
+        if(!composition.getVotes().contains(userEntity.getName())){
+            return ResponseEntity.badRequest().body("You haven't voted");
+        }
+
+        if (composition == null) {
+            return ResponseEntity.notFound().build();
+        }
+        compositionService.removeVote(id, userEntity);
+        return ResponseEntity.ok("Vote removed");
     }
 }
