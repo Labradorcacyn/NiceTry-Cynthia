@@ -1,3 +1,4 @@
+import 'package:final_proyect_mobile_cynthia/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'ui/screens/login_screen.dart';
 import 'ui/screens/menu_screen.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/menu': (context) => const MenuScreen(),
+        '/home': (context) => HomeScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
       },
