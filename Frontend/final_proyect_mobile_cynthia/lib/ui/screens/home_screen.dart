@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Image.asset("assets/images/logo.png", width: 200),
+                Image.asset("assets/images/logo-horizontal.png", width: 200),
                 Row(
                   children: <Widget>[
                     IconButton(
@@ -113,14 +113,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     margin: EdgeInsets.all(10),
                     width: 60,
                     height: 60,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black45,
-                              offset: Offset(0, 2),
-                              blurRadius: 6.0)
-                        ]),
+                    decoration:
+                        BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                      BoxShadow(
+                          color: Colors.black45,
+                          offset: Offset(0, 2),
+                          blurRadius: 6.0),
+                    ]),
+                    child: CircleAvatar(
+                      child: ClipOval(
+                        child: Image(
+                          height: 60,
+                          width: 60,
+                          image: NetworkImage(
+                              compositions[index].champions[0].avatar),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   );
                 }),
           ),
@@ -134,15 +144,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Container(
                       margin: EdgeInsets.all(10),
                       width: double.infinity,
-                      height: 610,
+                      height: 200,
                       child: Column(
                         children: <Widget>[
                           Row(
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child:
-                                    Text(compositions[index].name.toString()),
+                                child: Text(compositions[index].authorName),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(compositions[index].name),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(compositions[index].description),
                               ),
                             ],
                           ),
@@ -154,7 +179,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   IconButton(
                                       onPressed: () => print("Like post"),
                                       icon: Icon(Icons.thumb_up)),
-                                  Text("450")
+                                  Text(compositions[index]
+                                      .votes
+                                      .length
+                                      .toString())
                                 ],
                               ),
                               Row(
@@ -162,7 +190,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   IconButton(
                                       onPressed: () => print("Comments"),
                                       icon: Icon(Icons.comment)),
-                                  Text("45")
+                                  Text(compositions[index]
+                                      .votes
+                                      .length
+                                      .toString())
                                 ],
                               ),
                             ],
