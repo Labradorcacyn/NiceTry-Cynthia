@@ -22,11 +22,9 @@ public interface StorageService {
 
     void deleteFile(Path filename) throws IOException;
 
+    void delete(String filename) throws IOException;
+
     String escalar(MultipartFile file, int size) throws IOException;
-
-    String escaleVideo(MultipartFile file) throws IOException, VideoException;
-
-    void deleteAll();
 
 }
 

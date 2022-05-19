@@ -1,6 +1,6 @@
 package com.finalProyect.CynthiaLabrador.validation.anotaciones;
 
-import com.finalProyect.CynthiaLabrador.validation.validadores.UserUniqueNickValidator;
+import com.finalProyect.CynthiaLabrador.validation.validadores.TraitsUniqueNickValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -8,13 +8,11 @@ import java.lang.annotation.*;
 
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UserUniqueNickValidator.class)
+@Constraint(validatedBy = TraitsUniqueNickValidator.class)
 @Documented
-public @interface UserUniqueNick {
-
-    String message() default "This nick is already in use";
+public @interface TraitsUniqueName {
+    String message() default "This trait already exists";
 
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-
 }

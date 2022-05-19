@@ -10,11 +10,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UserUniqueNickValidator.class)
 @Documented
-public @interface UserUniqueNick {
-
-    String message() default "This nick is already in use";
+public @interface ChampionUniqueName {
+    String message() default "This champion already exists";
 
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-
 }
