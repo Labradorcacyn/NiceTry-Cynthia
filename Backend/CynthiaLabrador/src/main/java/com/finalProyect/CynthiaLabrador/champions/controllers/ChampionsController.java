@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -41,7 +42,7 @@ public class ChampionsController {
             return ResponseEntity.status(HttpStatus.CREATED).body(championDtoConverter.ChampionToGetChampionDto(saveChampion));
     }
 
-    @GetMapping("champion/{id:^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[ 89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$}")
+    @GetMapping("champion/{id}")
     public ResponseEntity<GetChampionDto> getChampion(@PathVariable UUID id) throws ChampionNotFoundException {
         Champion champion = championsService.getChampionById(id);
         return ResponseEntity.ok(championDtoConverter.ChampionToGetChampionDto(champion));
@@ -65,22 +66,30 @@ public class ChampionsController {
         return ResponseEntity.ok(championDtoConverter.ChampionsToGetChampionDto(champions));
     }
 
-    @PutMapping("champion/update/{name}")
-    public ResponseEntity<GetChampionDto> updateChampion(@PathVariable String name,
+    @PutMapping("champion/update/{id}")
+    public ResponseEntity<GetChampionDto> updateChampion(@PathVariable UUID id,
                                                          @RequestPart("body") CreateChampionDto updateChampionDto,
                                                          @RequestPart("file") MultipartFile file) throws Exception {
+        Optional<Champion> ch = championsService.findById(id);
 
-        Champion champion = championsService.updateChampion(name, updateChampionDto, file);
-        return ResponseEntity.ok(championDtoConverter.ChampionToGetChampionDto(champion));
+        if(ch.isPresent()){
+            Champion champion = championsService.updateChampion(ch.get(), updateChampionDto, file);
+            return ResponseEntity.ok(championDtoConverter.ChampionToGetChampionDto(champion));
+        }else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @DeleteMapping("champion/delete/{name}")
-    public ResponseEntity<String> deleteChampion(@PathVariable String name) throws ChampionNotFoundException, IOException {
-        championsService.deleteChampion(name);
-        if (championsService.existByName(name)){
-            return ResponseEntity.badRequest().build();
-        }else {
+    @DeleteMapping("champion/delete/{id}")
+    public ResponseEntity<String> deleteChampion(@PathVariable UUID id) throws ChampionNotFoundException, IOException {
+        Optional<Champion> champion = championsService.findById(id);
+
+        if(champion.isPresent()){
+            championsService.deleteChampion(champion.get());
             return ResponseEntity.ok("Champion deleted");
+
+        }else{
+            return ResponseEntity.notFound().build();
         }
     }
 }

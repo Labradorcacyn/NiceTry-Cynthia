@@ -61,7 +61,7 @@ public class CompositionController {
     }
 
     @PostMapping("/composition")
-    public ResponseEntity<GetCompositionDto> createComposition(@RequestPart ("body") CreateCompositionDto createCompositionDto, @AuthenticationPrincipal UserEntity userEntity) {
+    public ResponseEntity<GetCompositionDto> createComposition(@RequestPart("body") CreateCompositionDto createCompositionDto, @AuthenticationPrincipal UserEntity userEntity) {
         Composition composition = compositionService.createComposition(createCompositionDto, userEntity);
 
         return ResponseEntity.ok(compositionDtoConverter.CompositionToGetCompositionDto(composition));
@@ -104,7 +104,7 @@ public class CompositionController {
     public ResponseEntity<?> addVote(@PathVariable UUID id, @AuthenticationPrincipal UserEntity userEntity) {
         Composition composition = compositionService.getCompositionById(id);
 
-        if(composition.getVotes().contains(userEntity.getName())){
+        if(composition.getVotes().contains(userEntity.getNick())){
             return ResponseEntity.badRequest().body("You already voted");
         }
 
@@ -119,7 +119,7 @@ public class CompositionController {
     public ResponseEntity<?> removeVote(@PathVariable UUID id, @AuthenticationPrincipal UserEntity userEntity) {
         Composition composition = compositionService.getCompositionById(id);
 
-        if(!composition.getVotes().contains(userEntity.getName())){
+        if(!composition.getVotes().contains(userEntity.getNick())){
             return ResponseEntity.badRequest().body("You haven't voted");
         }
 

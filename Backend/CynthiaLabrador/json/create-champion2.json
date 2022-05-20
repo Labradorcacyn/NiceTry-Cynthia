@@ -1,5 +1,5 @@
 {
     "name": "Gragas",
-    "cost": 4,
-    "traitsName": ["Abomination"]
+    "cost": 3,
+    "traitsUuid": [1]
 }

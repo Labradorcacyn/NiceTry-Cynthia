@@ -61,7 +61,7 @@ public class TraitsService extends BaseService<Traits, Long, TraitsRepository> {
         }
     }
 
-    public Traits updateTrait(String name, CreateTraitsDto createTraitsDto, MultipartFile file) throws Exception {
+    public Traits updateTrait(Traits trait, CreateTraitsDto createTraitsDto, MultipartFile file) throws Exception {
 
         List<String> extensiones = Arrays.asList("png", "gif", "jpg", "svg");
         String archivo = StringUtils.cleanPath(file.getOriginalFilename());
@@ -71,7 +71,6 @@ public class TraitsService extends BaseService<Traits, Long, TraitsRepository> {
             throw new FileNotFoundException();
         } else if (extensiones.contains(extension)) {
 
-            Traits trait = findFirstByName(name);
             String fileName = file.getOriginalFilename();
             String s = trait.getAvatar().split("/")[4];
 
@@ -92,11 +91,9 @@ public class TraitsService extends BaseService<Traits, Long, TraitsRepository> {
         }
     }
 
-    public Traits deleteTrait(String name) throws TraitNotFoundException, IOException {
-        Traits trait = findFirstByName(name);
+    public void deleteTrait(Traits trait) throws TraitNotFoundException, IOException {
         storageService.delete(trait.getAvatar().split("/")[4]);
         this.repository.delete(trait);
-        return trait;
     }
 
 }

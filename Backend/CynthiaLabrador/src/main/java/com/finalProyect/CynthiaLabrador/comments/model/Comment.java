@@ -1,34 +1,33 @@
-package com.finalProyect.CynthiaLabrador.composition.model;
+package com.finalProyect.CynthiaLabrador.comments.model;
 
-import com.finalProyect.CynthiaLabrador.champions.model.Champion;
-import com.finalProyect.CynthiaLabrador.comments.model.Comment;
+import com.finalProyect.CynthiaLabrador.composition.model.Composition;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.hibernate.annotations.Parameter;
 
 @Entity
-@Table(name = "composition")
+@Table(name = "comments")
 @EntityListeners(AuditingEntityListener.class)
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Builder
-public class Composition {
+public class Comment {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator",
             parameters = {
-                    @Parameter(
+                    @org.hibernate.annotations.Parameter(
                             name = "uuid_gen_strategy_class",
                             value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
                     )
@@ -37,30 +36,20 @@ public class Composition {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Lob
-    @Column(name = "description", nullable = false)
-    private String description;
-
     @ManyToOne
-    @Nullable
+    @JoinColumn(name = "author_id")
     private UserEntity author;
 
-    @Column(name = "create_time")
-    private LocalDateTime createTime;
+    @ManyToOne
+    @JoinColumn(name = "composition_id")
+    private Composition composition;
 
-    @ManyToMany()
-    @JoinTable(
-            name = "composition_champion",
-            joinColumns = @JoinColumn(name = "composition_id"),
-            inverseJoinColumns = @JoinColumn(name = "champion_id")
-    )
-    private List<Champion> champions;
+    @Lob
+    @Column(name = "text")
+    private String text;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "composition")
-    private List<Comment> comments;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @Column(name = "votes")
     @ElementCollection(targetClass=String.class)
