@@ -18,10 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -68,13 +65,12 @@ public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepos
 
                 List<Traits> traits = new ArrayList<>();
 
-                createChampionDto.getTraitsName().forEach(trait -> {
-                try {
-                    traits.add(traitsService.findFirstByName(trait));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                createChampionDto.getTraitsUuid().forEach(trait -> {
+                Optional<Traits> traitOptional = traitsService.findById(trait);
+                if (traitOptional != null ) {
+                    traits.add(traitOptional.get());
                 }
-            });
+                });
                 champion.setTraits(traits);
                 return save(champion);
         } else {
@@ -82,7 +78,7 @@ public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepos
         }
     }
 
-    public Champion updateChampion(String name, CreateChampionDto updateChampionDto, MultipartFile file) throws Exception {
+    public Champion updateChampion(Champion champion, CreateChampionDto updateChampionDto, MultipartFile file) throws Exception {
 
         List<String> extensiones = Arrays.asList("png", "gif", "jpg", "svg");
         String archivo = StringUtils.cleanPath(file.getOriginalFilename());
@@ -92,7 +88,6 @@ public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepos
             throw new FileNotFoundException();
         } else if (extensiones.contains(extension)) {
 
-            Champion champion = findFirstByName(name);
             String fileName = file.getOriginalFilename();
             String s = champion.getAvatar().split("/")[4];
 
@@ -108,11 +103,10 @@ public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepos
             champion.setName(updateChampionDto.getName());
             champion.setCost(updateChampionDto.getCost());
             List<Traits> traits = new ArrayList<>();
-            updateChampionDto.getTraitsName().forEach(trait -> {
-                try {
-                    traits.add(traitsService.findFirstByName(trait));
-                }  catch (FileNotFoundException e) {
-                    e.printStackTrace();
+            updateChampionDto.getTraitsUuid().forEach(trait -> {
+                Optional<Traits> t = traitsService.findById(trait);
+                if (t.isPresent()) {
+                    traits.add(t.get());
                 }
             });
 
@@ -123,8 +117,7 @@ public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepos
         }
     }
 
-    public Champion deleteChampion(String name) throws ChampionNotFoundException, IOException {
-        Champion champion = findFirstByName(name);
+    public Champion deleteChampion(Champion champion) throws ChampionNotFoundException, IOException {
         storageService.delete(champion.getAvatar().split("/")[4]);
         this.repository.delete(champion);
         return champion;

@@ -38,6 +38,14 @@ public class UserDtoConverter {
                 .build();
     }
 
+    public GetUserNameDto userEntityToGetUserNameDto(UserEntity user){
+        return GetUserNameDto.builder()
+                .id(user.getId())
+                .nick(user.getName())
+                .avatar(user.getAvatar())
+                .build();
+    }
+
     public UserEntity UserEntityDtoToGetUser(CreateUserDto createUserDto){
         return UserEntity.builder()
                 .nick(createUserDto.getNick())

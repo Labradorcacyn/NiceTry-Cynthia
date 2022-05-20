@@ -9,7 +9,6 @@ import com.finalProyect.CynthiaLabrador.file.services.base.BaseService;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
 import com.finalProyect.CynthiaLabrador.users.services.UserEntityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

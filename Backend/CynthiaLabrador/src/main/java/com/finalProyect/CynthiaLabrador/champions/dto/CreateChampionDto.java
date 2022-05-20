@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.UUID;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
@@ -22,5 +23,5 @@ public class CreateChampionDto {
     private String avatar;
 
     @NotNull(message="Need to introduce the name of the champion")
-    private List<String> traitsName;
+    private List<Long> traitsUuid;
 }

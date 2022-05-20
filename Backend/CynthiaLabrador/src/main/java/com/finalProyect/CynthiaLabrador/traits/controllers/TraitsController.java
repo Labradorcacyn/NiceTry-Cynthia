@@ -45,7 +45,6 @@ public class TraitsController {
 
     @GetMapping("trait/id/{id}")
     public ResponseEntity<GetTraitsDto> getTraitById(@PathVariable Long id) throws IOException {
-//Optional<Traits> traits = traitsService.findById(UUID.fromString(id));
 
         Optional<Traits> traits = traitsService.findById(id);
         if (traits.isPresent()) {
@@ -64,7 +63,10 @@ public class TraitsController {
         nameArray[0] = nameArray[0].toUpperCase();
         name = String.join("", nameArray);
         Traits traits = traitsService.findFirstByName(name);
-        return ResponseEntity.ok(traitsDtoConverter.TraitToGetTraitDto(traits));
+        if(traits != null)
+            return ResponseEntity.ok(traitsDtoConverter.TraitToGetTraitDto(traits));
+        else
+            return ResponseEntity.notFound().build();
     }
 
     @GetMapping("traits")
@@ -73,18 +75,34 @@ public class TraitsController {
         return ResponseEntity.ok(traitsDtoConverter.TraitsToGetTraitsDto(traits));
     }
 
-    @PutMapping("trait/update/{name}")
-    public ResponseEntity<GetTraitsDto> updateTrait(@PathVariable String name,
+    @PutMapping("trait/update/{id}")
+    public ResponseEntity<GetTraitsDto> updateTrait(@PathVariable Long id,
                                                          @RequestPart("body") CreateTraitsDto updateTraitsDto,
                                                          @RequestPart("file") MultipartFile file) throws Exception {
+        Optional<Traits> tra = traitsService.findById(id);
 
-        Traits trait = traitsService.updateTrait(name, updateTraitsDto, file);
-        return ResponseEntity.ok(traitsDtoConverter.TraitToGetTraitDto(trait));
+        if(tra.isPresent()){
+            Traits trait = traitsService.updateTrait(tra.get(), updateTraitsDto, file);
+            return ResponseEntity.ok(traitsDtoConverter.TraitToGetTraitDto(trait));
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @DeleteMapping("trait/delete/{name}")
-    public ResponseEntity<String> deleteTrait(@PathVariable String name) throws IOException {
-        traitsService.deleteTrait(name);
-        return ResponseEntity.ok("Trait deleted");
+    @DeleteMapping("trait/delete/{id}")
+    public ResponseEntity<String> deleteTrait(@PathVariable Long id) throws IOException {
+        Optional<Traits> trait = traitsService.findById(id);
+        String name;
+
+        if(trait.isPresent()){
+            name = trait.get().getName();
+            traitsService.deleteTrait(trait.get());
+            if(!traitsService.existByName(name))
+                return ResponseEntity.ok("Trait deleted");
+            else
+                return ResponseEntity.badRequest().body("Trait not deleted");
+        } else{
+            return ResponseEntity.notFound().build();
+        }
     }
 }
