@@ -8,6 +8,11 @@ import com.finalProyect.CynthiaLabrador.composition.dto.GetCompositionDto;
 import com.finalProyect.CynthiaLabrador.composition.model.Composition;
 import com.finalProyect.CynthiaLabrador.composition.services.CompositionService;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +27,22 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/")
 @CrossOrigin(origins = "http://localhost:4200")
+@Tag(name = "Controlador de las composiciones")
 public class CompositionController {
 
     private final CompositionService compositionService;
     private final CompositionDtoConverter compositionDtoConverter;
     private final ChampionsService championsService;
 
+    @Operation(summary = "Obtiene las composiciones de un usuario", description = "Obtiene las composiciones de un usuario", tags = {"Composiciones"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Composiciones obtenidas",
+                    content = { @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encuentra la lista de composiciones",
+                    content = @Content)
+    })
     @GetMapping("/composition/author/{nick}")
     public ResponseEntity<List<GetCompositionDto>> getComposition(@PathVariable String nick) {
        List<Composition> compositionAuth = compositionService.getAllCompositionByUser(nick);
@@ -36,10 +51,18 @@ public class CompositionController {
            return ResponseEntity.notFound().build();
        }
        else {
-           return ResponseEntity.ok(compositionDtoConverter.ListCompositionToListGetCompositionDto(compositionAuth));
+           return ResponseEntity.ok(compositionDtoConverter.listCompositionToListGetCompositionDto(compositionAuth));
        }
     }
-
+    @Operation(summary = "Obtiene las composiciones", description = "Obtiene las composiciones", tags = {"Composiciones"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Composiciones obtenidas",
+                    content = { @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encuentra la lista de composiciones",
+                    content = @Content)
+    })
     @GetMapping("/composition")
     public ResponseEntity<List<GetCompositionDto>> getAllComposition() {
         List<Composition> composition = compositionService.getAllComposition();
@@ -47,9 +70,18 @@ public class CompositionController {
         if (composition.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(compositionDtoConverter.ListCompositionToListGetCompositionDto(composition));
+        return ResponseEntity.ok(compositionDtoConverter.listCompositionToListGetCompositionDto(composition));
     }
 
+    @Operation(summary = "Obtiene una composicion por id", description = "Obtiene una composicion por id", tags = {"Composiciones"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Composiciones obtenidas",
+                    content = { @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encuentra la lista de composiciones",
+                    content = @Content)
+    })
     @GetMapping("/composition/id/{id}")
     public ResponseEntity<GetCompositionDto> getCompositionById(@PathVariable UUID id) {
         Composition composition = compositionService.getCompositionById(id);
@@ -57,22 +89,43 @@ public class CompositionController {
         if (composition == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(compositionDtoConverter.CompositionToGetCompositionDto(composition));
+        return ResponseEntity.ok(compositionDtoConverter.compositionToGetCompositionDto(composition));
     }
 
+    @Operation(summary = "Crea una nueva composicion", description = "Crea una nueva composicion", tags = {"Composiciones"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se ha creado correctamente",
+                    content = { @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha podido crear la composicion",
+                    content = @Content)
+    })
     @PostMapping("/composition")
     public ResponseEntity<GetCompositionDto> createComposition(@RequestPart("body") CreateCompositionDto createCompositionDto, @AuthenticationPrincipal UserEntity userEntity) {
         Composition composition = compositionService.createComposition(createCompositionDto, userEntity);
 
-        return ResponseEntity.ok(compositionDtoConverter.CompositionToGetCompositionDto(composition));
+        if(compositionService.findById(composition.getId()).isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }else
+            return ResponseEntity.status(HttpStatus.CREATED).body(compositionDtoConverter.compositionToGetCompositionDto(composition));
     }
 
+    @Operation(summary = "Actualizar una nueva composicion", description = "Actualizar una nueva composicion", tags = {"Composiciones"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha actualizado correctamente",
+                    content = { @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha podido actualizar la composicion",
+                    content = @Content)
+    })
     @PutMapping("/composition/{id}")
     public ResponseEntity<GetCompositionDto> updateComposition(@PathVariable UUID id, @RequestPart ("body") CreateCompositionDto createCompositionDto, @AuthenticationPrincipal UserEntity userEntity) {
-        Composition c = compositionDtoConverter.CompositionDtoToGetComposition(createCompositionDto);
+        Composition c = compositionDtoConverter.compositionDtoToGetComposition(createCompositionDto);
         List<Champion> champions = new ArrayList<>();
         createCompositionDto.getChampions().forEach(champion -> {
-           Champion ch = championsService.findFirstByName(champion);
+           Champion ch = championsService.findByName(champion);
             if(ch != null) {
                 champions.add(ch);
             }
@@ -83,9 +136,18 @@ public class CompositionController {
         if (composition == null) {
             return ResponseEntity.badRequest().build();
         }else
-        return ResponseEntity.ok(compositionDtoConverter.CompositionToGetCompositionDto(composition));
+            return ResponseEntity.ok(compositionDtoConverter.compositionToGetCompositionDto(composition));
     }
 
+    @Operation(summary = "Borra una composicion", description = "Borra una composicion", tags = {"Composiciones"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha borrado correctamente",
+                    content = { @Content(mediaType = "application/json")}),
+            @ApiResponse(description = "No se encuentra la Inmobiliaria",
+                    responseCode = "404",
+                    content = @Content)
+    })
     @DeleteMapping("/composition/{id}")
     public ResponseEntity<?> deleteComposition(@PathVariable UUID id, @AuthenticationPrincipal UserEntity userEntity) {
         Composition c = compositionService.getCompositionById(id);
@@ -96,10 +158,19 @@ public class CompositionController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }else{
             compositionService.deleteComposition(id, userEntity);
-            return ResponseEntity.ok("Composition deleted");
+            return ResponseEntity.ok().build();
         }
     }
 
+    @Operation(summary = "Votar una composicion", description = "Votar una composicion", tags = {"Composiciones"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Has realizado tu voto correctamente",
+                    content = { @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "500",
+                    description = "No se ha podido relizar el voto",
+                    content = @Content)
+    })
     @PutMapping("/composition/{id}/vote")
     public ResponseEntity<?> addVote(@PathVariable UUID id, @AuthenticationPrincipal UserEntity userEntity) {
         Composition composition = compositionService.getCompositionById(id);
@@ -115,6 +186,15 @@ public class CompositionController {
         return ResponseEntity.ok("Vote added");
     }
 
+    @Operation(summary = "Borrar tu voto", description = "Borrar tu voto", tags = {"Composiciones"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha borrado correctamente",
+                    content = { @Content(mediaType = "application/json")}),
+            @ApiResponse(description = "No se encuentra tu voto",
+                    responseCode = "404",
+                    content = @Content)
+    })
     @DeleteMapping("/composition/{id}/vote")
     public ResponseEntity<?> removeVote(@PathVariable UUID id, @AuthenticationPrincipal UserEntity userEntity) {
         Composition composition = compositionService.getCompositionById(id);

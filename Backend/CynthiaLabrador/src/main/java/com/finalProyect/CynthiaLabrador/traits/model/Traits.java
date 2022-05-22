@@ -28,6 +28,7 @@ public class Traits {
     private String name;
 
     @Lob
+    @Column(name = "description", columnDefinition = "TEXT", length = 65535)
     private String description;
 
     private String avatar;

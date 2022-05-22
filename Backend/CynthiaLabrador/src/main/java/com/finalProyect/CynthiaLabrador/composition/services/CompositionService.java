@@ -38,7 +38,7 @@ public class CompositionService extends BaseService<Composition, UUID, Compositi
     }
 
     public Composition createComposition(CreateCompositionDto createCompositionDto, UserEntity user) {
-        List<Champion> champions = createCompositionDto.getChampions().stream().map(championsService::findFirstByName).collect(Collectors.toList());
+        List<Champion> champions = createCompositionDto.getChampions().stream().map(championsService::findByName).collect(Collectors.toList());
 
         Composition composition = new Composition();
         composition.setName(createCompositionDto.getName());

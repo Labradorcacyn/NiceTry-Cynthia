@@ -1,5 +1,6 @@
 package com.finalProyect.CynthiaLabrador.champions.dto;
 
+import com.finalProyect.CynthiaLabrador.traits.dto.GetTraitsDto;
 import lombok.*;
 
 import java.util.List;
@@ -13,6 +14,6 @@ public class GetChampionDto {
     private UUID id;
     private String name;
     private int cost;
-    private List<String> traits;
+    private List<GetTraitsDto> traits;
     private String avatar;
 }

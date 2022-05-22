@@ -2,6 +2,7 @@ package com.finalProyect.CynthiaLabrador.composition.dto;
 
 import com.finalProyect.CynthiaLabrador.champions.dto.ChampionDtoConverter;
 import com.finalProyect.CynthiaLabrador.composition.model.Composition;
+import com.finalProyect.CynthiaLabrador.users.dto.UserDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,26 +15,28 @@ public class CompositionDtoConverter {
     @Autowired
     private ChampionDtoConverter championDtoConverter;
 
-    public GetCompositionDto CompositionToGetCompositionDto(Composition composition){
+    public GetCompositionDto compositionToGetCompositionDto(Composition composition){
         return GetCompositionDto.builder()
                 .id(composition.getId())
                 .name(composition.getName())
                 .description(composition.getDescription())
-                .authorName(composition.getAuthor().getName())
+                .authorNick(composition.getAuthor().getNick())
+                .authorAvatar(composition.getAuthor().getAvatar())
                 .date(composition.getCreateTime().toString())
                 .votes(composition.getVotes())
-                .champions(championDtoConverter.ChampionsToGetChampionDto(composition.getChampions()))
+                .comments(composition.getComments() != null ? composition.getComments().size() : 0)
+                .champions(championDtoConverter.championsToGetChampionDto(composition.getChampions()))
                 .build();
     }
 
-    public Composition CompositionDtoToGetComposition(CreateCompositionDto createCompositionDto){
+    public Composition compositionDtoToGetComposition(CreateCompositionDto createCompositionDto){
         return Composition.builder()
                 .name(createCompositionDto.getName())
                 .description(createCompositionDto.getDescription())
                 .build();
     }
 
-    public List<GetCompositionDto> ListCompositionToListGetCompositionDto(List<Composition> compositions){
-        return compositions.stream().map(this::CompositionToGetCompositionDto).collect(Collectors.toList());
+    public List<GetCompositionDto> listCompositionToListGetCompositionDto(List<Composition> compositions){
+        return compositions.stream().map(this::compositionToGetCompositionDto).collect(Collectors.toList());
     }
 }

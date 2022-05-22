@@ -37,8 +37,9 @@ public class CommentService {
         return co;
     }
 
-    public void deleteComment(UUID id, Composition composition) {
-        composition.getComments().removeIf(comment -> comment.getId().equals(id));
+    public void deleteComment(UUID id, Composition composition, UserEntity user) {
+        if (user.getId().equals(composition.getAuthor().getId()))
+            composition.getComments().removeIf(comment -> comment.getId().equals(id));
     }
 
 }

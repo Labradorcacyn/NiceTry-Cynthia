@@ -8,6 +8,10 @@ import com.finalProyect.CynthiaLabrador.users.dto.GetUserDto;
 import com.finalProyect.CynthiaLabrador.users.dto.UserDtoConverter;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
 import com.finalProyect.CynthiaLabrador.users.services.UserEntityService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +32,7 @@ public class AuthenticationController {
     private final UserDtoConverter userDtoConverter;
     private final UserEntityService userEntityService;
 
+    @Operation(summary = "Login", description = "Login")
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
 
@@ -43,6 +48,15 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(convertUserToJwtUsuarioResponse(userEntity, jwt));
     }
 
+    @Operation(summary = "Registro", description = "Registro del usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se ha registrado correctamente",
+                    content = { @Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha podido realizar el registro",
+                    content = @Content)
+    })
     @PostMapping("auth/register")
     public ResponseEntity<GetUserDto> registerUser(@RequestPart("body") CreateUserDto createUserDto, @RequestPart("file") MultipartFile file) throws Exception {
 

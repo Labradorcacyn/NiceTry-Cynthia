@@ -24,7 +24,7 @@ public class UserDtoConverter {
                 .userRoles(user.getUserRoles().name())
                 .city(user.getCity())
                 .compositionList(user.getCompositions() != null ? user.getCompositions() .stream().map(c ->
-                        compositionDtoConverter.CompositionToGetCompositionDto(c)).collect(Collectors.toList()) : null)
+                        compositionDtoConverter.compositionToGetCompositionDto(c)).collect(Collectors.toList()) : null)
                 .build();
     }
 

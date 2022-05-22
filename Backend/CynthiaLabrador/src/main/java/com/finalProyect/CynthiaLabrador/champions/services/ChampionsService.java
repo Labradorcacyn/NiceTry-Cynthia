@@ -35,8 +35,8 @@ public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepos
         return this.repository.existsByName(name);
     }
 
-    public Champion findFirstByName(String name) throws ChampionNotFoundException {
-        return this.repository.findFirstByName(name).orElseThrow(() -> new ChampionNotFoundException(name + " no encontrado"));
+    public Champion findByName(String name) throws ChampionNotFoundException {
+        return this.repository.findByName(name).orElseThrow(() -> new ChampionNotFoundException(name + " no encontrado"));
     }
 
     public List<Champion> getAllChampions() {
