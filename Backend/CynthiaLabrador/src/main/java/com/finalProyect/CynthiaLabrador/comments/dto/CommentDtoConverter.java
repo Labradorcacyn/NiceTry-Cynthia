@@ -20,7 +20,7 @@ public class CommentDtoConverter {
       return GetCommentDto.builder()
                 .id(comment.getId())
                 .text(comment.getText())
-                .composition(compositionDtoConverter.CompositionToGetCompositionDto(comment.getComposition()))
+                .composition(compositionDtoConverter.compositionToGetCompositionDto(comment.getComposition()))
                 .author(userDtoConverter.userEntityToGetUserNameDto(comment.getAuthor()))
                 .build();
     }

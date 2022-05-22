@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class TraitsDtoConverter {
-    public GetTraitsDto TraitToGetTraitDto(Traits traits){
+    public GetTraitsDto traitToGetTraitDto(Traits traits){
         return GetTraitsDto.builder()
                 .id(traits.getId())
                 .name(traits.getName())
@@ -17,7 +17,7 @@ public class TraitsDtoConverter {
                 .build();
     }
 
-    public Traits TraitDtoToGetTrait(CreateTraitsDto traitsDto){
+    public Traits traitDtoToGetTrait(CreateTraitsDto traitsDto){
         return Traits.builder()
                 .name(traitsDto.getName())
                 .avatar(traitsDto.getAvatar())
@@ -33,13 +33,13 @@ public class TraitsDtoConverter {
                 .build();
     }
 
-    public List<GetTraitsDto> TraitsToGetTraitsDto(List<Traits> traits){
+    public List<GetTraitsDto> traitsToGetTraitsDto(List<Traits> traits){
         return traits.stream()
-                .map(trait -> TraitToGetTraitDto(trait))
+                .map(trait -> traitToGetTraitDto(trait))
                 .collect(Collectors.toList());
     }
 
-    public List<Traits> TraitsDtoToGetTraits(List<GetTraitsDto> traitsDto){
+    public List<Traits> traitsDtoToGetTraits(List<GetTraitsDto> traitsDto){
         return traitsDto.stream()
                 .map(traitDto -> TraitDtoToTrait(traitDto))
                 .collect(Collectors.toList());

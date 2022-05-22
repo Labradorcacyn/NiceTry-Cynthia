@@ -45,7 +45,7 @@ public class Comment {
     private Composition composition;
 
     @Lob
-    @Column(name = "text")
+    @Column(name = "description", columnDefinition = "TEXT", length = 65535)
     private String text;
 
     @Column(name = "created_at")
