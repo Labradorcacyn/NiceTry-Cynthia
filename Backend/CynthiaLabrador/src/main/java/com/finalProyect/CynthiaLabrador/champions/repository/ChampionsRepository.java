@@ -9,7 +9,6 @@ import java.util.UUID;
 
 public interface ChampionsRepository extends JpaRepository<Champion, UUID> {
 
-    @Query("SELECT c FROM Champions c WHERE c.name = ?1")
     Optional<Champion> findByName(String name);
 
     boolean existsByName(String name);

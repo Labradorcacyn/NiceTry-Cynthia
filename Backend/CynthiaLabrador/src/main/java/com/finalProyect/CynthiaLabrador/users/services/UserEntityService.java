@@ -1,13 +1,10 @@
 package com.finalProyect.CynthiaLabrador.users.services;
 
-import com.finalProyect.CynthiaLabrador.champions.model.Champion;
 import com.finalProyect.CynthiaLabrador.composition.model.Composition;
 import com.finalProyect.CynthiaLabrador.composition.repository.CompositionRepository;
-import com.finalProyect.CynthiaLabrador.composition.services.CompositionService;
 import com.finalProyect.CynthiaLabrador.errors.excepciones.*;
 import com.finalProyect.CynthiaLabrador.file.services.StorageService;
 import com.finalProyect.CynthiaLabrador.file.services.base.BaseService;
-import com.finalProyect.CynthiaLabrador.traits.model.Traits;
 import com.finalProyect.CynthiaLabrador.users.dto.*;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
 import com.finalProyect.CynthiaLabrador.users.model.UserRoles;
@@ -23,8 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.FileNotFoundException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Service("userDetailService")
@@ -34,7 +29,6 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
     private final PasswordEncoder passwordEncoder;
     private final StorageService storageService;
     private final UserEntityRepository userEntityRepository;
-    private final UserDtoConverter userDtoConverter;
     private final CompositionRepository compositionRepository;
 
     @Override
@@ -125,7 +119,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
     }
 
    public UserEntity findByNick(String nick) {
-        return userEntityRepository.findFirstByNick(nick).orElseThrow(() -> new SingleEntityNotFoundException(nick, UserEntity.class));
+        return userEntityRepository.findByNick(nick).orElseThrow(() -> new SingleEntityNotFoundException(nick, UserEntity.class));
     }
 
     public void addCompositionToList(UserEntity user, UUID id) {
