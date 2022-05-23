@@ -1,5 +1,6 @@
 package com.finalProyect.CynthiaLabrador.users.model;
 
+import com.finalProyect.CynthiaLabrador.composition.model.Composition;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.*;
+import org.hibernate.annotations.Parameter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -29,17 +34,21 @@ public class UserEntity implements UserDetails {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class",
+                    @Parameter(
+                            name = "uuid_gen_strategy_class",
                             value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
                     )
             }
     )
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     private String name;
 
     private String lastName;
 
+    @NaturalId
+    @Column(unique = true,updatable = false)
     private String nick;
 
     @NaturalId
@@ -58,11 +67,12 @@ public class UserEntity implements UserDetails {
 
     private String city;
 
-    /*@OneToMany
-    private List<Champ> listaChamps= new ArrayList<>();*/
 
-    /*@OneToMany
-    private List<Champ> listaChampsFav= new ArrayList<>();*/
+    @OneToMany(mappedBy = "author")
+    private List<Composition> compositions = new ArrayList<>();
+
+   @OneToMany
+    private List<Composition> compositionsFav = new ArrayList<>();
 
     //HELPERS
 
