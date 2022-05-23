@@ -1,10 +1,8 @@
 # NiceTry
 ### Cynthia Labrador Caballero
 Proyecto Final DAM
-![image](https://cdn.discordapp.com/attachments/787363155494830091/913754037936087050/unknown.png)
 
-# Readme de REALESTATE
-### (BackEnd) 
+## Introducción
 
 > Con esta aplicación podrás gestionar, crear o borrar tus composiciones personalizadas con los
 > personajes de Teamfight Tactics.
@@ -16,6 +14,8 @@ Proyecto Final DAM
 
 ## Instalacion
 
+### (BackEnd)
+
 La Api está desplegada en Heroku pero si la quieres ejecutar en local es necesario disponer de una aplicación que permita ejecutar proyectos maven, un ejemplo podría ser un IDE como Intellij u otro cualquiera.
 Hacer un git clone de este repositorio y ejecutar la carpeta Backend.
 En la parte del Backend el proyecto está basado en Intellij y en java17.
@@ -23,6 +23,24 @@ URL en Heroku:
 ```sh
 https://nicetry-api.herokuapp.com/
 ```
+
+### (FrontEnd)
+Tendremos que descargar este repositorio.
+Una vez que tenemos el repositorio en nuestro ordenador, tendremos que ejecutar la consola y entrar en la carpeta finalProyect-cynthia
+
+Dentro de src hay que instalar primero los paquetes necesarios y tendremos que poner:
+```sh
+npm i
+```
+Una vez que termine de instalar los paquetes habrá que ejecutar el comando de:
+```sh
+ng serve -o
+```
+Esto arrancará en nuestro navegador por defecto el servidor, que está alojado en la ruta 4200 por defecto.
+
+
+La carpeta final_proyect_mobile_cynthia contiene la carpeta con la app desarrollada en flutter, para ejecutarla entrar en esta carpeta con un gestor de código como Visual Studio Code y ejecutar desde el main de la aplicación.
+
 
 ## Pomp
 
