@@ -1,0 +1,12 @@
+.row{
+  width: fit-content;
+  margin: auto;
+  color: purple;
+}
+
+::ng-deep .mat-menu-panel{
+  background-color: white;
+}
+::ng-deep .mat-menu-item {
+  color: purple;
+}

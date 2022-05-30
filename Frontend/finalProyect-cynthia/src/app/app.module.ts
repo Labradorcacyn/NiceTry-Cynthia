@@ -13,12 +13,14 @@ import { RouterModule } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { RegisterComponent } from './screens/register/register.component';
+import { NavbarComponent } from './screens/navbar/navbar.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

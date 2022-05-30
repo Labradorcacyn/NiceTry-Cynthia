@@ -1,0 +1,17 @@
+<div class="nav">
+  <div class="row">
+    <button mat-button [matMenuTriggerFor]="menu">Manage</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Users</button>
+      <button mat-menu-item>Champions</button>
+      <button mat-menu-item>Traits</button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="menu">Create</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Admin</button>
+      <button mat-menu-item>Champion</button>
+      <button mat-menu-item>Trait</button>
+    </mat-menu>
+    <button mat-button>Log out</button>
+  </div>
+</div>
