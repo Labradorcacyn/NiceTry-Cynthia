@@ -4,7 +4,6 @@ import com.finalProyect.CynthiaLabrador.composition.model.Composition;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -13,6 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@NamedEntityGraphs(
+        {
+                @NamedEntityGraph(
+                        name = "Comment.composition",
+                        attributeNodes = @NamedAttributeNode("composition")
+                ),
+                @NamedEntityGraph(
+                        name = "Comment.author",
+                        attributeNodes = @NamedAttributeNode("author")
+                )
+        }
+)
 @Entity
 @Table(name = "comments")
 @EntityListeners(AuditingEntityListener.class)

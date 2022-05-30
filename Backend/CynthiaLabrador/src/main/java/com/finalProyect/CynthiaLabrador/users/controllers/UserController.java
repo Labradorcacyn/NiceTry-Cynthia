@@ -55,6 +55,7 @@ public class UserController {
                     .collect(java.util.stream.Collectors.toList()));
         }
     }
+
     @Operation(summary = "Obtener todos los administradores")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -106,5 +107,12 @@ public class UserController {
         }   else {
             return ResponseEntity.badRequest().body("Composition not added to favorites");
         }
+    }
+    @Operation(summary = "Editar mi perfil de usuario")
+    @ApiResponse(responseCode = "200", description = "Se ha creado correctamente",
+            content = { @Content(mediaType = "application/json")})
+    @GetMapping("/myProfile")
+    public ResponseEntity<GetUserDto> getMyProfile(@AuthenticationPrincipal UserEntity userEntity) {
+        return ResponseEntity.ok(userDtoConverter.UserEntityToGetUserDto(userEntity));
     }
 }

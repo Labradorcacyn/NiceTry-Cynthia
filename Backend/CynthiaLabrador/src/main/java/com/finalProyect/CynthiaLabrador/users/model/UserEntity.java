@@ -68,7 +68,7 @@ public class UserEntity implements UserDetails {
     private String city;
 
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Composition> compositions = new ArrayList<>();
 
    @OneToMany

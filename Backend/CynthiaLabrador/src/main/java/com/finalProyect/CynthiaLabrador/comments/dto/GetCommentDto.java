@@ -15,6 +15,5 @@ public class GetCommentDto {
     private GetUserNameDto author;
     private GetCompositionDto composition;
     private String text;
-    private String createdAt;
     private List<String> votes;
 }
