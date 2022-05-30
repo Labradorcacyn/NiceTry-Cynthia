@@ -1,30 +1,50 @@
-form {
-  display: flex;
-  flex-direction: column;
+.card-content img{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.btn {
+  border-radius: 10px;
+  width: 150px;
+  height: 50px;
+  color: white;
+  background-color: rgb(248, 66, 193);
+  box-shadow: 2px 2px 6px 0.5px rgba(0, 0, 0, 0.1);
+  border-radius: 2em;
+}
+label {
+  color: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 1rem !important;
+}
+.card-body {
+  width: 100%;
+  padding: 1em 9.5em 0em;
+}
+::ng-deep input.mat-input-element {
+  color: white;
 }
 
-.login{
-  width: 40%;
+.card {
+  border-radius: 30px;
+  padding-bottom: 3rem;
+}
+.login-title {
+  color: white;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.5em;
+  margin: 0.5em 0em 1.5em;
+}
+.login-card{
+  padding-top: 12.5rem;
+  width: 18.75rem;
   margin: auto;
 }
-input{
-  width: 200px;
-  margin: 10px;
+.mat-form-field{
+  width: 100%;
 }
-
-.example-right-align {
-  text-align: right;
-}
-
-input.example-right-align::-webkit-outer-spin-button,
-input.example-right-align::-webkit-inner-spin-button {
-  display: none;
-}
-
-input.example-right-align {
-  -moz-appearance: textfield;
-}
-
-.example-container .mat-form-field + .mat-form-field {
-  margin-left: 8px;
+.mat-icon{
+  color: white;
 }

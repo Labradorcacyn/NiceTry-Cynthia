@@ -21,11 +21,11 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-doSignUp(){
-  this.authService.register(this.signUpDto).subscribe(data =>{
-      data.userRoles= 'ADMIN';
-  })
-}
+  doSignUp(){
+    this.authService.register(this.signUpDto).subscribe(data =>{
+        data.userRoles= 'ADMIN';
+    })
+  }
 
   public onFileSelected(event: any) {
     if (event.target.files && event.target.files[0]) {

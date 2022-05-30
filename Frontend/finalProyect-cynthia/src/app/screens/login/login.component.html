@@ -1,25 +1,35 @@
-<div layout="row" layout-align="center end">
-  <div>
-    <img src="" alt="">
+
+<section id="login">
+  <div class="container-fluid">
+      <div class="row full-height-vh m-0">
+          <div class="col-12 d-flex align-items-center justify-content-center">
+              <div class="card">
+                  <div class="card-content">
+                    <img src="assets/bg-login.png" class="login-img mx-auto d-block mb-2" />
+                    <div class="login-card">
+                    <h4 class="login-title">Login</h4>
+                    <div>
+                      <mat-form-field>
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Enter your email" [(ngModel)]="loginDto.email" name="email" required="required">
+                      </mat-form-field>
+                    </div>
+                    <div>
+                      <mat-form-field>
+                        <mat-label>Enter your password</mat-label>
+                        <input matInput [(ngModel)]="loginDto.password" name="password" required="required" [type]="hide ? 'password' : 'text'">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-block text-decoration-none text-white mb-1" type="submit"  mat-button (click)="doLogin()">Login</button>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
-
-  <div class="login">
-
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
-      <input matInput placeholder="Enter your email" [(ngModel)]="loginDto.email" name="email" required="required">
-      <mat-icon matSuffix>mail</mat-icon>
-    </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Enter your password</mat-label>
-        <input matInput [(ngModel)]="loginDto.password" name="password" required="required" [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-      </mat-form-field>
-  </div>
-</div>
-
-
-
+</section>
