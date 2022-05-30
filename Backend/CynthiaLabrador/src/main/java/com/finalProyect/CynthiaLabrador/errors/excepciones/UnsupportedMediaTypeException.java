@@ -10,4 +10,7 @@ public class UnsupportedMediaTypeException extends FileNotFoundException{
     }
 
 
+    public UnsupportedMediaTypeException(String archivo_vacio) {
+        super(String.format("El archivo %s no es soportado", archivo_vacio));
+    }
 }

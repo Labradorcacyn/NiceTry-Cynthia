@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface UserUniqueNick {
 
-    String message() default "El nommbre de usuario ya existe";
+    String message() default "This nick is already in use";
 
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

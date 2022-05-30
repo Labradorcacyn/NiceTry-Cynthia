@@ -10,8 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home_screen.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -132,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Image(
                 image: Image.asset('assets/images/logo-horizontal.png').image),
             Container(
-              margin: EdgeInsets.only(top: 50, bottom: 20),
+              margin: const EdgeInsets.only(top: 50, bottom: 20),
               child: Text(
                 'LOGIN',
                 style: textWhite16,
