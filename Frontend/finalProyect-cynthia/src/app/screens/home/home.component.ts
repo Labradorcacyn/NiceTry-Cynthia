@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CompositionResponse } from 'src/app/models/interfaces/composition.interface';
+import { CompositionService } from 'src/app/services/composition.service';
 
 @Component({
   selector: 'app-home',
@@ -7,10 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  compositions: CompositionResponse[] | undefined;
+  constructor(private compositionService: CompositionService) { }
 
   ngOnInit(): void {
-
+    this.compositionService.getCompositions().subscribe(data => {
+      this.compositions = data;
+    });
   }
 
 }

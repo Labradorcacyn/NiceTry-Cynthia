@@ -14,13 +14,17 @@ import { ToastrModule } from 'ngx-toastr';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { RegisterComponent } from './screens/register/register.component';
 import { NavbarComponent } from './screens/navbar/navbar.component';
+import { CompositionComponent } from './screens/composition/composition.component';
+import { ChampionComponent } from './screens/champion/champion.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    CompositionComponent,
+    ChampionComponent
   ],
   imports: [
     BrowserModule,

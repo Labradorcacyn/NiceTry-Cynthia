@@ -1,1 +1,5 @@
+<img src="assets/bg.png" class="img-bg mx-auto d-block mb-2" />
 <app-navbar></app-navbar>
+<div class="mt" *ngFor="let c of compositions">
+  <app-composition [composition]="c"></app-composition>
+</div>
