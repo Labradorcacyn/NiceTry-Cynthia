@@ -13,11 +13,18 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   logOut(){
     localStorage.removeItem('token');
     localStorage.removeItem('nombreUser');
     localStorage.removeItem('avatar');
     this.router.navigate(["/login"]);
+  }
+
+  createAdmin(){
+    this.router.navigate(["/register"]);
+  }
+
+  getUsers(){
+    this.router.navigate(["/users"]);
   }
 }

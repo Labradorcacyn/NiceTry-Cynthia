@@ -16,6 +16,8 @@ import { RegisterComponent } from './screens/register/register.component';
 import { NavbarComponent } from './screens/navbar/navbar.component';
 import { CompositionComponent } from './screens/composition/composition.component';
 import { ChampionComponent } from './screens/champion/champion.component';
+import { UsersListComponent } from './screens/users-list/users-list.component';
+import { UsersItemComponent } from './screens/users-item/users-item.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +26,9 @@ import { ChampionComponent } from './screens/champion/champion.component';
     HomeComponent,
     NavbarComponent,
     CompositionComponent,
-    ChampionComponent
+    ChampionComponent,
+    UsersListComponent,
+    UsersItemComponent
   ],
   imports: [
     BrowserModule,

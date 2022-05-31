@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { UsersResponse } from '../models/interfaces/users.interface';
 
 const DEFAULT_HEADERS = {
   headers: new HttpHeaders({
@@ -17,10 +18,10 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUsers() {
-    return this.http.get(`${environment.apiBaseUrl}/users`, DEFAULT_HEADERS);
+    return this.http.get<UsersResponse[]>(`${environment.apiBaseUrl}/users`, DEFAULT_HEADERS);
   }
 
   deleteUser(id: string) {
-    return this.http.delete(`${environment.apiBaseUrl}/user/${id}`, DEFAULT_HEADERS);
+    return this.http.delete<any>(`${environment.apiBaseUrl}/user/${id}`, DEFAULT_HEADERS);
   }
 }

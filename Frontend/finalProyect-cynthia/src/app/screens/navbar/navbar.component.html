@@ -2,13 +2,13 @@
   <div class="row">
     <button mat-button [matMenuTriggerFor]="menu">Manage</button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>Users</button>
+      <button mat-menu-item (click)=" getUsers()">Users</button>
       <button mat-menu-item>Champions</button>
       <button mat-menu-item>Traits</button>
     </mat-menu>
-    <button mat-button [matMenuTriggerFor]="menu">Create</button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>Admin</button>
+    <button mat-button [matMenuTriggerFor]="menu2">Create</button>
+    <mat-menu #menu2="matMenu">
+      <button (click)="createAdmin()" mat-menu-item>Admin</button>
       <button mat-menu-item>Champion</button>
       <button mat-menu-item>Trait</button>
     </mat-menu>

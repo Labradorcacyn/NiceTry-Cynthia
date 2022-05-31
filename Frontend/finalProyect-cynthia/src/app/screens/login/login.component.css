@@ -12,18 +12,20 @@
   box-shadow: 2px 2px 6px 0.5px rgba(0, 0, 0, 0.1);
   border-radius: 2em;
 }
-label {
-  color: transparent;
+mat-label {
+  color: white;
   font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 1rem !important;
 }
 .card-body {
   width: 100%;
   padding: 1em 9.5em 0em;
 }
 ::ng-deep input.mat-input-element {
-  color: white;
+  color: purple;
+  border-radius: 30px;
+  height: 50px;
+  box-shadow: 2px 2px 6px 0.5px rgba(0, 0, 0, 0.1);
+  background-color: plum;
 }
 
 .card {
@@ -47,4 +49,10 @@ label {
 }
 .mat-icon{
   color: white;
+}
+::ng-deep input:-internal-autofill-selected{
+  border-radius: 30px;
+  color: purple !important;
+  height: 50px;
+  box-shadow: 2px 2px 6px 0.5px rgba(0, 0, 0, 0.1);
 }
