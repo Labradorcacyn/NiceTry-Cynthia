@@ -1,0 +1,5 @@
+<img src="assets/bg.png" class="img-bg">
+<app-navbar></app-navbar>
+<div class="mt" *ngFor="let c of champions">
+  <app-champion-item [champion]="c"></app-champion-item>
+</div>

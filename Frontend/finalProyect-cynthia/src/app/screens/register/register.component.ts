@@ -12,6 +12,7 @@ import { RestService } from 'src/app/services/rest-service';
 export class RegisterComponent implements OnInit {
   imagenPrevia: any;
   files: any = []
+  url: any;
   loading: boolean | undefined;
   signUpDto = new AuthSignUpDto();
 
@@ -27,12 +28,12 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  public onFileSelected(event: any) {
+  readUrl(event:any) {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
 
       reader.onload = (event: ProgressEvent) => {
-       (<FileReader>event.target).result;
+        this.url = (<FileReader>event.target).result;
       }
 
       reader.readAsDataURL(event.target.files[0]);

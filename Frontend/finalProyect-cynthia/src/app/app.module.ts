@@ -18,6 +18,10 @@ import { CompositionComponent } from './screens/composition/composition.componen
 import { ChampionComponent } from './screens/champion/champion.component';
 import { UsersListComponent } from './screens/users-list/users-list.component';
 import { UsersItemComponent } from './screens/users-item/users-item.component';
+import { ChampionListComponent } from './screens/champion-list/champion-list.component';
+import { ChampionItemComponent } from './screens/champion-item/champion-item.component';
+import { TraitItemComponent } from './screens/trait-item/trait-item.component';
+import { TraitListComponent } from './screens/trait-list/trait-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +32,11 @@ import { UsersItemComponent } from './screens/users-item/users-item.component';
     CompositionComponent,
     ChampionComponent,
     UsersListComponent,
-    UsersItemComponent
+    UsersItemComponent,
+    ChampionListComponent,
+    ChampionItemComponent,
+    TraitItemComponent,
+    TraitListComponent
   ],
   imports: [
     BrowserModule,

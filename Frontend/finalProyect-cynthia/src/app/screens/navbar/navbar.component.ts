@@ -27,4 +27,16 @@ export class NavbarComponent implements OnInit {
   getUsers(){
     this.router.navigate(["/users"]);
   }
+
+  goHome(){
+    this.router.navigate(["/home"]);
+  }
+
+  getChampions(){
+    this.router.navigate(["/champions"]);
+  }
+
+  getTraits(){
+    this.router.navigate(["/traits"]);
+  }
 }

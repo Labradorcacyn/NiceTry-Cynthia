@@ -3,10 +3,23 @@
   margin: auto;
   color: purple;
 }
-
+img{
+  height: 100px;
+  margin-top: 15px;
+  position: relative;
+}
+.ml{
+  margin-left: 200px;
+}
+.mr{
+  margin-right: 400px;
+}
 ::ng-deep .mat-menu-panel{
   background-color: white;
 }
 ::ng-deep .mat-menu-item {
   color: purple;
+}
+.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button{
+  vertical-align: top;
 }

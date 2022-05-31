@@ -1,0 +1,10 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <img src="{{champion.avatar}}" alt="">
+    </div>
+    <mat-card-title>{{champion.name}}</mat-card-title>
+    <mat-card-subtitle>{{champion.cost}}</mat-card-subtitle>
+    <button (click)="deleteChampion(champion.id)"><mat-icon>delete</mat-icon></button>
+  </mat-card-header>
+</mat-card>

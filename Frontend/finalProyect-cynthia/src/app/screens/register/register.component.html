@@ -27,8 +27,9 @@
       <mat-label>Repeat Password</mat-label>
       <input matInput placeholder="Write your password" [(ngModel)]="signUpDto.password2" name="password2">
     </mat-form-field>
+
     <input type="file" [(ngModel)]="signUpDto.file" name="avatar" class="input-file"
-      (change)="onFileSelected($event)">
-      <img [src]="imagenPrevia">
+      (change)="readUrl($event)">
+    <img *ngIf="url != null" [src]="url">
     <button mat-raised-button color="primary" (click)="doSignUp()">Register</button>
 </form>

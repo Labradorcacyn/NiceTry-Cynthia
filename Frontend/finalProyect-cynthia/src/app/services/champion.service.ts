@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { ChampionResponse } from '../models/interfaces/champions.interface';
 
 
 const DEFAULT_HEADERS = {
@@ -17,7 +18,7 @@ export class ChampionService {
   constructor(private http: HttpClient) { }
 
   getChampions() {
-    return this.http.get(`${environment.apiBaseUrl}/champions`, DEFAULT_HEADERS);
+    return this.http.get<ChampionResponse[]>(`${environment.apiBaseUrl}/champions`, DEFAULT_HEADERS);
   }
 
   deleteChampion(id: string) {

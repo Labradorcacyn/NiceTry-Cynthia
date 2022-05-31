@@ -7,6 +7,10 @@
   border-radius: 20px;
 }
 
+.mat-card-subtitle{
+  color: purple;
+}
+
 .example-header-image {
   width: 150px;
   height: 150px;

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { TraitResponse } from '../models/interfaces/traits.interface';
 
 const DEFAULT_HEADERS = {
   headers: new HttpHeaders({
@@ -17,7 +18,7 @@ export class TraitService {
   constructor(private http: HttpClient) { }
 
   getTraits() {
-    return this.http.get(`${environment.apiBaseUrl}/traits`, DEFAULT_HEADERS);
+    return this.http.get<TraitResponse[]>(`${environment.apiBaseUrl}/traits`, DEFAULT_HEADERS);
   }
 
   deleteTrait(id: string) {
