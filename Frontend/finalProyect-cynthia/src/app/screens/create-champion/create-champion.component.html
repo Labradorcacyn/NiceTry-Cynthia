@@ -1,0 +1,23 @@
+<img src="assets/bg.png" class="img-bg">
+<app-navbar></app-navbar>
+<div class="container mt">
+  <h1>Create Champion</h1>
+  <div class="cont">
+    <div class="mid">
+      <img src="https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png" alt="">
+    </div>
+    <div class="mid">
+      <form>
+        <div class="form-style">
+          <label for="name">Name</label>
+          <input type="text" placeholder="Write the name" [(ngModel)]="championDto.name" name="name">
+        </div>
+        <div class="form-style">
+          <label for="cost">Cost</label>
+          <input placeholder="How much cost?" [(ngModel)]="championDto.cost" name="cost">
+        </div>
+        <button mat-raised-button color="primary" (click)="createChampion()">Save</button>
+      </form>
+    </div>
+  </div>
+</div>

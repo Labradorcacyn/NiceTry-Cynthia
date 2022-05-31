@@ -39,4 +39,12 @@ export class NavbarComponent implements OnInit {
   getTraits(){
     this.router.navigate(["/traits"]);
   }
+
+  createChampion(){
+    this.router.navigate(["/create-champion"]);
+  }
+
+  createTrait(){
+    this.router.navigate(["/create-trait"]);
+  }
 }

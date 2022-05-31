@@ -10,8 +10,8 @@
     <button mat-button [matMenuTriggerFor]="menu2">Create</button>
     <mat-menu #menu2="matMenu">
       <button (click)="createAdmin()" mat-menu-item>Admin</button>
-      <button mat-menu-item>Champion</button>
-      <button mat-menu-item>Trait</button>
+      <button mat-menu-item (click)="createChampion()">Champion</button>
+      <button mat-menu-item (click)="createTrait()">Trait</button>
     </mat-menu>
     <button class="mr" mat-button (click)="logOut()">Log out</button>
   </div>

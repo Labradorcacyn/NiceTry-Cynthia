@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { TraitDto } from '../models/dto/trait.dto';
 import { TraitResponse } from '../models/interfaces/traits.interface';
 
 const DEFAULT_HEADERS = {
@@ -25,8 +26,10 @@ export class TraitService {
     return this.http.delete(`${environment.apiBaseUrl}/trait/delete/${id}`, DEFAULT_HEADERS);
   }
 
-  createTrait(trait: any) {
-    return this.http.post(`${environment.apiBaseUrl}/trait/create`, trait, DEFAULT_HEADERS);
+  createTrait(trait: TraitDto) {
+    let params = new HttpParams().set('name', trait.name)
+    .set('description', trait.description)
+    return this.http.post(`${environment.apiBaseUrl}/trait/create`, {'params': params}, DEFAULT_HEADERS);
   }
 
   updateTrait(trait: any) {

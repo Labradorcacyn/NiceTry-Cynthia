@@ -22,6 +22,8 @@ import { ChampionListComponent } from './screens/champion-list/champion-list.com
 import { ChampionItemComponent } from './screens/champion-item/champion-item.component';
 import { TraitItemComponent } from './screens/trait-item/trait-item.component';
 import { TraitListComponent } from './screens/trait-list/trait-list.component';
+import { CreateChampionComponent } from './screens/create-champion/create-champion.component';
+import { CreateTraitComponent } from './screens/create-trait/create-trait.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +38,9 @@ import { TraitListComponent } from './screens/trait-list/trait-list.component';
     ChampionListComponent,
     ChampionItemComponent,
     TraitItemComponent,
-    TraitListComponent
+    TraitListComponent,
+    CreateChampionComponent,
+    CreateTraitComponent
   ],
   imports: [
     BrowserModule,
