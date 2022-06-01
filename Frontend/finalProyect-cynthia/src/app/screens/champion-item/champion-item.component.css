@@ -1,5 +1,6 @@
 .example-card {
-  width: 30%;
+  width: 40%;
+  min-width: 370px;
   margin: 30px auto;
   background-color: white;
   color: purple;
@@ -9,7 +10,8 @@
 
 .example-header-image {
   width: 150px;
-  height: 150px;
+  min-width: 150px;
+  height: fit-content;
   border-radius: 30px;
   background-size: cover;
 }
@@ -23,4 +25,12 @@ button{
 }
 .mat-icon{
   color: purple;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.but{
+  text-align: end
 }
