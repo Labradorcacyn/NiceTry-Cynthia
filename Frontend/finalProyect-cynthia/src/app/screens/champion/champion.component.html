@@ -1,3 +1,6 @@
-<img src="{{champion.avatar}}" alt="">
-<p>{{champion.name}}</p>
-
+<img class="champ" matTooltip="{{champion.name}}" src="assets/champions/TFT5_{{champion.name}}.png" alt="">
+<div class="row">
+  <div *ngFor="let c of champion.traits">
+    <img class="trait" matTooltip="{{c.name}}" src="assets/traits/{{c.name}}.png" alt="">
+  </div>
+</div>

@@ -17,5 +17,6 @@ export class CompositionComponent implements OnInit {
 
   deleteComposition(id: any) {
     this.compositionService.deleteComposition(id);
+    window.location.reload();
   }
 }
