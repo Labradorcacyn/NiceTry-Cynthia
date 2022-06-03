@@ -46,7 +46,7 @@
           <div class="row">
             <div class="register">
               <label>File</label>
-              <input type="file" [(ngModel)]="signUpDto.file" name="avatar" class="input-file"
+              <input type="file" [(ngModel)]="avatar" name="avatar" class="input-file"
               (change)="readUrl($event)">
             </div>
             <img class="img-selected" *ngIf="url != null" [src]="url">

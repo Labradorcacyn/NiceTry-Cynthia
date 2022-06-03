@@ -11,7 +11,8 @@ import { RestService } from 'src/app/services/rest-service';
 })
 export class RegisterComponent implements OnInit {
   imagenPrevia: any;
-  files: any = []
+  files: any = [];
+  avatar: string = '';
   url: any;
   loading: boolean | undefined;
   signUpDto = new AuthSignUpDto();
@@ -23,9 +24,7 @@ export class RegisterComponent implements OnInit {
   }
 
   doSignUp(){
-    this.authService.register(this.signUpDto).subscribe(data =>{
-        data.userRoles= 'ADMIN';
-    })
+    this.authService.register(this.signUpDto, this.avatar);
   }
 
   readUrl(event:any) {
