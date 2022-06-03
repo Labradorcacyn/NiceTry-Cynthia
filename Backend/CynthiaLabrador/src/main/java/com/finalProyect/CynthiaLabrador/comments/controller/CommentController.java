@@ -19,7 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -71,17 +73,15 @@ public class CommentController {
     })
     @DeleteMapping("{id}/comments/{idComment}")
     public ResponseEntity<?> deleteComment(@PathVariable UUID id, @PathVariable UUID idComment, @AuthenticationPrincipal UserEntity userEntity) {
-        Composition composition = compositionService.getById(id);
-        commentService.deleteComment(idComment, composition, userEntity);
-
-        composition.getComments().stream().map(comment -> {
-            if (!comment.getId().equals(idComment)) {
-                return ResponseEntity.ok().build();
-            }else {
-                return ResponseEntity.badRequest().build();
-            }
-        });
+        Optional<Composition> composition = compositionService.findById(id);
+        if (composition.isPresent()) {
+            commentService.deleteComment(idComment, composition.get(), userEntity);
+            composition.get().getComments().stream().map(c -> {
+                if (!c.getId().equals(idComment)) {
+                    return ResponseEntity.ok().build();
+                } else return ResponseEntity.badRequest().build();
+            });
+        }
         return ResponseEntity.notFound().build();
     }
-
 }

@@ -15,5 +15,4 @@ public class GetCommentDto {
     private GetUserNameDto author;
     private GetCompositionDto composition;
     private String text;
-    private List<String> votes;
 }

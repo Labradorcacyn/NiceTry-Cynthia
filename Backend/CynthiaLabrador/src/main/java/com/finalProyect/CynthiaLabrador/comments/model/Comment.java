@@ -58,11 +58,4 @@ public class Comment {
     @Lob
     @Column(name = "description", columnDefinition = "TEXT", length = 65535)
     private String text;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "votes")
-    @ElementCollection(targetClass=String.class)
-    private List<String> votes = new ArrayList<String>();
 }

@@ -7,6 +7,7 @@ import com.finalProyect.CynthiaLabrador.comments.repository.CommentRepository;
 import com.finalProyect.CynthiaLabrador.composition.model.Composition;
 import com.finalProyect.CynthiaLabrador.composition.repository.CompositionRepository;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
+import com.finalProyect.CynthiaLabrador.users.model.UserRoles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +39,13 @@ public class CommentService {
     }
 
     public void deleteComment(UUID id, Composition composition, UserEntity user) {
-        if (user.getId().equals(composition.getAuthor().getId()))
-            composition.getComments().removeIf(comment -> comment.getId().equals(id));
+        if (user.getId().equals(composition.getAuthor().getId()) || user.getUserRoles() == UserRoles.ADMIN) {
+            composition.getComments().forEach(c -> {
+                if (c.getId().equals(id)) {
+                    composition.getComments().remove(c);
+                    commentRepository.delete(c);
+                }
+            });
+        }
     }
-
 }
