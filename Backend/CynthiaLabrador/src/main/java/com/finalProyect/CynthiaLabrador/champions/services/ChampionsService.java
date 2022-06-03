@@ -43,25 +43,12 @@ public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepos
         return this.repository.findAll();
     }
 
-    public Champion saveChampion(CreateChampionDto createChampionDto, MultipartFile file) throws Exception {
-
-        List<String> extensiones = Arrays.asList("png", "gif", "jpg", "svg");
-        String archivo = StringUtils.cleanPath(file.getOriginalFilename());
-        String extension = StringUtils.getFilenameExtension(archivo);
-        if (file.isEmpty()) {
-            throw new FileNotFoundException();
-        } else if (extensiones.contains(extension)) {
-            String filename = storageService.escalar(file, 128);
-            String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/download/")
-                    .path(filename)
-                    .toUriString().replace("10.0.2.2", "localhost");
-
-                Champion champion = Champion.builder()
-                        .name(createChampionDto.getName())
-                        .avatar(uri)
-                        .cost(createChampionDto.getCost())
-                        .build();
+    public Champion saveChampion(CreateChampionDto createChampionDto) throws Exception {
+        Champion champion = Champion.builder()
+                .name(createChampionDto.getName())
+                .description(createChampionDto.getDescription())
+                .cost(createChampionDto.getCost())
+                .build();
 
                 List<Traits> traits = new ArrayList<>();
 
@@ -73,52 +60,24 @@ public class ChampionsService extends BaseService<Champion, UUID, ChampionsRepos
                 });
                 champion.setTraits(traits);
                 return save(champion);
-        } else {
-            throw new UnsupportedMediaTypeException(extensiones, MultipartFile.class);
-        }
     }
 
-    public Champion updateChampion(Champion champion, CreateChampionDto updateChampionDto, MultipartFile file) throws Exception {
-
-        List<String> extensiones = Arrays.asList("png", "gif", "jpg", "svg");
-        String archivo = StringUtils.cleanPath(file.getOriginalFilename());
-        String extension = StringUtils.getFilenameExtension(archivo);
-
-        if (file.isEmpty()) {
-            throw new FileNotFoundException();
-        } else if (extensiones.contains(extension)) {
-
-            String fileName = file.getOriginalFilename();
-            String s = champion.getAvatar().split("/")[4];
-
-            if(!s.equals(fileName)){
-                storageService.delete(s);
-                String filename = storageService.escalar(file, 128);
-                String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/download/")
-                        .path(filename)
-                        .toUriString().replace("10.0.2.2", "localhost");
-                champion.setAvatar(uri);
+    public Champion updateChampion(Champion champion, CreateChampionDto updateChampionDto) throws Exception {
+        champion.setName(updateChampionDto.getName());
+        champion.setCost(updateChampionDto.getCost());
+        List<Traits> traits = new ArrayList<>();
+        updateChampionDto.getTraitsUuid().forEach(trait -> {
+            Optional<Traits> t = traitsService.findById(trait);
+            if (t.isPresent()) {
+                traits.add(t.get());
             }
-            champion.setName(updateChampionDto.getName());
-            champion.setCost(updateChampionDto.getCost());
-            List<Traits> traits = new ArrayList<>();
-            updateChampionDto.getTraitsUuid().forEach(trait -> {
-                Optional<Traits> t = traitsService.findById(trait);
-                if (t.isPresent()) {
-                    traits.add(t.get());
-                }
-            });
-
+        });
             champion.setTraits(traits);
             return save(champion);
-        } else {
-            throw new UnsupportedMediaTypeException(extensiones, MultipartFile.class);
-        }
     }
 
+
     public Champion deleteChampion(Champion champion) throws ChampionNotFoundException, IOException {
-        storageService.delete(champion.getAvatar().split("/")[4]);
         this.repository.delete(champion);
         return champion;
     }

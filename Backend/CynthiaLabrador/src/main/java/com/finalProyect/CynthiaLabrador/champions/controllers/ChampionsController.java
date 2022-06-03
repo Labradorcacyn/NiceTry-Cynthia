@@ -45,15 +45,14 @@ public class ChampionsController {
                     content = @Content)
     })
     @PostMapping("champion/create")
-    public ResponseEntity<GetChampionDto> createChampion(@RequestPart("body") CreateChampionDto createChampionDto,
-                                                         @RequestPart("file") MultipartFile file) throws Exception {
+    public ResponseEntity<GetChampionDto> createChampion(@RequestBody CreateChampionDto createChampionDto) throws Exception {
 
         Champion champion = championDtoConverter.championDtoToGetChampion(createChampionDto);
 
         if (championsService.existByName(champion.getName()))
             return ResponseEntity.badRequest().build();
 
-        Champion saveChampion = championsService.saveChampion(createChampionDto, file);
+        Champion saveChampion = championsService.saveChampion(createChampionDto);
         if (saveChampion == null)
             return ResponseEntity.badRequest().build();
         else
@@ -130,12 +129,11 @@ public class ChampionsController {
     })
     @PutMapping("champion/update/{id}")
     public ResponseEntity<GetChampionDto> updateChampion(@PathVariable UUID id,
-                                                         @RequestPart("body") CreateChampionDto updateChampionDto,
-                                                         @RequestPart("file") MultipartFile file) throws Exception {
+                                                         @RequestBody CreateChampionDto updateChampionDto) throws Exception {
         Optional<Champion> ch = championsService.findById(id);
 
         if(ch.isPresent()){
-            Champion champion = championsService.updateChampion(ch.get(), updateChampionDto, file);
+            Champion champion = championsService.updateChampion(ch.get(), updateChampionDto);
             return ResponseEntity.ok(championDtoConverter.championToGetChampionDto(champion));
         }else {
             return ResponseEntity.notFound().build();

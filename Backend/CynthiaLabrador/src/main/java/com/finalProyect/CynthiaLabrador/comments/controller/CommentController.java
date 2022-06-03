@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -56,7 +55,7 @@ public class CommentController {
     @Operation(summary = "Crea un comentario", description = "Crea un comentario", tags = {"Comentarios"})
     @ApiResponse(responseCode = "201", description = "Se ha creado correctamente", content = { @Content(mediaType = "application/json")})
     @PostMapping("{id}/comment")
-    public ResponseEntity<GetCommentDto> createComment(@PathVariable UUID id, @RequestPart("body") CreateCommentDto comment, @AuthenticationPrincipal UserEntity userEntity) {
+    public ResponseEntity<GetCommentDto> createComment(@PathVariable UUID id, @RequestBody CreateCommentDto comment, @AuthenticationPrincipal UserEntity userEntity) {
         Composition composition = compositionService.getById(id);
         Comment com = commentService.createComment(composition, comment, userEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentDtoConverter.CommentToGetCommentDto(com));

@@ -45,15 +45,14 @@ public class TraitsController {
                     content = @Content)
     })
     @PostMapping("trait/create")
-    public ResponseEntity<GetTraitsDto> createTrait(@RequestPart("body") CreateTraitsDto createTraitsDto,
-                                                    @RequestPart("file") MultipartFile file) throws Exception {
+    public ResponseEntity<GetTraitsDto> createTrait(@RequestBody CreateTraitsDto createTraitsDto) throws Exception {
 
         Traits trait = traitsDtoConverter.traitDtoToGetTrait(createTraitsDto);
 
         if (traitsService.existByName(trait.getName()))
             return ResponseEntity.badRequest().build();
 
-        Traits saveTrait = traitsService.createTrait(createTraitsDto, file);
+        Traits saveTrait = traitsService.createTrait(createTraitsDto);
         if (saveTrait == null)
             return ResponseEntity.badRequest().build();
         else
@@ -129,12 +128,11 @@ public class TraitsController {
     })
     @PutMapping("trait/update/{id}")
     public ResponseEntity<GetTraitsDto> updateTrait(@PathVariable Long id,
-                                                         @RequestPart("body") CreateTraitsDto updateTraitsDto,
-                                                         @RequestPart("file") MultipartFile file) throws Exception {
+                                                         @RequestBody CreateTraitsDto updateTraitsDto) throws Exception {
         Optional<Traits> tra = traitsService.findById(id);
 
         if(tra.isPresent()){
-            Traits trait = traitsService.updateTrait(tra.get(), updateTraitsDto, file);
+            Traits trait = traitsService.updateTrait(tra.get(), updateTraitsDto);
             return ResponseEntity.ok(traitsDtoConverter.traitToGetTraitDto(trait));
         }else{
             return ResponseEntity.notFound().build();

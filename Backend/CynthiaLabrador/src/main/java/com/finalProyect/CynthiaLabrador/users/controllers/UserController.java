@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -93,26 +94,37 @@ public class UserController {
 
     @PutMapping("/composition/{id}/add")
     public ResponseEntity<?> addCompositionToList (@AuthenticationPrincipal UserEntity userEntity, @PathVariable UUID id) {
-        userEntityService.addCompositionToList(userEntity, id);
-        List<Composition> fav = userEntity.getCompositionsFav();
-        AtomicBoolean exist = new AtomicBoolean(false);
-        userEntity.getCompositions().forEach(composition -> {
+        Optional<UserEntity> user = userEntityService.findById(userEntity.getId());
 
-            if(composition.getId().equals(id)) {
-                exist.set(true);
+        if (user.isPresent()) {
+            userEntityService.addCompositionToList(user.get(), id);
+            List<Composition> fav = userEntity.getCompositionsFav();
+            AtomicBoolean exist = new AtomicBoolean(false);
+            userEntity.getCompositions().forEach(composition -> {
+
+                if(composition.getId().equals(id)) {
+                    exist.set(true);
+                }
+            });
+            if(exist.get()) {
+                return ResponseEntity.ok().build();
+            }   else {
+                return ResponseEntity.badRequest().build();
             }
-        });
-        if(exist.get()) {
-            return ResponseEntity.ok("Composition added to favorites");
-        }   else {
-            return ResponseEntity.badRequest().body("Composition not added to favorites");
-        }
+        }else
+            return ResponseEntity.notFound().build();
     }
-    @Operation(summary = "Editar mi perfil de usuario")
+
+    @Operation(summary = "Obtener mi perfil de usuario")
     @ApiResponse(responseCode = "200", description = "Se ha creado correctamente",
             content = { @Content(mediaType = "application/json")})
     @GetMapping("/myProfile")
     public ResponseEntity<GetUserDto> getMyProfile(@AuthenticationPrincipal UserEntity userEntity) {
-        return ResponseEntity.ok(userDtoConverter.UserEntityToGetUserDto(userEntity));
+        Optional<UserEntity> user = userEntityService.findById(userEntity.getId());
+        if (user.isPresent()) {
+            return ResponseEntity.ok(userDtoConverter.UserEntityToGetUserDto(user.get()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

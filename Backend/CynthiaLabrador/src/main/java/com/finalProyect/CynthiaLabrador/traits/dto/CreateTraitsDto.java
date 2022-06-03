@@ -14,7 +14,4 @@ public class CreateTraitsDto {
 
     @NotNull(message = "Description is required")
     private String description;
-
-    @NotNull(message = "Image is required")
-    private String avatar;
 }

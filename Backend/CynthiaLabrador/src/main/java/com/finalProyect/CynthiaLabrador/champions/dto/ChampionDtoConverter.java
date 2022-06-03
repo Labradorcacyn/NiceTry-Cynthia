@@ -18,8 +18,8 @@ public class ChampionDtoConverter {
         return GetChampionDto.builder()
                 .id(champion.getId())
                 .name(champion.getName())
-                .avatar(champion.getAvatar())
                 .cost(champion.getCost())
+                .description(champion.getDescription())
                 .traits(traitsDtoConverter.traitsToGetTraitsDto(champion.getTraits()))
                 .build();
     }
@@ -27,8 +27,8 @@ public class ChampionDtoConverter {
     public Champion championDtoToGetChampion(CreateChampionDto createChampionDto){
         return Champion.builder()
                 .name(createChampionDto.getName())
-                .avatar(createChampionDto.getAvatar())
                 .cost(createChampionDto.getCost())
+                .description(createChampionDto.getDescription())
                 .build();
     }
 

@@ -102,7 +102,7 @@ public class CompositionController {
                     content = @Content)
     })
     @PostMapping("/composition")
-    public ResponseEntity<GetCompositionDto> createComposition(@RequestPart("body") CreateCompositionDto createCompositionDto, @AuthenticationPrincipal UserEntity userEntity) {
+    public ResponseEntity<GetCompositionDto> createComposition(@RequestBody CreateCompositionDto createCompositionDto, @AuthenticationPrincipal UserEntity userEntity) {
         Composition composition = compositionService.createComposition(createCompositionDto, userEntity);
 
         if(compositionService.findById(composition.getId()).isEmpty()) {
@@ -121,7 +121,7 @@ public class CompositionController {
                     content = @Content)
     })
     @PutMapping("/composition/{id}")
-    public ResponseEntity<GetCompositionDto> updateComposition(@PathVariable UUID id, @RequestPart ("body") CreateCompositionDto createCompositionDto, @AuthenticationPrincipal UserEntity userEntity) {
+    public ResponseEntity<GetCompositionDto> updateComposition(@PathVariable UUID id, @RequestBody CreateCompositionDto createCompositionDto, @AuthenticationPrincipal UserEntity userEntity) {
         Composition c = compositionDtoConverter.compositionDtoToGetComposition(createCompositionDto);
         List<Champion> champions = new ArrayList<>();
         createCompositionDto.getChampions().forEach(champion -> {
@@ -200,13 +200,13 @@ public class CompositionController {
         Composition composition = compositionService.getCompositionById(id);
 
         if(!composition.getVotes().contains(userEntity.getNick())){
-            return ResponseEntity.badRequest().body("You haven't voted");
+            return ResponseEntity.badRequest().build();
         }
 
         if (composition == null) {
             return ResponseEntity.notFound().build();
         }
         compositionService.removeVote(id, userEntity);
-        return ResponseEntity.ok("Vote removed");
+        return ResponseEntity.ok().build();
     }
 }
