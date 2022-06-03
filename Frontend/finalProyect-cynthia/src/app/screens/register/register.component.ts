@@ -12,7 +12,7 @@ import { RestService } from 'src/app/services/rest-service';
 export class RegisterComponent implements OnInit {
   imagenPrevia: any;
   files: any = [];
-  avatar: string = '';
+  avatar: File | undefined;
   url: any;
   loading: boolean | undefined;
   signUpDto = new AuthSignUpDto();
@@ -24,18 +24,17 @@ export class RegisterComponent implements OnInit {
   }
 
   doSignUp(){
-    this.authService.register(this.signUpDto, this.avatar);
+    this.authService.register(this.signUpDto, this.avatar).subscribe(resp => {
+      console.log(resp);
+    }, err => {
+      console.log(err);
+    });
   }
 
   readUrl(event:any) {
     if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
 
-      reader.onload = (event: ProgressEvent) => {
-        this.url = (<FileReader>event.target).result;
-      }
-
-      reader.readAsDataURL(event.target.files[0]);
+      this.avatar = event.target.files[0];
     }
   }
 }

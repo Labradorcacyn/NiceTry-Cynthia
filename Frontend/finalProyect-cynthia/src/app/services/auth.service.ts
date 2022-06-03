@@ -25,17 +25,19 @@ export class AuthService {
     return this.http.post<AuthLoginResponse>(requestUrl, loginDto, DEFAULT_HEADERS);
   }
 
-  register(signUpDto: AuthSignUpDto, avatar:string): Observable<AuthSignUpResponse> {
-    const headers = {
+  register(signUpDto: AuthSignUpDto, avatar?:File): Observable<AuthSignUpResponse> {
 
-        'Content-Type': 'multipart/form-data',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        "Access-Control-Max-Age": "3600",
-        'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-      }
+    const headers = new HttpHeaders({
+      enctype: 'multipart/form-data',
+      Accept: 'application/json',
+      contentType: 'multipart/form-data'
+    });
 
-    let requestUrl = `${this.authBaseUrl}/register`;
+      let options = {
+        headers: headers,
+      };
+
+    let requestUrl = `${environment.apiBaseUrl}${AUTH_BASE_URL}/register`;
     //let body = JSON.stringify(signUpDto);
     var body = JSON.stringify({
       'nick': signUpDto.nick,
@@ -51,8 +53,8 @@ export class AuthService {
 
     const formData = new FormData();
     formData.append('body', body);
-    formData.append('file', avatar);
+    formData.append('file', avatar!);
 
-    return this.http.post<AuthSignUpResponse>(requestUrl, formData, { headers });
+    return this.http.post<AuthSignUpResponse>(requestUrl, formData, options);
   }
 }
