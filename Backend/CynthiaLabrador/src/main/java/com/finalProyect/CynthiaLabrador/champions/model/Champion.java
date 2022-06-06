@@ -41,7 +41,8 @@ public class Champion {
 
     private int cost;
 
-    private String avatar;
+    @Column(length = 10000)
+    private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "champion_traits",

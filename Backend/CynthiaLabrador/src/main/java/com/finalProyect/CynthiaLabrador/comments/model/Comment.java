@@ -4,15 +4,23 @@ import com.finalProyect.CynthiaLabrador.composition.model.Composition;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
+@NamedEntityGraphs(
+        {
+                @NamedEntityGraph(
+                        name = "Comment.composition",
+                        attributeNodes = @NamedAttributeNode("composition")
+                ),
+                @NamedEntityGraph(
+                        name = "Comment.author",
+                        attributeNodes = @NamedAttributeNode("author")
+                )
+        }
+)
 @Entity
 @Table(name = "comments")
 @EntityListeners(AuditingEntityListener.class)
@@ -44,14 +52,6 @@ public class Comment {
     @JoinColumn(name = "composition_id")
     private Composition composition;
 
-    @Lob
-    @Column(name = "description", columnDefinition = "TEXT", length = 65535)
+    @Column(length = 10000)
     private String text;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "votes")
-    @ElementCollection(targetClass=String.class)
-    private List<String> votes = new ArrayList<String>();
 }

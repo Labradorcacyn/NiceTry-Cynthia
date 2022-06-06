@@ -8,5 +8,7 @@ import java.util.UUID;
 
 public interface CommentRepository extends JpaRepository <Comment, UUID> {
 
+    List<Comment> findAll();
+
     List<Comment> findAllByCompositionId(UUID postId);
 }

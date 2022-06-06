@@ -20,8 +20,4 @@ public class CreateCommentDto {
 
     @NotNull(message = "Write a comment")
     private String text;
-
-    private LocalDateTime date = LocalDateTime.now();
-
-    private List<String> votes = null;
 }

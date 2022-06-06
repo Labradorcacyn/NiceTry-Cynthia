@@ -20,6 +20,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -54,7 +55,7 @@ public class CommentController {
     @Operation(summary = "Crea un comentario", description = "Crea un comentario", tags = {"Comentarios"})
     @ApiResponse(responseCode = "201", description = "Se ha creado correctamente", content = { @Content(mediaType = "application/json")})
     @PostMapping("{id}/comment")
-    public ResponseEntity<GetCommentDto> createComment(@PathVariable UUID id, @RequestPart("body") CreateCommentDto comment, @AuthenticationPrincipal UserEntity userEntity) {
+    public ResponseEntity<GetCommentDto> createComment(@PathVariable UUID id, @RequestBody CreateCommentDto comment, @AuthenticationPrincipal UserEntity userEntity) {
         Composition composition = compositionService.getById(id);
         Comment com = commentService.createComment(composition, comment, userEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentDtoConverter.CommentToGetCommentDto(com));
@@ -71,17 +72,15 @@ public class CommentController {
     })
     @DeleteMapping("{id}/comments/{idComment}")
     public ResponseEntity<?> deleteComment(@PathVariable UUID id, @PathVariable UUID idComment, @AuthenticationPrincipal UserEntity userEntity) {
-        Composition composition = compositionService.getById(id);
-        commentService.deleteComment(idComment, composition, userEntity);
-
-        composition.getComments().stream().map(comment -> {
-            if (!comment.getId().equals(idComment)) {
-                return ResponseEntity.ok().build();
-            }else {
-                return ResponseEntity.badRequest().build();
-            }
-        });
+        Optional<Composition> composition = compositionService.findById(id);
+        if (composition.isPresent()) {
+            commentService.deleteComment(idComment, composition.get(), userEntity);
+            composition.get().getComments().stream().map(c -> {
+                if (!c.getId().equals(idComment)) {
+                    return ResponseEntity.ok().build();
+                } else return ResponseEntity.badRequest().build();
+            });
+        }
         return ResponseEntity.notFound().build();
     }
-
 }

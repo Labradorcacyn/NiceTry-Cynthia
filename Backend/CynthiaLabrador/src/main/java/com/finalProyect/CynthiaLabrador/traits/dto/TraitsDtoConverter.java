@@ -12,7 +12,6 @@ public class TraitsDtoConverter {
         return GetTraitsDto.builder()
                 .id(traits.getId())
                 .name(traits.getName())
-                .avatar(traits.getAvatar())
                 .description(traits.getDescription())
                 .build();
     }
@@ -20,7 +19,6 @@ public class TraitsDtoConverter {
     public Traits traitDtoToGetTrait(CreateTraitsDto traitsDto){
         return Traits.builder()
                 .name(traitsDto.getName())
-                .avatar(traitsDto.getAvatar())
                 .description(traitsDto.getDescription())
                 .build();
     }
@@ -28,7 +26,6 @@ public class TraitsDtoConverter {
     public Traits TraitDtoToTrait(GetTraitsDto traitsDto){
         return Traits.builder()
                 .name(traitsDto.getName())
-                .avatar(traitsDto.getAvatar())
                 .description(traitsDto.getDescription())
                 .build();
     }
