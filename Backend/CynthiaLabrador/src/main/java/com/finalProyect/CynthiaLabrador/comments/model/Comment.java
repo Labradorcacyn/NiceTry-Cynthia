@@ -7,9 +7,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @NamedEntityGraphs(
@@ -55,7 +52,6 @@ public class Comment {
     @JoinColumn(name = "composition_id")
     private Composition composition;
 
-    @Lob
-    @Column(name = "description", columnDefinition = "TEXT", length = 65535)
+    @Column(length = 10000)
     private String text;
 }

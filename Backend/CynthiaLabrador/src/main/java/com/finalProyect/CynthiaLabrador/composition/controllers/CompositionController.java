@@ -8,6 +8,7 @@ import com.finalProyect.CynthiaLabrador.composition.dto.GetCompositionDto;
 import com.finalProyect.CynthiaLabrador.composition.model.Composition;
 import com.finalProyect.CynthiaLabrador.composition.services.CompositionService;
 import com.finalProyect.CynthiaLabrador.users.model.UserEntity;
+import com.finalProyect.CynthiaLabrador.users.services.UserEntityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -33,6 +35,7 @@ public class CompositionController {
     private final CompositionService compositionService;
     private final CompositionDtoConverter compositionDtoConverter;
     private final ChampionsService championsService;
+    private final UserEntityService userEntityService;
 
     @Operation(summary = "Obtiene las composiciones de un usuario", description = "Obtiene las composiciones de un usuario", tags = {"Composiciones"})
     @ApiResponses(value = {
@@ -103,12 +106,17 @@ public class CompositionController {
     })
     @PostMapping("/composition")
     public ResponseEntity<GetCompositionDto> createComposition(@RequestBody CreateCompositionDto createCompositionDto, @AuthenticationPrincipal UserEntity userEntity) {
-        Composition composition = compositionService.createComposition(createCompositionDto, userEntity);
+        Optional<UserEntity> user = userEntityService.findById(userEntity.getId());
 
-        if(compositionService.findById(composition.getId()).isEmpty()) {
-            return ResponseEntity.badRequest().build();
+        if(user.isPresent()){
+            Composition composition = compositionService.createComposition(createCompositionDto, userEntity);
+
+            if(compositionService.findById(composition.getId()).isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }else
+                return ResponseEntity.status(HttpStatus.CREATED).body(compositionDtoConverter.compositionToGetCompositionDto(composition));
         }else
-            return ResponseEntity.status(HttpStatus.CREATED).body(compositionDtoConverter.compositionToGetCompositionDto(composition));
+            return ResponseEntity.notFound().build();
     }
 
     @Operation(summary = "Actualizar una nueva composicion", description = "Actualizar una nueva composicion", tags = {"Composiciones"})
@@ -131,12 +139,18 @@ public class CompositionController {
             }
         });
         c.setChampions(champions);
-        Composition composition = compositionService.updateComposition(c, id, userEntity);
 
-        if (composition == null) {
-            return ResponseEntity.badRequest().build();
+        Optional<UserEntity> user = userEntityService.findById(userEntity.getId());
+
+        if(user.isPresent()){
+            Composition composition = compositionService.updateComposition(c, id, userEntity);
+
+            if (composition == null) {
+                return ResponseEntity.badRequest().build();
+            }else
+                return ResponseEntity.ok(compositionDtoConverter.compositionToGetCompositionDto(composition));
         }else
-            return ResponseEntity.ok(compositionDtoConverter.compositionToGetCompositionDto(composition));
+            return ResponseEntity.notFound().build();
     }
 
     @Operation(summary = "Borra una composicion", description = "Borra una composicion", tags = {"Composiciones"})
@@ -151,15 +165,19 @@ public class CompositionController {
     @DeleteMapping("/composition/{id}")
     public ResponseEntity<?> deleteComposition(@PathVariable UUID id, @AuthenticationPrincipal UserEntity userEntity) {
         Composition c = compositionService.getCompositionById(id);
-        if (c == null) {
+        Optional<UserEntity> user = userEntityService.findById(userEntity.getId());
+        if(user.isPresent()){
+            if (c == null) {
+                return ResponseEntity.notFound().build();
+            }
+            if (!c.getAuthor().getNick().equals(user.get().getNick())){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }else{
+                compositionService.deleteComposition(id, user.get());
+                return ResponseEntity.ok().build();
+            }
+        }else
             return ResponseEntity.notFound().build();
-        }
-        if (!c.getAuthor().getNick().equals(userEntity.getNick())){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }else{
-            compositionService.deleteComposition(id, userEntity);
-            return ResponseEntity.ok().build();
-        }
     }
 
     @Operation(summary = "Votar una composicion", description = "Votar una composicion", tags = {"Composiciones"})

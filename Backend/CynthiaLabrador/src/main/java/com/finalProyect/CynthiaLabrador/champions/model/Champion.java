@@ -41,7 +41,7 @@ public class Champion {
 
     private int cost;
 
-    @Column(length = 1000)
+    @Column(length = 10000)
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)

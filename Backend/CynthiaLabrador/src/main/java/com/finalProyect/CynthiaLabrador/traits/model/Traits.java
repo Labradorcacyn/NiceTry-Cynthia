@@ -24,7 +24,7 @@ public class Traits {
     @Column(unique = true,updatable = false)
     private String name;
 
-    @Column(length = 1000)
+    @Column(length = 10000)
     private String description;
 
     @ManyToMany(mappedBy = "traits")
