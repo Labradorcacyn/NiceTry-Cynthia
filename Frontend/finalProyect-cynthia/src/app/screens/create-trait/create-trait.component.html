@@ -1,23 +1,25 @@
-<img src="assets/bg.png" class="img-bg">
-<app-navbar></app-navbar>
-<div class="container mt">
-  <h1>Create Trait</h1>
-  <div class="cont">
-    <div class="mid">
-      <img src="https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png" alt="">
-    </div>
-    <div class="mid">
-      <form>
-        <div class="form-style">
-          <label for="name">Name</label>
-          <input type="text" placeholder="Write the name" [(ngModel)]="traitDto.name" name="name">
-        </div>
-        <div class="form-style">
-          <label for="description">Description</label>
-          <textarea placeholder="Write the description" [(ngModel)]="traitDto.description" name="description">  </textarea>
-        </div>
-        <button mat-raised-button color="primary" (click)="createTrait()">Save</button>
-      </form>
+<div class="page">
+  <app-navbar></app-navbar>
+  <div class="container mt">
+    <h1 *ngIf="trait==null">Create Trait</h1>
+    <h1 *ngIf="trait!=null">Edit Trait</h1>
+    <div class="cont">
+      <div class="mid">
+        <img src="https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png" alt="">
+      </div>
+      <div class="mid">
+        <form>
+          <div class="form-style">
+            <label for="name">Name</label>
+            <input type="text" placeholder="Write the name" [(ngModel)]="trait.name" name="name">
+          </div>
+          <div class="form-style">
+            <label for="description">Description</label>
+            <textarea placeholder="Write the description" [(ngModel)]="trait.description" name="description"></textarea>
+          </div>
+          <button mat-raised-button color="primary" (click)="addTrait()">Save</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

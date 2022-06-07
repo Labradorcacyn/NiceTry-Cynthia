@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ChampionService } from 'src/app/services/champion.service';
 
 @Component({
@@ -10,12 +12,17 @@ export class ChampionItemComponent implements OnInit {
 
   @Input() champion: any;
 
-  constructor(private championService: ChampionService) { }
+  constructor(private championService: ChampionService, private toastSvc: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   deleteChampion(id: string) {
-    this.championService.deleteChampion(id);
+    this.championService.deleteChampion(id).subscribe(
+      (res: any) => {
+        this.toastSvc.success('Eliminated champion', 'Éxito');
+        window.location.reload();
+      }
+    );
   }
 }

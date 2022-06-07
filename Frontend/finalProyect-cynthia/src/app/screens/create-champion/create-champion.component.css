@@ -1,7 +1,13 @@
+.page{
+  background-image: url('../../../assets/bg.png');
+  background-size: cover;
+  height: 100vh;
+}
 .container{
   margin: auto;
   width: 70%;
-  height: 400px;
+  height: fit-content;
+  padding-bottom: 50px;
   background-color: plum;
   border-radius: 30px;
 }
@@ -48,6 +54,8 @@ textarea{
 .mid{
   width: 50%;
 }
-.mid img{
-  margin-left: 5rem;
+
+.trait{
+  height: 50px;
+  margin-left: 1rem;
 }

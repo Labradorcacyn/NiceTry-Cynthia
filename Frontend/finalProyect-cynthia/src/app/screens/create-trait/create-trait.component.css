@@ -1,3 +1,8 @@
+.page{
+  background-image: url('../../../assets/bg.png');
+  background-size: cover;
+  height: 100vh;
+}
 .container{
   margin: auto;
   width: 70%;

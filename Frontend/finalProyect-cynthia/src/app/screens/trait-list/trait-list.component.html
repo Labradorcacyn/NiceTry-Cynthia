@@ -1,5 +1,8 @@
-<img src="assets/bg.png" class="img-bg">
+<div class="page">
 <app-navbar></app-navbar>
-<div *ngFor="let t of traits">
+<input type="text" placeholder="Search" [(ngModel)]="nameTr" (change)="getName()" name="name">
+<div *ngFor="let t of filtered | paginate: {itemsPerPage: 5, currentPage: p}">
   <app-trait-item [trait]="t"></app-trait-item>
+</div>
+<pagination-controls (pageChange)="p = $event" previousLabel="Previous" nextLabel="Next"></pagination-controls>
 </div>

@@ -18,7 +18,9 @@ const routes: Routes = [
   { path: 'champions', component:ChampionListComponent},
   { path: 'traits', component:TraitListComponent},
   { path: 'create-champion', component:CreateChampionComponent},
+  { path: 'champions/edit-champion/:id', component:CreateChampionComponent},
   { path: 'create-trait', component:CreateTraitComponent},
+  { path: 'traits/edit-trait/:id', component:CreateTraitComponent},
 
 
   { path: '', pathMatch: 'full', redirectTo: '/login'},

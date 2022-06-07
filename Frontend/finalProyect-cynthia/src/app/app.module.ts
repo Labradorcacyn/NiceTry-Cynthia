@@ -24,6 +24,7 @@ import { TraitItemComponent } from './screens/trait-item/trait-item.component';
 import { TraitListComponent } from './screens/trait-list/trait-list.component';
 import { CreateChampionComponent } from './screens/create-champion/create-champion.component';
 import { CreateTraitComponent } from './screens/create-trait/create-trait.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +53,7 @@ import { CreateTraitComponent } from './screens/create-trait/create-trait.compon
     HttpClientModule,
     MatFormFieldModule,
     RouterModule,
+    NgxPaginationModule,
     ToastrModule.forRoot()
   ],
   providers: [],

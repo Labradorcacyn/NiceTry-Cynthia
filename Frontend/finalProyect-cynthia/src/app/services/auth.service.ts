@@ -8,7 +8,11 @@ import { AuthLoginResponse, AuthSignUpResponse } from '../models/interfaces/auth
 const AUTH_BASE_URL = '/auth';
 const DEFAULT_HEADERS = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '3600',
+    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
   })
 }
 
@@ -49,7 +53,7 @@ export class AuthService {
       'avatar': signUpDto.avatar,
       'password': signUpDto.password,
       'password2': signUpDto.password2
-    }); 
+    });
 
     const formData = new FormData();
     formData.append('body', body);

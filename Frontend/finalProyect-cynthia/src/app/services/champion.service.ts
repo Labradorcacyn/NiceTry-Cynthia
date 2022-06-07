@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { TraitDto } from '../models/dto/trait.dto';
 import { ChampionResponse } from '../models/interfaces/champions.interface';
 
 
@@ -22,14 +24,18 @@ export class ChampionService {
   }
 
   deleteChampion(id: string) {
-    return this.http.delete(`${environment.apiBaseUrl}/champion/delete/${id}`, DEFAULT_HEADERS);
+    return this.http.delete<any>(`${environment.apiBaseUrl}/champion/delete/${id}`, DEFAULT_HEADERS);
   }
 
-  createChampion(champion: any) {
-    return this.http.post(`${environment.apiBaseUrl}/champion/create`, champion, DEFAULT_HEADERS);
+  createChampion(champion: TraitDto):Observable<ChampionResponse> {
+    return this.http.post<ChampionResponse>(`${environment.apiBaseUrl}/champion/create`, champion, DEFAULT_HEADERS);
   }
 
-  updateChampion(champion: any) {
-    return this.http.put(`${environment.apiBaseUrl}/champion/update/${champion.id}`, champion, DEFAULT_HEADERS);
+  updateChampion(champion: TraitDto, id: string):Observable<ChampionResponse> {
+    return this.http.put<ChampionResponse>(`${environment.apiBaseUrl}/champion/update/${id}`, champion, DEFAULT_HEADERS);
+  }
+
+  getChampion(id: string): Observable<ChampionResponse> {
+    return this.http.get<ChampionResponse>(`${environment.apiBaseUrl}/champion/${id}`, DEFAULT_HEADERS);
   }
 }

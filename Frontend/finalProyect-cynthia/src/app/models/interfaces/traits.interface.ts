@@ -4,3 +4,9 @@ export interface TraitResponse {
   description: string;
   avatar: string;
 }
+
+export interface CreateTraitResponse {
+  id: number;
+  name: string;
+  description: string;
+}

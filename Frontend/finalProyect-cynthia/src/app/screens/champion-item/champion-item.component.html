@@ -7,7 +7,7 @@
       <mat-card-title>{{champion.name}}</mat-card-title>
       <div class="but">
         <button (click)="deleteChampion(champion.id)"><mat-icon>delete</mat-icon></button>
-        <button (click)="deleteChampion(champion.id)"><mat-icon>edit</mat-icon></button>
+        <button [routerLink]="['edit-champion/', champion.id]"><mat-icon>edit</mat-icon></button>
       </div>
     </div>
     <mat-card-subtitle>{{champion.cost}}</mat-card-subtitle>

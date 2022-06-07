@@ -9,14 +9,21 @@ import { TraitService } from 'src/app/services/trait.service';
 })
 export class TraitListComponent implements OnInit {
 
-  traits: TraitResponse[] | undefined;
+  traits!: TraitResponse[];
+  filtered!: TraitResponse[];
+  nameTr!: string;
+  p!: number;
 
   constructor(private traitService: TraitService) { }
 
   ngOnInit(): void {
     this.traitService.getTraits().subscribe(traits => {
       this.traits = traits;
+      this.filtered = traits;
     });
   }
 
+  getName(){
+      this.filtered = this.traits.filter((tr) => tr.name.toLowerCase().includes(this.nameTr.toLowerCase()));
+  }
 }
