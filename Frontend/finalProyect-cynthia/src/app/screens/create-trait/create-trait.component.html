@@ -1,11 +1,12 @@
 <div class="page">
   <app-navbar></app-navbar>
   <div class="container mt">
-    <h1 *ngIf="trait==null">Create Trait</h1>
-    <h1 *ngIf="trait!=null">Edit Trait</h1>
+    <h1 *ngIf="idEdit==null">Create Trait</h1>
+    <h1 *ngIf="idEdit!=null">Edit Trait</h1>
     <div class="cont">
-      <div class="mid">
-        <img src="https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png" alt="">
+      <div class="mid img-container">
+        <img *ngIf="idEdit == null" src="https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png" alt="">
+        <img *ngIf="idEdit != null" class="champ" src="assets/traits/{{trait.name}}.png" alt="">
       </div>
       <div class="mid">
         <form>

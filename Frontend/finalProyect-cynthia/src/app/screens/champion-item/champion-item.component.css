@@ -1,13 +1,12 @@
 .example-card {
   width: 40%;
-  min-width: 370px;
+  min-width: 500px;
   margin: 30px auto;
   background-color: white;
   color: purple;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 20px;
 }
-
 .example-header-image {
   width: 150px;
   min-width: 150px;
@@ -15,7 +14,6 @@
   border-radius: 30px;
   background-size: cover;
 }
-
 button{
   border: none;
   background-color: transparent;
@@ -33,4 +31,14 @@ button{
 }
 .but{
   text-align: end
+}
+.content{
+  width: 60%;
+}
+.mat-card-subtitle{
+  color: purple;
+}
+.trait-img{
+  height: 40px;
+  margin: 10px;
 }

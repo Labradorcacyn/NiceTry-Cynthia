@@ -1,10 +1,12 @@
 <div class="page">
   <app-navbar></app-navbar>
   <div class="container mt">
-    <h1>Create Champion</h1>
+    <h1 *ngIf="idEdit == null">Create Champion</h1>
+    <h1 *ngIf="idEdit != null">Edit Champion</h1>
     <div class="cont">
-      <div class="mid">
-        <img src="https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png" alt="">
+      <div class="mid img-container">
+        <img class="img-ch" *ngIf="idEdit == null" src="https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png" alt="">
+        <img class="img-ch" *ngIf="idEdit != null" src="assets/champions/TFT5_{{championDto.name}}.png" alt="">
       </div>
       <div class="mid">
         <form>
@@ -26,7 +28,7 @@
               <mat-checkbox (change)="onChkChange($event, t)" *ngFor="let t of traits" value="{{t.id}}"><img class="trait" matTooltip="{{t.name}}" src="assets/traits/{{t.name}}.png" alt=""></mat-checkbox>
             </section>
           </div>
-          <button mat-raised-button color="primary" (click)="createChampion()">Save</button>
+          <button mat-raised-button color="primary" (click)="addChampion()">Save</button>
         </form>
       </div>
     </div>

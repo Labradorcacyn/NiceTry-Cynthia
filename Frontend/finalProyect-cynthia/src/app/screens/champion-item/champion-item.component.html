@@ -4,7 +4,13 @@
       <img class="champ" src="assets/champions/TFT5_{{champion.name}}.png" alt="">
     </div>
     <div class="row">
-      <mat-card-title>{{champion.name}}</mat-card-title>
+      <div class="content">
+        <mat-card-title>{{champion.name}}</mat-card-title>
+        <mat-card-subtitle>{{champion.description}}</mat-card-subtitle>
+        <div class="trait">
+          <img *ngFor="let t of champion.traits" class="trait-img" matTooltip="{{t.name}}" src="assets/traits/{{t.name}}.png" alt="">
+        </div>
+      </div>
       <div class="but">
         <button (click)="deleteChampion(champion.id)"><mat-icon>delete</mat-icon></button>
         <button [routerLink]="['edit-champion/', champion.id]"><mat-icon>edit</mat-icon></button>
