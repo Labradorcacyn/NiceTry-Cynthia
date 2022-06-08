@@ -13,12 +13,35 @@ import { RouterModule } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { RegisterComponent } from './screens/register/register.component';
+import { NavbarComponent } from './screens/navbar/navbar.component';
+import { CompositionComponent } from './screens/composition/composition.component';
+import { ChampionComponent } from './screens/champion/champion.component';
+import { UsersListComponent } from './screens/users-list/users-list.component';
+import { UsersItemComponent } from './screens/users-item/users-item.component';
+import { ChampionListComponent } from './screens/champion-list/champion-list.component';
+import { ChampionItemComponent } from './screens/champion-item/champion-item.component';
+import { TraitItemComponent } from './screens/trait-item/trait-item.component';
+import { TraitListComponent } from './screens/trait-list/trait-list.component';
+import { CreateChampionComponent } from './screens/create-champion/create-champion.component';
+import { CreateTraitComponent } from './screens/create-trait/create-trait.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    NavbarComponent,
+    CompositionComponent,
+    ChampionComponent,
+    UsersListComponent,
+    UsersItemComponent,
+    ChampionListComponent,
+    ChampionItemComponent,
+    TraitItemComponent,
+    TraitListComponent,
+    CreateChampionComponent,
+    CreateTraitComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +53,7 @@ import { RegisterComponent } from './screens/register/register.component';
     HttpClientModule,
     MatFormFieldModule,
     RouterModule,
+    NgxPaginationModule,
     ToastrModule.forRoot()
   ],
   providers: [],

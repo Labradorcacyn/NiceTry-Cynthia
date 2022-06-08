@@ -11,7 +11,9 @@ import { RestService } from 'src/app/services/rest-service';
 })
 export class RegisterComponent implements OnInit {
   imagenPrevia: any;
-  files: any = []
+  files: any = [];
+  avatar: File | undefined;
+  url: any;
   loading: boolean | undefined;
   signUpDto = new AuthSignUpDto();
 
@@ -21,21 +23,18 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-doSignUp(){
-  this.authService.register(this.signUpDto).subscribe(data =>{
-      data.userRoles= 'ADMIN';
-  })
-}
+  doSignUp(){
+    this.authService.register(this.signUpDto, this.avatar).subscribe(resp => {
+      console.log(resp);
+    }, err => {
+      console.log(err);
+    });
+  }
 
-  public onFileSelected(event: any) {
+  readUrl(event:any) {
     if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
 
-      reader.onload = (event: ProgressEvent) => {
-       (<FileReader>event.target).result;
-      }
-
-      reader.readAsDataURL(event.target.files[0]);
+      this.avatar = event.target.files[0];
     }
   }
 }

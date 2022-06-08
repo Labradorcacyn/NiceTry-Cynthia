@@ -1,0 +1,26 @@
+<div class="page">
+  <app-navbar></app-navbar>
+  <div class="container mt">
+    <h1 *ngIf="idEdit==null">Create Trait</h1>
+    <h1 *ngIf="idEdit!=null">Edit Trait</h1>
+    <div class="cont">
+      <div class="mid img-container">
+        <img *ngIf="idEdit == null" src="https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png" alt="">
+        <img *ngIf="idEdit != null" class="champ" src="assets/traits/{{trait.name}}.png" alt="">
+      </div>
+      <div class="mid">
+        <form>
+          <div class="form-style">
+            <label for="name">Name</label>
+            <input type="text" placeholder="Write the name" [(ngModel)]="trait.name" name="name">
+          </div>
+          <div class="form-style">
+            <label for="description">Description</label>
+            <textarea placeholder="Write the description" [(ngModel)]="trait.description" name="description"></textarea>
+          </div>
+          <button mat-raised-button color="primary" (click)="addTrait()">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
