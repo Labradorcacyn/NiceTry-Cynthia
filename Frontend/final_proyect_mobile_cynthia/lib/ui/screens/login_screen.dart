@@ -104,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
       prefs.setString('token', late.token);
       prefs.setString('id', late.id);
       prefs.setString('avatar', late.avatar);
+      prefs.setString('nick', late.nick);
 
       Navigator.push(
         context,
