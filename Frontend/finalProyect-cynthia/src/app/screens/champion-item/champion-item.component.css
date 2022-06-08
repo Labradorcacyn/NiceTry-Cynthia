@@ -1,0 +1,45 @@
+.example-card {
+  width: 40%;
+  min-width: 500px;
+  margin: 30px auto;
+  background-color: white;
+  color: purple;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 20px;
+}
+.example-header-image {
+  width: 150px;
+  min-width: 150px;
+  height: fit-content;
+  border-radius: 30px;
+  background-size: cover;
+}
+button{
+  border: none;
+  background-color: transparent;
+}
+.mat-card-content{
+  align-items: flex-end;
+}
+.mat-icon{
+  color: purple;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.but{
+  text-align: end
+}
+.content{
+  width: 60%;
+  padding-left: 50px;
+}
+.mat-card-subtitle{
+  color: purple;
+}
+.trait-img{
+  height: 40px;
+  margin: 10px;
+}

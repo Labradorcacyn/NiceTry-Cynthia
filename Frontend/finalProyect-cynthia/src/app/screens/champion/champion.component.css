@@ -1,0 +1,14 @@
+.champ{
+  height: 50px;
+}
+p{
+  font-size: 14px;
+  color: purple;
+}
+.trait{
+  height: 20px;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+}

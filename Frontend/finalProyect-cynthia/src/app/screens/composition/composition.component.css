@@ -1,0 +1,13 @@
+.example-card {
+  width: 90%;
+  margin: auto;
+  background-color: white;
+  color: purple;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 20px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}

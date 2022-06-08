@@ -14,6 +14,6 @@ public class GetChampionDto {
     private UUID id;
     private String name;
     private int cost;
+    private String description;
     private List<GetTraitsDto> traits;
-    private String avatar;
 }

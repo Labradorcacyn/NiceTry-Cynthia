@@ -1,6 +1,71 @@
-form {
+#register{
+  background-image: url('../../../assets/bg-login.png');
+  background-size: cover;
+  height: 100vh;
+}
+.btn {
+  border-radius: 10px;
+  width: 60%;
+  height: 40px;
+  color: white;
+  background-color: rgb(248, 66, 193);
+  box-shadow: 2px 2px 6px 0.5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+.card-body {
+  width: 100%;
+  padding: 1em 9.5em 0em;
+}
+.register-title {
+  color: white;
+  font-weight: 500;
+  font-size: 1.5em;
+  margin: 0.5em 0em 1.5em;
+}
+.register-card{
+  padding-top: 9rem;
+  width: 30rem;
+  margin: auto;
+}
+form{
+  width: 100%;
+}
+mat-icon{
+  color: white;
+}
+.register{
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
 }
-
+label{
+  color: white;
+  font-size: 0.7rem;
+}
+input{
+  width: 80%;
+  height: 50px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border-radius: 30px;
+  padding-left: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  border-color: blueviolet;
+  color: white;
+  border: -9px;
+}
+.button-btn{
+  text-align: center;
+  width: 85%;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.mid{
+  width: 50%;
+}
+.img-selected{
+  height: 60px;
+}

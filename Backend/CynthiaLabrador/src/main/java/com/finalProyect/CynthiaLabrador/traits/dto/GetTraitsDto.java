@@ -9,6 +9,4 @@ public class GetTraitsDto {
     private Long id;
     private String name;
     private String description;
-    private String avatar;
-
 }

@@ -1,0 +1,41 @@
+.example-card {
+  width: 40%;
+  min-width: 500px;
+  margin: 30px auto;
+  background-color: white;
+  color: purple;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 20px;
+}
+.mat-card-subtitle{
+  color: purple;
+}
+.example-header-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 30px;
+  background-size: cover;
+}
+button{
+  border: none;
+  background-color: transparent;
+}
+.mat-card-content{
+  align-items: flex-end;
+}
+.mat-icon{
+  color: purple;
+}
+.content{
+  width: 60%;
+}
+.example-header-image{
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  display: flex;
+}
+img{
+  height: 100px;
+}
+

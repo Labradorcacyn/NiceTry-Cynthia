@@ -1,0 +1,15 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <img class="champ" src="assets/traits/{{trait.name}}.png" alt="">
+    </div>
+    <div class="content">
+      <mat-card-title>{{trait.name}}</mat-card-title>
+      <mat-card-subtitle>{{trait.description}}</mat-card-subtitle>
+    </div>
+    <div class="buttom">
+      <button (click)="deleteTrait(trait.id)"><mat-icon>delete</mat-icon></button>
+      <button [routerLink]="['edit-trait/', trait.id]"><mat-icon>edit</mat-icon></button>
+    </div>
+  </mat-card-header>
+</mat-card>

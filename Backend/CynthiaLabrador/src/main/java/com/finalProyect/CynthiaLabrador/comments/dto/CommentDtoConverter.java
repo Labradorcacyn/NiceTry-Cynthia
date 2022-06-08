@@ -28,7 +28,6 @@ public class CommentDtoConverter {
     public Comment CreateCommentToComment(CreateCommentDto createCommentDto) {
         return Comment.builder()
                 .text(createCommentDto.getText())
-                .createdAt(createCommentDto.getDate())
                 .build();
     }
 

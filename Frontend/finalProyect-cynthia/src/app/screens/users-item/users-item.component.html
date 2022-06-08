@@ -1,0 +1,14 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <img src="{{user.avatar}}" alt="" (error)="imgError($event)">
+    </div>
+    <div class="row">
+      <div class="content">
+        <mat-card-title>{{user.nick}}</mat-card-title>
+        <mat-card-subtitle>{{user.name}} {{user.lastName}}</mat-card-subtitle>
+      </div>
+      <button (click)="deleteUser(user.id)"><mat-icon>delete</mat-icon></button>
+    </div>
+  </mat-card-header>
+</mat-card>

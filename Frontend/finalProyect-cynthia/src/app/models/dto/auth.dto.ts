@@ -17,7 +17,14 @@ export class AuthSignUpDto {
   city: string;
   password: string;
   password2: string;
-  file: string;
+  avatar: string;
+  static nick: any;
+  static email: any;
+  static lastName: any;
+  static city: any;
+  static rol: any;
+  static password: any;
+  static password2: any;
   constructor() {
       this.nick = '';
       this.email = '';
@@ -25,7 +32,7 @@ export class AuthSignUpDto {
       this.password = '';
       this.password2 = '';
       this.rol = true;
-      this.file = '';
+      this.avatar = '';
       this.name = '';
       this.lastName = '';
   }

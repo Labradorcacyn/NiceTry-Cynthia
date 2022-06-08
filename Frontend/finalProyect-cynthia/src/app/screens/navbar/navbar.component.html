@@ -1,0 +1,18 @@
+<div class="nav">
+  <div class="row">
+    <img (click)="goHome()" src="assets/logo.png" alt="">
+    <button class="ml" mat-button [matMenuTriggerFor]="menu">Manage</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="getUsers()">Users</button>
+      <button mat-menu-item (click)="getChampions()">Champions</button>
+      <button mat-menu-item (click)="getTraits()">Traits</button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="menu2">Create</button>
+    <mat-menu #menu2="matMenu">
+      <button (click)="createAdmin()" mat-menu-item>Admin</button>
+      <button mat-menu-item (click)="createChampion()">Champion</button>
+      <button mat-menu-item (click)="createTrait()">Trait</button>
+    </mat-menu>
+    <button class="mr" mat-button (click)="logOut()">Log out</button>
+  </div>
+</div>

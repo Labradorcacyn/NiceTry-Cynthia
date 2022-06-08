@@ -19,9 +19,8 @@ public class CreateChampionDto {
     @NotNull(message = "Introduce how much cost the champion")
     private int cost;
 
-    @NotNull(message="Image is mandatory")
-    private String avatar;
-
     @NotNull(message="Need to introduce the name of the champion")
     private List<Long> traitsUuid;
+
+    private String description;
 }

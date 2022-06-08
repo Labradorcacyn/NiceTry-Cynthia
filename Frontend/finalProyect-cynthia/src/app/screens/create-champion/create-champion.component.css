@@ -1,0 +1,68 @@
+.page{
+  background-image: url('../../../assets/bg.png');
+  background-size: cover;
+  height: 100vh;
+}
+.container{
+  margin: auto;
+  width: 70%;
+  height: fit-content;
+  padding-bottom: 50px;
+  background-color: plum;
+  border-radius: 30px;
+}
+.img-bg{
+  width: 100%;
+  height: 50%;
+  position: absolute;
+}
+.mt{
+  margin-top: 10rem;
+}
+h1{
+  font-size: 1rem;
+  font-weight: bold;
+  color: purple;
+  padding: 30px;
+}
+.form-style{
+  display: flex;
+  flex-direction: column;
+}
+label{
+  color: purple;
+  font-size: 1rem;
+}
+input, textarea{
+  width: 70%;
+  height: 50px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border: none;
+  border-radius: 30px;
+  padding-left: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+textarea{
+  padding-top: 20px;
+}
+.cont{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.mid{
+  width: 50%;
+}
+.trait{
+  height: 50px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.img-container{
+  display: flex;
+  justify-content: center;
+}
+.img-ch{
+  height: 300px;
+}
