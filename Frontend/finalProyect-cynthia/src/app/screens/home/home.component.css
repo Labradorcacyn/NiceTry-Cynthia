@@ -6,3 +6,8 @@
 .mt{
   margin-top: 15.6rem;
 }
+.page{
+  background-image: url('../../../assets/bg.png');
+  background-size: cover;
+  height: 100vh;
+}

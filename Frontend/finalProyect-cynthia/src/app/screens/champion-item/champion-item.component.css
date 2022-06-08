@@ -34,6 +34,7 @@ button{
 }
 .content{
   width: 60%;
+  padding-left: 50px;
 }
 .mat-card-subtitle{
   color: purple;

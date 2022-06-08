@@ -9,7 +9,10 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UsersListComponent implements OnInit {
 
-  users: UsersResponse[] | undefined;
+  users!: UsersResponse[];
+  filtered!: UsersResponse[];
+  nameUser!: string;
+  p!: number;
 
   constructor(private userService: UserService) { }
 
@@ -17,8 +20,12 @@ export class UsersListComponent implements OnInit {
     this.userService.getUsers().subscribe(
       (data) => {
         this.users = data;
+        this.filtered = data;
       }
     );
   }
 
+  getName(){
+    this.filtered = this.users.filter((us) => us.name.toLowerCase().includes(this.nameUser.toLowerCase()));
+  }
 }

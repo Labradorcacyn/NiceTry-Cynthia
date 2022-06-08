@@ -3,3 +3,27 @@
   height: 100%;
   position: absolute;
 }
+.page{
+  background-image: url('../../../assets/bg.png');
+  background-size: cover;
+  height: 100vh;
+}
+pagination-controls{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+::ng-deep .ngx-pagination .current{
+  background-color: purple !important;
+  border-radius: 50px;
+}
+input{
+  width: 30%;
+  margin-top: 15px;
+  margin-left: 10%;
+  border-color: purple;
+  height: 50px;
+  border-radius: 30px;
+  padding-left: 15px;
+}

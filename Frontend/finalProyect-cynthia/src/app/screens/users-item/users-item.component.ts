@@ -18,4 +18,8 @@ export class UsersItemComponent implements OnInit {
   deleteUser(id: any) {
   this.userService.deleteUser(id);
   }
+
+  imgError($event: any){
+    $event.target.src = '../../../assets/user.png';
+  }
 }
