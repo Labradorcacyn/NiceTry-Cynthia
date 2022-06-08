@@ -1,11 +1,10 @@
-import 'package:final_proyect_mobile_cynthia/bloc/bloc_composition/composition_bloc.dart';
-import 'package:final_proyect_mobile_cynthia/bloc/bloc_composition/composition_event.dart';
-import 'package:final_proyect_mobile_cynthia/bloc/bloc_composition/composition_state.dart';
+import 'package:final_proyect_mobile_cynthia/bloc/composition_bloc/composition_bloc.dart';
+import 'package:final_proyect_mobile_cynthia/bloc/composition_bloc/composition_event.dart';
+import 'package:final_proyect_mobile_cynthia/bloc/composition_bloc/composition_state.dart';
 import 'package:final_proyect_mobile_cynthia/models/composition_model.dart';
 import 'package:final_proyect_mobile_cynthia/repository/composition_repository/composition_repository.dart';
 import 'package:final_proyect_mobile_cynthia/repository/composition_repository/composition_repositoryImp.dart';
 import 'package:final_proyect_mobile_cynthia/ui/screens/error_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -211,58 +210,42 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     offset: Offset(0, 2),
                                                     blurRadius: 6.0),
                                               ]),
-                                          child: CircleAvatar(
-                                            child: ClipOval(
-                                              child: ListView.builder(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  itemCount: compositions[index]
-                                                      .champions
-                                                      ?.length,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int i) {
-                                                    return Container(
-                                                      margin:
-                                                          EdgeInsets.all(10),
-                                                      width: 60,
-                                                      height: 60,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                                color: Colors
-                                                                    .black45,
-                                                                offset: Offset(
-                                                                    0, 2),
-                                                                blurRadius:
-                                                                    6.0),
-                                                          ]),
-                                                      child: CircleAvatar(
-                                                        child: ClipOval(
-                                                          child: ListView(
-                                                            scrollDirection:
-                                                                Axis.horizontal,
-                                                            children: <Widget>[
-                                                              Image(
-                                                                image: NetworkImage(compositions[
-                                                                            index]
-                                                                        ?.champions![
-                                                                            i]
-                                                                        ?.avatar ??
-                                                                    ''),
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
+                                          child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: compositions[index]
+                                                  .champions
+                                                  ?.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Container(
+                                                  margin: EdgeInsets.all(10),
+                                                  width: 60,
+                                                  height: 60,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color:
+                                                                Colors.black45,
+                                                            offset:
+                                                                Offset(0, 2),
+                                                            blurRadius: 6.0),
+                                                      ]),
+                                                  child: CircleAvatar(
+                                                    child: ClipOval(
+                                                      child: Image(
+                                                        height: 60,
+                                                        width: 60,
+                                                        image: Image.asset(
+                                                                'assets/images/vector-up.png')
+                                                            .image,
+                                                        fit: BoxFit.cover,
                                                       ),
-                                                    );
-                                                  }),
-                                            ),
-                                          ),
+                                                    ),
+                                                  ),
+                                                );
+                                              }),
                                         )),
                                   ],
                                 ),

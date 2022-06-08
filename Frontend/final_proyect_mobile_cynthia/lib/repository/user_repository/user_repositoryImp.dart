@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:final_proyect_mobile_cynthia/models/all_user_model.dart';
-import 'package:final_proyect_mobile_cynthia/models/composition_model.dart';
 import 'package:final_proyect_mobile_cynthia/models/profile_model.dart';
-import 'package:final_proyect_mobile_cynthia/repository/composition_repository/composition_repository.dart';
 import 'package:final_proyect_mobile_cynthia/repository/user_repository/user_repository.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,10 +32,10 @@ class UserRepositoryImpl extends UserRepository {
       return prefs.getString('token');
     });
   }
-  
+
   @override
-  Future<List> fetchAllUsers() async {
-     Map<String, String> headers = {
+  Future<List<AllUserModel>> fetchAllUsers() async {
+    Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${await getToken()}'
     };

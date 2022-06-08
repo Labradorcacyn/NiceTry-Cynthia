@@ -145,6 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(14.0),
                     ),
                     child: TextFormField(
+                      style: TextStyle(color: Colors.white),
                       validator: (String? value) {
                         return (value == null || !value.contains('@'))
                             ? 'Do not use the @ char.'
@@ -174,6 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(14.0),
                     ),
                     child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: passwordController,
                         obscureText: !_passwordVisible,
                         decoration: InputDecoration(

@@ -230,6 +230,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: const Icon(Icons.add_a_photo)));
                         }),
                     TextFormField(
+                      style: TextStyle(color: Colors.white),
                       controller: name,
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
@@ -252,6 +253,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderRadius: BorderRadius.circular(14.0),
                       ),
                       child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: lastName,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
@@ -272,6 +274,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 30),
                       child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: nick,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
@@ -292,6 +295,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 30),
                       child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: city,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
@@ -312,6 +316,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 30),
                       child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: emailController,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
@@ -334,6 +339,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Container(
                           margin: const EdgeInsets.only(top: 30),
                           child: TextFormField(
+                            style: TextStyle(color: Colors.white),
                             obscureText: !_passwordVisible,
                             controller: passwordController,
                             decoration: InputDecoration(
@@ -368,6 +374,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Container(
                           margin: const EdgeInsets.only(top: 30),
                           child: TextFormField(
+                            style: TextStyle(color: Colors.white),
                             obscureText: !_password2Visible,
                             controller: password2,
                             decoration: InputDecoration(
