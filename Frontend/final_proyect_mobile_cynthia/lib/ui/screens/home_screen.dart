@@ -19,10 +19,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late CompositionRepository compositionRepository;
+  final prefs = SharedPreferences.getInstance();
+  String nick = '';
+  String id = '';
 
   @override
   void initState() {
     super.initState();
+    _getUserLogin();
     compositionRepository = CompositionRepositoryImpl();
   }
 
@@ -40,6 +44,14 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(body: _listCompositions(context)),
     );
+  }
+
+  _getUserLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nick = prefs.getString('nick') ?? '';
+      id = prefs.getString('id') ?? '';
+    });
   }
 
   _listCompositions(BuildContext context) {
@@ -203,8 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold)),
                                     ),
-                                    if (compositions[index].authorNick ==
-                                        getNick())
+                                    if (compositions[index].authorNick == nick)
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(left: 10.0),
@@ -343,12 +354,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildSheetComment(CompositionModel? composition) => Container();
-
-  getNick() {
-    return SharedPreferences.getInstance().then((prefs) {
-      return prefs.getString('nick');
-    });
-  }
 }
 
 Widget buildSheet(CompositionModel? composition) => Container(

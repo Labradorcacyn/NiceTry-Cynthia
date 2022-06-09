@@ -36,7 +36,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController rol = TextEditingController();
   TextEditingController password2 = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  late Future<SharedPreferences> _prefs;
   final String uploadUrl = 'https://nicetry-api.herokuapp.com/auth/register';
   String path = "";
   bool _passwordVisible = false;
@@ -46,7 +45,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     authRepository = AuthRepositoryImpl();
-    _prefs = SharedPreferences.getInstance();
     _passwordVisible = false;
     _password2Visible = false;
     super.initState();
@@ -118,16 +116,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _registerSuccess(
       BuildContext context, RegisterResponse late) async {
-    _prefs.then((SharedPreferences prefs) {
-      prefs.setString('token', late.email);
-      prefs.setString('id', late.id);
-      prefs.setString('avatar', late.avatar);
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('id', late.id);
+    prefs.setString('avatar', late.avatar);
+    prefs.setString('nick', late.nick);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
-    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
   }
 
   void _showSnackbar(BuildContext context, String message) {
