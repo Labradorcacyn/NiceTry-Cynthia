@@ -8,7 +8,7 @@ import 'package:final_proyect_mobile_cynthia/ui/screens/error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:timeago/timeago.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -48,7 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
       if (state is CompositionInitial) {
         return const Center(child: CircularProgressIndicator());
       } else if (state is CompositionFetched) {
-        return _createCompositionView(context, state.compositions);
+        return _createCompositionView(
+            context, state.compositions.reversed.toList());
       } else if (state is CompositionFetchError) {
         return ErrorPage(
           message: state.message,
@@ -88,28 +89,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: <Widget>[
                       Image.asset("assets/images/logo-horizontal.png",
                           width: 200),
-                      Row(
-                        children: <Widget>[
-                          IconButton(
-                            onPressed: () => print('Agregar Publicación'),
-                            iconSize: 20,
-                            icon: Icon(Icons.add),
-                            color: Colors.purple,
-                          ),
-                          IconButton(
-                            onPressed: () => print('Ver interacciones'),
-                            iconSize: 20,
-                            icon: Icon(Icons.heart_broken),
-                            color: Colors.purple,
-                          ),
-                          IconButton(
-                            onPressed: () => print('Ver mensajes'),
-                            iconSize: 20,
-                            icon: Icon(Icons.message),
-                            color: Colors.purple,
-                          )
-                        ],
-                      )
+                      IconButton(
+                        onPressed: () => print('Agregar Publicación'),
+                        iconSize: 20,
+                        icon: Icon(Icons.add_box),
+                        color: Colors.white,
+                      ),
                     ],
                   ),
                 ),
@@ -218,16 +203,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold)),
                                     ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 10.0),
-                                      child: IconButton(
-                                        onPressed: () => print('Editar'),
-                                        iconSize: 20,
-                                        icon: Icon(Icons.edit),
-                                        color: Colors.white,
+                                    if (compositions[index].authorNick ==
+                                        getNick())
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10.0),
+                                        child: IconButton(
+                                          onPressed: () => print('Delete'),
+                                          iconSize: 20,
+                                          icon: Icon(Icons.delete),
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
                                   ],
                                 ),
                                 Row(
@@ -240,6 +227,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                           style:
                                               TextStyle(color: Colors.white)),
                                     ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 20.0),
+                                      child: IconButton(
+                                          color: Colors.white,
+                                          onPressed: () => showModalBottomSheet(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                                  top: Radius.circular(30),
+                                                ),
+                                              ),
+                                              context: context,
+                                              builder: (context) => buildSheet(
+                                                  compositions[index])),
+                                          icon: Icon(
+                                              Icons.remove_red_eye_rounded)),
+                                    ),
+                                    Text("View Champs",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 13)),
                                   ],
                                 ),
                                 Row(
@@ -283,7 +291,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                       children: <Widget>[
                                         IconButton(
                                             color: Colors.white,
-                                            onPressed: () => print("Comments"),
+                                            onPressed: () =>
+                                                showModalBottomSheet(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.vertical(
+                                                        top:
+                                                            Radius.circular(30),
+                                                      ),
+                                                    ),
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        buildSheetComment(
+                                                            compositions[
+                                                                index])),
                                             icon: Icon(Icons.comment)),
                                         Text(
                                             compositions[index]
@@ -319,4 +341,45 @@ class _HomeScreenState extends State<HomeScreen> {
           ]),
         ));
   }
+
+  Widget buildSheetComment(CompositionModel? composition) => Container();
+
+  getNick() {
+    return SharedPreferences.getInstance().then((prefs) {
+      return prefs.getString('nick');
+    });
+  }
 }
+
+Widget buildSheet(CompositionModel? composition) => Container(
+      child: Padding(
+        padding: const EdgeInsets.all(30),
+        child: ListView.builder(
+          itemCount: composition!.champions?.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 30),
+                  child: Image(
+                    height: 40,
+                    width: 40,
+                    image: Image.asset(
+                            'assets/images/champions/TFT5_${composition.champions?[index].name}.png')
+                        .image,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(composition.champions![index].name ?? '',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.purple,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
