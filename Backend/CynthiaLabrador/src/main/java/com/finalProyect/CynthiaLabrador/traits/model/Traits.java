@@ -24,11 +24,8 @@ public class Traits {
     @Column(unique = true,updatable = false)
     private String name;
 
-    @Lob
-    @Column(name = "description", columnDefinition = "TEXT", length = 65535)
+    @Column(length = 10000)
     private String description;
-
-    private String avatar;
 
     @ManyToMany(mappedBy = "traits")
     private List<Champion> champions = new ArrayList<>();

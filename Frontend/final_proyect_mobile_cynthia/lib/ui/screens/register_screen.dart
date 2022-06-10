@@ -36,7 +36,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController rol = TextEditingController();
   TextEditingController password2 = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  late Future<SharedPreferences> _prefs;
   final String uploadUrl = 'https://nicetry-api.herokuapp.com/auth/register';
   String path = "";
   bool _passwordVisible = false;
@@ -46,7 +45,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     authRepository = AuthRepositoryImpl();
-    _prefs = SharedPreferences.getInstance();
     _passwordVisible = false;
     _password2Visible = false;
     super.initState();
@@ -118,16 +116,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _registerSuccess(
       BuildContext context, RegisterResponse late) async {
-    _prefs.then((SharedPreferences prefs) {
-      prefs.setString('token', late.email);
-      prefs.setString('id', late.id);
-      prefs.setString('avatar', late.avatar);
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('id', late.id);
+    prefs.setString('avatar', late.avatar);
+    prefs.setString('nick', late.nick);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
-    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
   }
 
   void _showSnackbar(BuildContext context, String message) {
@@ -230,6 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: const Icon(Icons.add_a_photo)));
                         }),
                     TextFormField(
+                      style: TextStyle(color: Colors.white),
                       controller: name,
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
@@ -252,6 +250,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderRadius: BorderRadius.circular(14.0),
                       ),
                       child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: lastName,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
@@ -272,6 +271,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 30),
                       child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: nick,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
@@ -292,6 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 30),
                       child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: city,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
@@ -312,6 +313,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 30),
                       child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: emailController,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
@@ -334,6 +336,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Container(
                           margin: const EdgeInsets.only(top: 30),
                           child: TextFormField(
+                            style: TextStyle(color: Colors.white),
                             obscureText: !_passwordVisible,
                             controller: passwordController,
                             decoration: InputDecoration(
@@ -368,6 +371,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Container(
                           margin: const EdgeInsets.only(top: 30),
                           child: TextFormField(
+                            style: TextStyle(color: Colors.white),
                             obscureText: !_password2Visible,
                             controller: password2,
                             decoration: InputDecoration(

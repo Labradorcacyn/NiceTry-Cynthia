@@ -15,6 +15,18 @@ import java.util.List;
 import java.util.UUID;
 import org.hibernate.annotations.Parameter;
 
+@NamedEntityGraphs(
+        {
+                @NamedEntityGraph(
+                        name = "Composition.champions",
+                        attributeNodes = @NamedAttributeNode("champions")
+                ),
+                @NamedEntityGraph(
+                        name = "Composition.comments",
+                        attributeNodes = @NamedAttributeNode("comments")
+                )
+        }
+)
 @Entity
 @Table(name = "composition")
 @EntityListeners(AuditingEntityListener.class)

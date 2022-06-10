@@ -36,63 +36,21 @@ public class TraitsService extends BaseService<Traits, Long, TraitsRepository> {
         return traitsRepository.findAll();
     }
 
-    public Traits createTrait(CreateTraitsDto createTraitsDto, MultipartFile file) throws Exception {
-
-        List<String> extensiones = Arrays.asList("png", "gif", "jpg", "svg");
-        String archivo = StringUtils.cleanPath(file.getOriginalFilename());
-        String extension = StringUtils.getFilenameExtension(archivo);
-        if (file.isEmpty()) {
-            throw new FileNotFoundException();
-        } else if (extensiones.contains(extension)) {
-            String filename = storageService.escalar(file, 128);
-            String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/download/")
-                    .path(filename)
-                    .toUriString().replace("10.0.2.2", "localhost");
-
-            Traits trait = Traits.builder()
-                    .name(createTraitsDto.getName())
-                    .avatar(uri)
-                    .description(createTraitsDto.getDescription())
-                    .build();
-            return save(trait);
-        } else {
-            throw new UnsupportedMediaTypeException(extensiones, MultipartFile.class);
-        }
+    public Traits createTrait(CreateTraitsDto createTraitsDto) throws Exception {
+        Traits trait = Traits.builder()
+                .name(createTraitsDto.getName())
+                .description(createTraitsDto.getDescription())
+                .build();
+        return save(trait);
     }
 
-    public Traits updateTrait(Traits trait, CreateTraitsDto createTraitsDto, MultipartFile file) throws Exception {
-
-        List<String> extensiones = Arrays.asList("png", "gif", "jpg", "svg");
-        String archivo = StringUtils.cleanPath(file.getOriginalFilename());
-        String extension = StringUtils.getFilenameExtension(archivo);
-
-        if (file.isEmpty()) {
-            throw new FileNotFoundException();
-        } else if (extensiones.contains(extension)) {
-
-            String fileName = file.getOriginalFilename();
-            String s = trait.getAvatar().split("/")[4];
-
-            if(!s.equals(fileName)){
-                storageService.delete(s);
-                String filename = storageService.escalar(file, 128);
-                String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/download/")
-                        .path(filename)
-                        .toUriString().replace("10.0.2.2", "localhost");
-                trait.setAvatar(uri);
-            }
-            trait.setName(createTraitsDto.getName());
-            trait.setDescription(createTraitsDto.getDescription());
-            return save(trait);
-        } else {
-            throw new UnsupportedMediaTypeException(extensiones, MultipartFile.class);
-        }
+    public Traits updateTrait(Traits trait, CreateTraitsDto createTraitsDto) throws Exception {
+        trait.setName(createTraitsDto.getName());
+        trait.setDescription(createTraitsDto.getDescription());
+        return save(trait);
     }
 
     public void deleteTrait(Traits trait) throws TraitNotFoundException, IOException {
-        storageService.delete(trait.getAvatar().split("/")[4]);
         this.repository.delete(trait);
     }
 

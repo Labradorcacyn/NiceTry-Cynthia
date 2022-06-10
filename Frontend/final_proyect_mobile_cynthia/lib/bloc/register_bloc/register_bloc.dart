@@ -4,6 +4,8 @@ import 'package:final_proyect_mobile_cynthia/models/register_dto.dart';
 import 'package:final_proyect_mobile_cynthia/models/register_response.dart';
 import 'package:final_proyect_mobile_cynthia/repository/auth_repository/auth_repository.dart';
 
+import '../../models/register_dto.dart';
+
 part 'register_event.dart';
 part 'register_state.dart';
 

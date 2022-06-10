@@ -22,7 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  late Future<SharedPreferences> _prefs;
   bool _passwordVisible = false;
 
   @override
@@ -32,7 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
       DeviceOrientation.portraitDown,
     ]);
     authRepository = AuthRepositoryImpl();
-    _prefs = SharedPreferences.getInstance();
     super.initState();
   }
 
@@ -99,17 +97,17 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> _loginSuccess(BuildContext context, LoginResponse late) async {
-    _prefs.then((SharedPreferences prefs) {
-      prefs.setString('token', late.token);
-      prefs.setString('id', late.id);
-      prefs.setString('avatar', late.avatar);
+  _loginSuccess(BuildContext context, LoginResponse late) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', late.token);
+    prefs.setString('id', late.id);
+    prefs.setString('avatar', late.avatar);
+    prefs.setString('nick', late.nick);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MenuScreen()),
-      );
-    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const MenuScreen()),
+    );
   }
 
   void _showSnackbar(BuildContext context, String message) {
@@ -145,6 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(14.0),
                     ),
                     child: TextFormField(
+                      style: TextStyle(color: Colors.white),
                       validator: (String? value) {
                         return (value == null || !value.contains('@'))
                             ? 'Do not use the @ char.'
@@ -174,6 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(14.0),
                     ),
                     child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: passwordController,
                         obscureText: !_passwordVisible,
                         decoration: InputDecoration(
