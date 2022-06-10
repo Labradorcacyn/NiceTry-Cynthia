@@ -4,10 +4,20 @@
   position: absolute;
 }
 .mt{
-  margin-top: 15.6rem;
+  margin-top: 3rem;
 }
 .page{
   background-image: url('../../../assets/bg.png');
   background-size: cover;
   height: 100vh;
+}
+pagination-controls{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+::ng-deep .ngx-pagination .current{
+  background-color: purple !important;
+  border-radius: 50px;
 }

@@ -19,10 +19,9 @@ const HEADER_PUT = {
     'Access-Control-Allow-Credentials': 'true',
     'Accept': 'application/json, text/plain, */*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token, Accept, Cache-Control, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
-  })
-}
+})};
 
 @Injectable({
   providedIn: 'root'
