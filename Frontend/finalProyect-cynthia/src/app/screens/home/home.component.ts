@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
 
   compositions: CompositionResponse[] | undefined;
   constructor(private compositionService: CompositionService) { }
-
+  p!: number;
   ngOnInit(): void {
     this.compositionService.getCompositions().subscribe(data => {
       this.compositions = data;

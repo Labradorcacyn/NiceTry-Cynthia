@@ -7,6 +7,7 @@ p{
 }
 .trait{
   height: 20px;
+  margin-right: 5px;
 }
 .row{
   display: flex;

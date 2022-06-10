@@ -23,6 +23,6 @@ export class CompositionService {
   }
 
   deleteComposition(id: string) {
-    return this.http.delete(`${environment.apiBaseUrl}/composition/${id}`, DEFAULT_HEADERS);
+    return this.http.delete<any>(`${environment.apiBaseUrl}/composition/${id}`, DEFAULT_HEADERS);
   }
 }

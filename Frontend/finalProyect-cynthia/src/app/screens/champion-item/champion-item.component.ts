@@ -20,7 +20,7 @@ export class ChampionItemComponent implements OnInit {
   deleteChampion(id: string) {
     this.championService.deleteChampion(id).subscribe(
       (res: any) => {
-        this.toastSvc.success('Eliminated champion', 'Éxito');
+        this.toastSvc.success('Eliminated champion', 'Success');
         window.location.reload();
       }
     );
