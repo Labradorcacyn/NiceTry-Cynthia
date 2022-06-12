@@ -22,6 +22,12 @@ TextStyle textWhite18 = TextStyle(
   fontWeight: FontWeight.w600,
 );
 
+TextStyle textBlack18 = TextStyle(
+  fontSize: 18,
+  color: black,
+  fontWeight: FontWeight.w600,
+);
+
 TextStyle textRegular16 = const TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,

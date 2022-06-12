@@ -1,9 +1,13 @@
 import 'package:final_proyect_mobile_cynthia/bloc/composition_bloc/composition_bloc.dart';
 import 'package:final_proyect_mobile_cynthia/bloc/composition_bloc/composition_event.dart';
 import 'package:final_proyect_mobile_cynthia/bloc/composition_bloc/composition_state.dart';
+import 'package:final_proyect_mobile_cynthia/models/comment_dto.dart';
+import 'package:final_proyect_mobile_cynthia/models/comments_model.dart';
 import 'package:final_proyect_mobile_cynthia/models/composition_model.dart';
+import 'package:final_proyect_mobile_cynthia/repository/comments_repository/comments_repositoryImpl.dart';
 import 'package:final_proyect_mobile_cynthia/repository/composition_repository/composition_repository.dart';
 import 'package:final_proyect_mobile_cynthia/repository/composition_repository/composition_repositoryImp.dart';
+import 'package:final_proyect_mobile_cynthia/styles/styles.dart';
 import 'package:final_proyect_mobile_cynthia/ui/screens/error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final prefs = SharedPreferences.getInstance();
   String nick = '';
   String id = '';
+  List<CommentsModel> comments = [];
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController text = TextEditingController();
 
   @override
   void initState() {
@@ -74,6 +81,13 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         return const Text('Not support');
       }
+    });
+  }
+
+  _getComments(String id) async {
+    final com = await CommentsRepositoryImpl().fetchAllComments(id);
+    setState(() {
+      this.comments = com;
     });
   }
 
@@ -293,8 +307,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                               const EdgeInsets.only(left: 20.0),
                                           child: IconButton(
                                               color: Colors.white,
-                                              onPressed: () =>
-                                                  print("Like post"),
+                                              onPressed: () => {
+                                                    CompositionRepositoryImpl()
+                                                        .addVote(
+                                                            compositions[index]
+                                                                    .id ??
+                                                                ''),
+                                                    Navigator.popAndPushNamed(
+                                                        context, '/menu'),
+                                                    CompositionRepositoryImpl()
+                                                        .deleteVote(
+                                                            compositions[index]
+                                                                    .id ??
+                                                                ''),
+                                                    Navigator.popAndPushNamed(
+                                                        context, '/menu')
+                                                  },
                                               icon: Icon(Icons.thumb_up)),
                                         ),
                                         Text(
@@ -311,21 +339,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                       children: <Widget>[
                                         IconButton(
                                             color: Colors.white,
-                                            onPressed: () =>
-                                                showModalBottomSheet(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.vertical(
-                                                        top:
-                                                            Radius.circular(30),
+                                            onPressed: () => {
+                                                  _getComments(
+                                                      compositions[index].id ??
+                                                          ''),
+                                                  showModalBottomSheet(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .vertical(
+                                                          top: Radius.circular(
+                                                              30),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        buildSheetComment(
-                                                            compositions[
-                                                                index])),
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          buildSheetComments(
+                                                              comments)),
+                                                },
                                             icon: Icon(Icons.comment)),
                                         Text(
                                             compositions[index]
@@ -362,38 +394,125 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
-  Widget buildSheetComment(CompositionModel? composition) => Container();
-}
-
-Widget buildSheet(CompositionModel? composition) => Container(
-      child: Padding(
-        padding: const EdgeInsets.all(30),
-        child: ListView.builder(
-          itemCount: composition!.champions?.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 30),
-                  child: Image(
-                    height: 40,
-                    width: 40,
-                    image: Image.asset(
-                            'assets/images/champions/TFT5_${composition.champions?[index].name}.png')
-                        .image,
-                  ),
+  Widget buildSheetComments(List<CommentsModel> comments) =>
+      Column(children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: 300,
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: comments.length,
+            itemBuilder: (context, index) => Column(
+              children: <Widget>[
+                ListTile(
+                  title: Text(comments[index].author!.nick ?? ''),
+                  subtitle: Text(comments[index].text ?? ''),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(composition.champions![index].name ?? '',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.purple,
-                          fontWeight: FontWeight.bold)),
+                if (comments[index].composition!.authorNick == nick)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 300),
+                    child: IconButton(
+                        color: Colors.purple,
+                        onPressed: () => {
+                              CommentsRepositoryImpl().deleteComment(
+                                  comments[index].composition!.id ?? '',
+                                  comments[index].id ?? ''),
+                              Navigator.popAndPushNamed(context, '/menu')
+                            },
+                        icon: Icon(Icons.delete)),
+                  ),
+                Divider(
+                  height: 2,
                 ),
               ],
-            );
-          },
+            ),
+          ),
         ),
-      ),
-    );
+        Container(
+            width: MediaQuery.of(context).size.width,
+            height: 70,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    style: TextStyle(color: Colors.black),
+                    controller: text,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide(color: pink, width: 1.0),
+                      ),
+                      labelText: 'Write your comment',
+                      labelStyle: textBlack18,
+                      hintText: 'Write your comment',
+                      hintStyle: textBlack18,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide(color: pink, width: 1.0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )),
+        Container(
+          child: Center(
+            child: SizedBox(
+              width: 200,
+              height: 50,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(pink),
+                  overlayColor: MaterialStateProperty.all(bgPurple),
+                  textStyle: MaterialStateProperty.all(textWhite18),
+                ),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    final commentDto = CommentDto(text: text.text);
+                    CommentsRepositoryImpl().createComment(
+                        commentDto.text!, comments[1].composition!.id ?? '');
+                    Navigator.popAndPushNamed(context, '/menu');
+                  }
+                },
+                child:
+                    const Text('Send', style: TextStyle(color: Colors.white)),
+              ),
+            ),
+          ),
+        ),
+      ]);
+
+  Widget buildSheet(CompositionModel? composition) => Container(
+        child: Padding(
+          padding: const EdgeInsets.all(30),
+          child: ListView.builder(
+            itemCount: composition!.champions?.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, left: 30),
+                    child: Image(
+                      height: 40,
+                      width: 40,
+                      image: Image.asset(
+                              'assets/images/champions/TFT5_${composition.champions?[index].name}.png')
+                          .image,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(composition.champions![index].name ?? '',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.purple,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      );
+}

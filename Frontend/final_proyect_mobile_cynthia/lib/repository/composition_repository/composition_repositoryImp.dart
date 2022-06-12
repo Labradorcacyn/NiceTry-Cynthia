@@ -114,4 +114,28 @@ class CompositionRepositoryImpl extends CompositionRepository {
       return prefs.getString('token');
     });
   }
+
+  addVote(String compositionId) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await getToken()}'
+    };
+    final response = _client.put(
+      Uri.parse(
+          'https://nicetry-api.herokuapp.com/composition/${compositionId}/vote'),
+      headers: headers,
+    );
+  }
+
+  deleteVote(String compositionId) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await getToken()}'
+    };
+    final response = _client.delete(
+      Uri.parse(
+          'https://nicetry-api.herokuapp.com/composition/${compositionId}/vote'),
+      headers: headers,
+    );
+  }
 }
