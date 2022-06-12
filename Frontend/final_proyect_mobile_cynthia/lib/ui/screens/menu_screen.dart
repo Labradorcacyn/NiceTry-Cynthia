@@ -1,5 +1,5 @@
 import 'package:final_proyect_mobile_cynthia/ui/screens/home_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:final_proyect_mobile_cynthia/ui/screens/users_screen.dart';
 import 'package:flutter/material.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -15,10 +15,7 @@ class _MenuScreenState extends State<MenuScreen> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
+    UsersScreen(),
     Text(
       'Index 2: School',
       style: optionStyle,
@@ -52,12 +49,12 @@ class _MenuScreenState extends State<MenuScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: Icon(Icons.people),
+            label: 'Users',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,

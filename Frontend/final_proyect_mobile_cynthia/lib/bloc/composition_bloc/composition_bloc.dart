@@ -9,6 +9,9 @@ class CompositionBloc extends Bloc<CompositionEvent, CompositionState> {
 
   CompositionBloc(this.repository) : super(CompositionInitial()) {
     on<FetchCompositionsPublicEvent>(_compositionsFetched);
+    on<DeleteCompositionEvent>(_compositionsDeleteFetched);
+    on<CreateCompositionEvent>(_compositionCreated);
+    on<UpdateCompositionEvent>(_compositionUpdated);
   }
 
   void _compositionsFetched(FetchCompositionsPublicEvent event,
@@ -16,6 +19,39 @@ class CompositionBloc extends Bloc<CompositionEvent, CompositionState> {
     try {
       final composition = await repository.fetchAllComposition();
       emit(CompositionFetched(composition));
+      return;
+    } on Exception catch (e) {
+      emit(CompositionFetchError(e.toString()));
+    }
+  }
+
+  void _compositionsDeleteFetched(
+      DeleteCompositionEvent event, Emitter<CompositionState> emit) async {
+    try {
+      final composition = await repository.deleteComposition(event.id);
+      return emit(CompositionDeleteSuccess());
+    } on Exception catch (e) {
+      emit(CompositionDeleteError(e.toString()));
+    }
+  }
+
+  void _compositionCreated(
+      CreateCompositionEvent event, Emitter<CompositionState> emit) async {
+    try {
+      final composition = await repository.createComposition(event.composition);
+      emit(CompositionCreateSuccess(composition));
+      return;
+    } on Exception catch (e) {
+      emit(CompositionFetchError(e.toString()));
+    }
+  }
+
+  void _compositionUpdated(
+      UpdateCompositionEvent event, Emitter<CompositionState> emit) async {
+    try {
+      final composition =
+          await repository.updateComposition(event.composition, event.id);
+      emit(CompositionUpdateSuccess(composition));
       return;
     } on Exception catch (e) {
       emit(CompositionFetchError(e.toString()));

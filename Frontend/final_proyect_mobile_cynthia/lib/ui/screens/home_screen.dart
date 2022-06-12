@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -102,7 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Image.asset("assets/images/logo-horizontal.png",
                           width: 200),
                       IconButton(
-                        onPressed: () => print('Agregar Publicación'),
+                        onPressed: () => Navigator.popAndPushNamed(
+                            context, '/create-composition'),
                         iconSize: 20,
                         icon: Icon(Icons.add_box),
                         color: Colors.white,
@@ -220,7 +221,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                         padding:
                                             const EdgeInsets.only(left: 10.0),
                                         child: IconButton(
-                                          onPressed: () => print('Delete'),
+                                          onPressed: () => {
+                                            BlocProvider.of<CompositionBloc>(
+                                                    context)
+                                                .add(DeleteCompositionEvent(
+                                                    compositions[index].id ??
+                                                        '')),
+                                            Navigator.popAndPushNamed(
+                                                context, '/menu')
+                                          },
                                           iconSize: 20,
                                           icon: Icon(Icons.delete),
                                           color: Colors.white,
