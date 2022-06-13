@@ -1,4 +1,5 @@
 import 'package:final_proyect_mobile_cynthia/ui/screens/home_screen.dart';
+import 'package:final_proyect_mobile_cynthia/ui/screens/profile_screen.dart';
 import 'package:final_proyect_mobile_cynthia/ui/screens/users_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -16,14 +17,7 @@ class _MenuScreenState extends State<MenuScreen> {
   static List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     UsersScreen(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {

@@ -314,12 +314,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     .id ??
                                                                 ''),
                                                     Navigator.popAndPushNamed(
+                                                        context, '/users'),
+                                                    Navigator.popAndPushNamed(
                                                         context, '/menu'),
                                                     CompositionRepositoryImpl()
                                                         .deleteVote(
                                                             compositions[index]
                                                                     .id ??
                                                                 ''),
+                                                    Navigator.popAndPushNamed(
+                                                        context, '/users'),
                                                     Navigator.popAndPushNamed(
                                                         context, '/menu')
                                                   },
@@ -472,8 +476,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     final commentDto = CommentDto(text: text.text);
                     CommentsRepositoryImpl().createComment(
                         commentDto.text!, comments[1].composition!.id ?? '');
-                    Navigator.popAndPushNamed(context, '/menu');
                   }
+                  Navigator.popAndPushNamed(context, '/users');
+                  Navigator.popAndPushNamed(context, '/menu');
                 },
                 child:
                     const Text('Send', style: TextStyle(color: Colors.white)),
