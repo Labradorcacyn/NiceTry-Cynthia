@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:final_proyect_mobile_cynthia/models/composition_dto.dart';
 import 'package:final_proyect_mobile_cynthia/models/composition_model.dart';
 import 'package:final_proyect_mobile_cynthia/repository/composition_repository/composition_repository.dart';
 import 'package:http/http.dart';
@@ -30,8 +31,7 @@ class CompositionRepositoryImpl extends CompositionRepository {
   }
 
   @override
-  Future<CompositionModel> createComposition(
-      CompositionModel composition) async {
+  Future<CompositionModel> createComposition(CompositionDto composition) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${await getToken()}'
@@ -39,7 +39,11 @@ class CompositionRepositoryImpl extends CompositionRepository {
     final response = await _client.post(
       Uri.parse('https://nicetry-api.herokuapp.com/composition'),
       headers: headers,
-      body: json.encode(composition.toJson()),
+      body: json.encode({
+        'name': composition.name,
+        'description': composition.description,
+        'champions': composition.champions,
+      }),
     );
 
     if (response.statusCode == 201) {
@@ -109,5 +113,29 @@ class CompositionRepositoryImpl extends CompositionRepository {
     return SharedPreferences.getInstance().then((prefs) {
       return prefs.getString('token');
     });
+  }
+
+  addVote(String compositionId) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await getToken()}'
+    };
+    final response = _client.put(
+      Uri.parse(
+          'https://nicetry-api.herokuapp.com/composition/${compositionId}/vote'),
+      headers: headers,
+    );
+  }
+
+  deleteVote(String compositionId) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await getToken()}'
+    };
+    final response = _client.delete(
+      Uri.parse(
+          'https://nicetry-api.herokuapp.com/composition/${compositionId}/vote'),
+      headers: headers,
+    );
   }
 }

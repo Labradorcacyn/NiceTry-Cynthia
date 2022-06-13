@@ -9,7 +9,20 @@ abstract class RegisterState extends Equatable {
 
 class RegisterInitial extends RegisterState {}
 
-class RegisterLoading extends RegisterState {}
+class RegisterLoading extends RegisterState {
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'RegisterLoading';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is RegisterLoading;
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+}
 
 class RegisterSuccessState extends RegisterState {
   final RegisterResponse registerResponse;

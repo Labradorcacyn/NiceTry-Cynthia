@@ -26,7 +26,3 @@ class ChampionFetchError extends ChampionState {
   @override
   List<Object> get props => [message];
 }
-
-class ChampionOneFetched extends ChampionState {}
-
-class ChampionOneFetchError extends ChampionState {}
