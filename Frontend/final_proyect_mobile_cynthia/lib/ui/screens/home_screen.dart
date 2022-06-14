@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _getUserLogin();
+    _getComments(this.id);
     compositionRepository = CompositionRepositoryImpl();
   }
 
@@ -313,10 +314,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             compositions[index]
                                                                     .id ??
                                                                 ''),
-                                                    Navigator.popAndPushNamed(
-                                                        context, '/users'),
-                                                    Navigator.popAndPushNamed(
-                                                        context, '/menu'),
                                                     CompositionRepositoryImpl()
                                                         .deleteVote(
                                                             compositions[index]
@@ -325,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     Navigator.popAndPushNamed(
                                                         context, '/users'),
                                                     Navigator.popAndPushNamed(
-                                                        context, '/menu')
+                                                        context, '/menu'),
                                                   },
                                               icon: Icon(Icons.thumb_up)),
                                         ),
