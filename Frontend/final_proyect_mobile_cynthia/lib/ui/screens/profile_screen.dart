@@ -15,9 +15,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../models/comment_dto.dart';
-import '../../styles/styles.dart';
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -30,7 +27,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final prefs = SharedPreferences.getInstance();
   String nick = '';
   String id = '';
-  List<CommentsModel> comments = [];
   final _formKey = GlobalKey<FormState>();
   TextEditingController text = TextEditingController();
 
@@ -81,13 +77,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       } else {
         return const Text('Not support');
       }
-    });
-  }
-
-  _getComments(String id) async {
-    final com = await CommentsRepositoryImpl().fetchAllComments(id);
-    setState(() {
-      this.comments = com;
     });
   }
 
@@ -367,31 +356,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           Row(
                                             children: <Widget>[
-                                              IconButton(
-                                                  color: Colors.white,
-                                                  onPressed: () => {
-                                                        _getComments(profile
-                                                                .compositionList![
-                                                                    index]
-                                                                .id ??
-                                                            ''),
-                                                        showModalBottomSheet(
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .vertical(
-                                                                top: Radius
-                                                                    .circular(
-                                                                        30),
-                                                              ),
-                                                            ),
-                                                            context: context,
-                                                            builder: (context) =>
-                                                                buildSheetComments(
-                                                                    comments)),
-                                                      },
-                                                  icon: Icon(Icons.comment)),
                                               Text(
                                                   profile
                                                           .compositionList![
@@ -431,96 +395,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             )));
   }
-
-  Widget buildSheetComments(List<CommentsModel> comments) =>
-      Column(children: <Widget>[
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 300,
-          child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: comments.length,
-            itemBuilder: (context, index) => Column(
-              children: <Widget>[
-                ListTile(
-                  title: Text(comments[index].author!.nick ?? ''),
-                  subtitle: Text(comments[index].text ?? ''),
-                ),
-                if (comments[index].composition!.authorNick == nick)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 300),
-                    child: IconButton(
-                        color: Colors.purple,
-                        onPressed: () => {
-                              CommentsRepositoryImpl().deleteComment(
-                                  comments[index].composition!.id ?? '',
-                                  comments[index].id ?? ''),
-                              Navigator.popAndPushNamed(context, '/menu')
-                            },
-                        icon: Icon(Icons.delete)),
-                  ),
-                Divider(
-                  height: 2,
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-            width: MediaQuery.of(context).size.width,
-            height: 70,
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    style: TextStyle(color: Colors.black),
-                    controller: text,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide(color: pink, width: 1.0),
-                      ),
-                      labelText: 'Write your comment',
-                      labelStyle: textBlack18,
-                      hintText: 'Write your comment',
-                      hintStyle: textBlack18,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide(color: pink, width: 1.0),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )),
-        Container(
-          child: Center(
-            child: SizedBox(
-              width: 100,
-              height: 50,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(pink),
-                  overlayColor: MaterialStateProperty.all(bgPurple),
-                  textStyle: MaterialStateProperty.all(textWhite18),
-                ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    final commentDto = CommentDto(text: text.text);
-                    CommentsRepositoryImpl().createComment(
-                        commentDto.text!, comments[1].composition!.id ?? '');
-                  }
-                  Navigator.popAndPushNamed(context, '/users');
-                  Navigator.popAndPushNamed(context, '/menu');
-                },
-                child:
-                    const Text('Send', style: TextStyle(color: Colors.white)),
-              ),
-            ),
-          ),
-        ),
-      ]);
 
   Widget buildSheet(CompositionList? composition) => Container(
         child: Padding(

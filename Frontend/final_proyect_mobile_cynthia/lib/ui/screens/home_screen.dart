@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _getUserLogin();
+    _getComments(this.id);
     compositionRepository = CompositionRepositoryImpl();
   }
 
@@ -313,10 +314,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             compositions[index]
                                                                     .id ??
                                                                 ''),
-                                                    Navigator.popAndPushNamed(
-                                                        context, '/users'),
-                                                    Navigator.popAndPushNamed(
-                                                        context, '/menu'),
                                                     CompositionRepositoryImpl()
                                                         .deleteVote(
                                                             compositions[index]
@@ -325,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     Navigator.popAndPushNamed(
                                                         context, '/users'),
                                                     Navigator.popAndPushNamed(
-                                                        context, '/menu')
+                                                        context, '/menu'),
                                                   },
                                               icon: Icon(Icons.thumb_up)),
                                         ),
@@ -360,7 +357,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       context: context,
                                                       builder: (context) =>
                                                           buildSheetComments(
-                                                              comments)),
+                                                              comments,
+                                                              compositions[
+                                                                          index]
+                                                                      .id ??
+                                                                  '')),
                                                 },
                                             icon: Icon(Icons.comment)),
                                         Text(
@@ -398,7 +399,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
-  Widget buildSheetComments(List<CommentsModel> comments) =>
+  Widget buildSheetComments(List<CommentsModel> comments, String id) =>
       Column(children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
@@ -418,9 +419,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: IconButton(
                         color: Colors.purple,
                         onPressed: () => {
-                              CommentsRepositoryImpl().deleteComment(
-                                  comments[index].composition!.id ?? '',
-                                  comments[index].id ?? ''),
+                              CommentsRepositoryImpl()
+                                  .deleteComment(id, comments[index].id ?? ''),
                               Navigator.popAndPushNamed(context, '/menu')
                             },
                         icon: Icon(Icons.delete)),
@@ -434,7 +434,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Container(
             width: MediaQuery.of(context).size.width,
-            height: 70,
+            height: 100,
             child: Form(
               key: _formKey,
               child: Column(
@@ -474,8 +474,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     final commentDto = CommentDto(text: text.text);
-                    CommentsRepositoryImpl().createComment(
-                        commentDto.text!, comments[1].composition!.id ?? '');
+                    CommentsRepositoryImpl()
+                        .createComment(commentDto.text!, id);
                   }
                   Navigator.popAndPushNamed(context, '/users');
                   Navigator.popAndPushNamed(context, '/menu');

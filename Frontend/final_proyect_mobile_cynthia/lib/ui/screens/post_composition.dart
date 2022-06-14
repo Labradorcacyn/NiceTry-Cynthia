@@ -267,6 +267,7 @@ class _PostCompositionScreenState extends State<PostCompositionScreen> {
 
                           BlocProvider.of<CompositionBloc>(context)
                               .add(CreateCompositionEvent(compositionDto));
+                          Navigator.popAndPushNamed(context, '/users');
                           Navigator.popAndPushNamed(context, '/menu');
                         }
                       },
