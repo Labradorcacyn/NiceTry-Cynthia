@@ -3,12 +3,12 @@ import 'package:final_proyect_mobile_cynthia/bloc/composition_bloc/composition_e
 import 'package:final_proyect_mobile_cynthia/bloc/profile_bloc/profile_bloc.dart';
 import 'package:final_proyect_mobile_cynthia/bloc/profile_bloc/profile_bloc_event.dart';
 import 'package:final_proyect_mobile_cynthia/bloc/profile_bloc/profile_bloc_state.dart';
-import 'package:final_proyect_mobile_cynthia/models/comments_model.dart';
+import 'package:final_proyect_mobile_cynthia/models/champion_model.dart';
 import 'package:final_proyect_mobile_cynthia/models/profile_model.dart';
-import 'package:final_proyect_mobile_cynthia/repository/comments_repository/comments_repositoryImpl.dart';
 import 'package:final_proyect_mobile_cynthia/repository/composition_repository/composition_repositoryImp.dart';
 import 'package:final_proyect_mobile_cynthia/repository/user_repository/user_repository.dart';
 import 'package:final_proyect_mobile_cynthia/repository/user_repository/user_repositoryImp.dart';
+import 'package:final_proyect_mobile_cynthia/ui/screens/detail_champion.dart';
 import 'package:final_proyect_mobile_cynthia/ui/screens/error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -107,25 +107,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               width: MediaQuery.of(context).size.width * 0.6,
                               child: Row(children: <Widget>[
                                 CircleAvatar(
+                                    backgroundColor: Colors.purple,
                                     child: ClipOval(
-                                  child: Image.network(
-                                    profile.avatar ??
-                                        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Container(
-                                        width: 60,
-                                        height: 60,
-                                        color: Colors.purple,
-                                        alignment: Alignment.center,
-                                        child: const Text(
-                                          'Whoops!',
-                                          style: TextStyle(fontSize: 10),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )),
+                                      child: Image.network(
+                                        profile.avatar ??
+                                            'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Container(
+                                            width: 60,
+                                            height: 60,
+                                            color: Colors.purple,
+                                            alignment: Alignment.center,
+                                            child: const Text(
+                                              'Whoops!',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(profile.nick ?? '',
@@ -138,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           IconButton(
                             icon: Icon(Icons.logout, color: Colors.white),
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.popAndPushNamed(context, '/login');
                             },
                           ),
                           IconButton(
@@ -184,6 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       blurRadius: 6.0),
                                                 ]),
                                             child: CircleAvatar(
+                                              backgroundColor: Colors.purple,
                                               child: ClipOval(
                                                 child: Image.network(
                                                   profile
@@ -292,20 +295,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   fontSize: 13)),
                                         ],
                                       ),
-                                      Row(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 30.0),
-                                            child: Text(
-                                              profile.compositionList![index]
-                                                      .description ??
-                                                  'No have description',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
+                                      Container(
+                                        width: double.infinity,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 30.0, right: 30),
+                                          child: Text(
+                                            profile.compositionList![index]
+                                                    .description ??
+                                                'No have description',
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ),
-                                        ],
+                                        ),
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -320,11 +322,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     color: Colors.white,
                                                     onPressed: () => {
                                                           CompositionRepositoryImpl()
-                                                              .addVote(profile
-                                                                      .compositionList![
-                                                                          index]
-                                                                      .id ??
-                                                                  ''),
+                                                              .addVote(
+                                                            profile
+                                                                    .compositionList![
+                                                                        index]
+                                                                    .authorNick ??
+                                                                '',
+                                                          ),
                                                           Navigator
                                                               .popAndPushNamed(
                                                                   context,
@@ -333,7 +337,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               .deleteVote(profile
                                                                       .compositionList![
                                                                           index]
-                                                                      .id ??
+                                                                      .authorNick ??
                                                                   ''),
                                                           Navigator
                                                               .popAndPushNamed(

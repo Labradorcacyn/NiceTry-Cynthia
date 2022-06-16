@@ -1,7 +1,6 @@
 import 'package:final_proyect_mobile_cynthia/bloc/champion_bloc/champion_event.dart';
 import 'package:final_proyect_mobile_cynthia/bloc/champion_bloc/champion_state.dart';
 import 'package:final_proyect_mobile_cynthia/repository/champion_repository/champion_repository.dart';
-import 'package:final_proyect_mobile_cynthia/repository/composition_repository/composition_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChampionBloc extends Bloc<ChampionEvent, ChampionState> {
@@ -11,8 +10,8 @@ class ChampionBloc extends Bloc<ChampionEvent, ChampionState> {
     on<FetchChampionsPublicEvent>(_championsFetched);
   }
 
-  void _championsFetched(FetchChampionsPublicEvent event,
-      Emitter<ChampionState> emit) async {
+  void _championsFetched(
+      FetchChampionsPublicEvent event, Emitter<ChampionState> emit) async {
     try {
       final champions = await repository.fetchAllChampions();
       emit(ChampionFetched(champions));
