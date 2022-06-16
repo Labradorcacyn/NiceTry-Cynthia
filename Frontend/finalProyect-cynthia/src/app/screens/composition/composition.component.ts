@@ -12,19 +12,22 @@ export class CompositionComponent implements OnInit {
 
   @Input () composition: any;
 
-  constructor(private compositionService: CompositionService, private toastSvc: ToastrService, private router: Router) { }
+  constructor(private compositionService: CompositionService, private toastSvc: ToastrService, private router: Router) {
+    this.router.navigate(['/composition']);
+   }
 
   ngOnInit(): void {
   }
 
   deleteComposition(id: any) {
     this.compositionService.deleteComposition(id).subscribe(
-      (res: any) => {
-        this.toastSvc.success('Eliminated composition', 'Success');
-      });
-    window.location.reload();
+      () => {
+        this.toastSvc.success('Success');
+        window.location.reload();
+      }
+    );
   }
-  
+
   imgError($event: any){
     $event.target.src = '../../../assets/user.png';
   }
