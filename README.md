@@ -38,6 +38,10 @@ ng serve -o
 ```
 Esto arrancará en nuestro navegador por defecto el servidor, que está alojado en la ruta 4200 por defecto.
 
+URL en Heroku:
+```sh
+https://nice-try-web.herokuapp.com/
+```
 
 La carpeta final_proyect_mobile_cynthia contiene la carpeta con la app desarrollada en flutter, para ejecutarla entrar en esta carpeta con un gestor de código como Visual Studio Code y ejecutar desde el main de la aplicación.
 
