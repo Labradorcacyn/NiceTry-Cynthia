@@ -17,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/champion_model.dart';
 
 class PostCompositionScreen extends StatefulWidget {
-  const PostCompositionScreen({Key? key}) : super(key: key);
+  const PostCompositionScreen({Key? key, @required String}) : super(key: key);
 
   @override
   _PostCompositionScreenState createState() => _PostCompositionScreenState();
@@ -167,9 +167,26 @@ class _PostCompositionScreenState extends State<PostCompositionScreen> {
                 margin: const EdgeInsets.only(top: 20),
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    'Create your composition',
-                    style: textWhite18,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon:
+                            Icon(Icons.backspace_outlined, color: Colors.white),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Text(
+                          'Create your composition',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -267,9 +284,9 @@ class _PostCompositionScreenState extends State<PostCompositionScreen> {
 
                           BlocProvider.of<CompositionBloc>(context)
                               .add(CreateCompositionEvent(compositionDto));
-                          Navigator.popAndPushNamed(context, '/users');
-                          Navigator.popAndPushNamed(context, '/menu');
                         }
+                        Navigator.popAndPushNamed(context, '/users');
+                        Navigator.popAndPushNamed(context, '/menu');
                       },
                       child: const Text('Create'),
                     ),

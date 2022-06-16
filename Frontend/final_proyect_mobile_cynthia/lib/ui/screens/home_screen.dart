@@ -116,6 +116,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: <Widget>[
                       Image.asset("assets/images/logo-horizontal.png",
                           width: 200),
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/champs');
+                          },
+                          child: Text("Champions",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white))),
                       IconButton(
                         onPressed: () => Navigator.popAndPushNamed(
                             context, '/create-composition'),
@@ -146,25 +155,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                       blurRadius: 6.0)
                                 ]),
                             child: CircleAvatar(
+                                backgroundColor: Colors.purple,
                                 child: ClipOval(
-                              child: Image.network(
-                                compositions[index].authorAvatar ??
-                                    'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Container(
-                                    width: 60,
-                                    height: 60,
-                                    color: Colors.purple,
-                                    alignment: Alignment.center,
-                                    child: const Text(
-                                      'Whoops!',
-                                      style: TextStyle(fontSize: 10),
-                                    ),
-                                  );
-                                },
-                              ),
-                            )));
+                                  child: Image.network(
+                                    compositions[index].authorAvatar ??
+                                        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Container(
+                                        width: 60,
+                                        height: 60,
+                                        color: Colors.purple,
+                                        alignment: Alignment.center,
+                                        child: const Text(
+                                          'Whoops!',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                )));
                       }),
                 ),
                 Container(
@@ -197,6 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 blurRadius: 6.0),
                                           ]),
                                       child: CircleAvatar(
+                                        backgroundColor: Colors.purple,
                                         child: ClipOval(
                                           child: Image.network(
                                             compositions[index].authorAvatar ??
@@ -243,6 +254,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     compositions[index].id ??
                                                         '')),
                                             Navigator.popAndPushNamed(
+                                                context, '/users'),
+                                            Navigator.popAndPushNamed(
                                                 context, '/menu')
                                           },
                                           iconSize: 20,
@@ -285,18 +298,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                             color: Colors.white, fontSize: 13)),
                                   ],
                                 ),
-                                Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 30.0),
-                                      child: Text(
-                                        compositions[index].description ??
-                                            'No have description',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
+                                Container(
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 30.0, right: 30),
+                                    child: Text(
+                                      compositions[index].description ??
+                                          'No have description',
+                                      style: TextStyle(color: Colors.white),
                                     ),
-                                  ],
+                                  ),
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -401,6 +413,63 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildSheetComments(List<CommentsModel> comments, String id) =>
       Column(children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 100,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      style: TextStyle(color: Colors.black),
+                      controller: text,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide(color: pink, width: 1.0),
+                        ),
+                        labelText: 'Write your comment',
+                        labelStyle: textBlack18,
+                        hintText: 'Write your comment',
+                        hintStyle: textBlack18,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide(color: pink, width: 1.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+        ),
+        Container(
+          child: Center(
+            child: SizedBox(
+              width: 200,
+              height: 50,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(pink),
+                  overlayColor: MaterialStateProperty.all(bgPurple),
+                  textStyle: MaterialStateProperty.all(textWhite18),
+                ),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    final commentDto = CommentDto(text: text.text);
+                    CommentsRepositoryImpl()
+                        .createComment(commentDto.text!, id);
+                  }
+                  Navigator.popAndPushNamed(context, '/users');
+                  Navigator.popAndPushNamed(context, '/menu');
+                },
+                child:
+                    const Text('Send', style: TextStyle(color: Colors.white)),
+              ),
+            ),
+          ),
+        ),
         Container(
           width: MediaQuery.of(context).size.width,
           height: 300,
@@ -429,60 +498,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 2,
                 ),
               ],
-            ),
-          ),
-        ),
-        Container(
-            width: MediaQuery.of(context).size.width,
-            height: 100,
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    style: TextStyle(color: Colors.black),
-                    controller: text,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide(color: pink, width: 1.0),
-                      ),
-                      labelText: 'Write your comment',
-                      labelStyle: textBlack18,
-                      hintText: 'Write your comment',
-                      hintStyle: textBlack18,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide(color: pink, width: 1.0),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )),
-        Container(
-          child: Center(
-            child: SizedBox(
-              width: 200,
-              height: 50,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(pink),
-                  overlayColor: MaterialStateProperty.all(bgPurple),
-                  textStyle: MaterialStateProperty.all(textWhite18),
-                ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    final commentDto = CommentDto(text: text.text);
-                    CommentsRepositoryImpl()
-                        .createComment(commentDto.text!, id);
-                  }
-                  Navigator.popAndPushNamed(context, '/users');
-                  Navigator.popAndPushNamed(context, '/menu');
-                },
-                child:
-                    const Text('Send', style: TextStyle(color: Colors.white)),
-              ),
             ),
           ),
         ),
